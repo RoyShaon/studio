@@ -109,10 +109,13 @@ export default function Home() {
 
     const previews = container.querySelectorAll('.printable-label-wrapper');
 
-    previews.forEach(preview => {
+    previews.forEach(previewNode => {
       const sheet = document.createElement('div');
-      sheet.className = "prescription-sheet print-page";
-      sheet.innerHTML = preview.innerHTML;
+      sheet.className = "print-page";
+      
+      const content = previewNode.cloneNode(true) as HTMLElement;
+      sheet.appendChild(content);
+      
       printableContent.appendChild(sheet);
     });
     
