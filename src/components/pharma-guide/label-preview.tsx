@@ -56,7 +56,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="instruction-box text-gray-800 text-sm p-2 min-h-0"
+        className="instruction-box text-gray-800 text-sm p-2 min-h-0 text-center"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -105,7 +105,7 @@ export default function LabelPreview({
         </div>
 
         <div className="text-center mb-2"> 
-            <h2 className="text-base sm:text-lg font-extrabold border-y-2 border-gray-800 py-0.5 inline-block">ঔষধ খাওয়ার নিয়মাবলী</h2>
+            <h2 className="text-base sm:text-lg font-extrabold border-b-2 border-gray-800 py-0.5 inline-block text-center">ঔষধ খাওয়ার নিয়মাবলী</h2>
         </div>
 
         {renderInstruction()}
