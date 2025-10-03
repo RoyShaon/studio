@@ -77,7 +77,7 @@ export default function LabelPreview({
     
     return (
       <div className="text-center mb-2">
-        <h2 className="text-xl font-bold text-red-700 py-1 px-2 rounded-md inline-block">
+        <h2 className="text-xl font-bold text-red-700">
           {text}
         </h2>
       </div>

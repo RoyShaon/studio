@@ -24,7 +24,7 @@ export type LabelState = {
 
 export default function Home() {
   const [labelState, setLabelState] = useState<LabelState>({
-    serial: "MI. 244544",
+    serial: "F/",
     patientName: "Roy Shaon",
     date: new Date("2025-09-14"),
     shakeMode: "with",
