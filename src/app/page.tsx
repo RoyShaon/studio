@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Printer, Loader2 } from "lucide-react";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import LabelForm from "@/components/pharma-guide/label-form";
 import LabelPreview from "@/components/pharma-guide/label-preview";
@@ -50,7 +50,7 @@ export default function Home() {
 
       let defaultInstruction = "";
       if (shakeMode === "with") {
-        defaultInstruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সাজে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর মিশ্রণ থেকে এক চামচ করে সেবন করুন।`;
+        defaultInstruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর মিশ্রণ থেকে এক চামচ করে সেবন করুন।`;
       } else {
         defaultInstruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর মিশ্রণ থেকে এক চামচ করে সেবন করুন।`;
       }
