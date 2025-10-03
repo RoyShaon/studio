@@ -2,14 +2,15 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Printer, Loader2 } from "lucide-react";
-import { collection, query, where, getDocs, limit } from "firebase/firestore";
+import { collection, query, where, getDocs, limit, doc, setDoc, addDoc } from "firebase/firestore";
+import { useFirebase, initiateAnonymousSignIn } from "@/firebase";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import LabelForm from "@/components/pharma-guide/label-form";
 import LabelPreview from "@/components/pharma-guide/label-preview";
 import { convertToBanglaNumerals } from "@/lib/utils";
-import { useFirebase, initiateAnonymousSignIn, addDocumentNonBlocking } from "@/firebase";
+
 
 export type LabelState = {
   serial: string;
@@ -148,40 +149,56 @@ export default function Home() {
     }));
   }, [labelState.followUpDays]);
 
-
   const handlePrint = async () => {
     if (!firestore || !user) {
       console.error("Firestore not initialized or user not logged in.");
       return;
     }
-    
-    // Create patient data
-    const patientData = {
-      name: labelState.patientName,
-      serialNumber: labelState.serial,
-      dateOfBirth: labelState.date.toISOString(), // Assuming date is dob for now
-    };
-    
-    // Add patient to firestore and get the id
-    const patientRef = await addDocumentNonBlocking(collection(firestore, "patients"), patientData);
-    if (!patientRef) return;
-    const patientId = patientRef.id;
 
-    // Create medication label data
-    const medicationLabelData = {
-      patientId: patientId,
-      drops: labelState.drops,
-      shakeCount: labelState.shakeCount,
-      intervalHours: labelState.interval,
-      shakeMode: labelState.shakeMode,
-      counselingInstructions: labelState.counseling,
-      dateCreated: new Date().toISOString(),
-    };
+    try {
+      // 1. Find or Create Patient
+      const patientsRef = collection(firestore, 'patients');
+      const q = query(patientsRef, where('serialNumber', '==', labelState.serial.trim()), limit(1));
+      const querySnapshot = await getDocs(q);
 
-    const medicationLabelsColRef = collection(firestore, "patients", patientId, "medicationLabels");
-    await addDocumentNonBlocking(medicationLabelsColRef, medicationLabelData);
+      let patientId: string;
 
+      if (!querySnapshot.empty) {
+        // Patient exists, use existing ID
+        patientId = querySnapshot.docs[0].id;
+      } else {
+        // Patient doesn't exist, create a new one
+        const newPatientRef = doc(patientsRef); // Create a new doc with a random ID
+        const patientData = {
+          name: labelState.patientName,
+          serialNumber: labelState.serial.trim(),
+          dateOfBirth: labelState.date.toISOString(),
+        };
+        await setDoc(newPatientRef, patientData); // Save the new patient data
+        patientId = newPatientRef.id;
+      }
 
+      // 2. Create Medication Label
+      const medicationLabelData = {
+        patientId: patientId,
+        drops: labelState.drops,
+        shakeCount: labelState.shakeCount,
+        intervalHours: labelState.interval,
+        shakeMode: labelState.shakeMode,
+        counselingInstructions: labelState.counseling,
+        dateCreated: new Date().toISOString(),
+      };
+
+      const medicationLabelsColRef = collection(firestore, "patients", patientId, "medicationLabels");
+      await addDoc(medicationLabelsColRef, medicationLabelData);
+
+    } catch (error) {
+      console.error("Error saving data to Firestore:", error);
+      // Optionally show a toast notification to the user about the error
+      return; // Stop if there was an error saving
+    }
+
+    // 3. Handle Printing
     const container = printContainerRef.current;
     if (!container) return;
 

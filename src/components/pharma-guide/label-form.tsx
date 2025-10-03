@@ -29,24 +29,29 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     const { name, value } = e.target;
     // For number fields, if the value is empty string, treat it as 0 temporarily.
     // The final state update will handle validation (e.g., minimum 1 for labelCount).
-    const numValue = value === '' ? 0 : parseInt(value, 10);
-    setState((prevState) => ({ ...prevState, [name]: isNaN(numValue) ? 0 : numValue }));
+    const numValue = value === '' ? '' : parseInt(value, 10);
+    setState((prevState) => ({ ...prevState, [name]: isNaN(numValue as number) ? '' : numValue }));
   };
   
   const handleLabelCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Allow the field to be temporarily empty, but default to 1 in state if invalid.
-    if (value === '') {
+    const numValue = parseInt(value, 10);
+
+    if (value === '' || isNaN(numValue)) {
       setState(prev => ({ ...prev, labelCount: 1 }));
     } else {
-      const numValue = parseInt(value, 10);
-      if (!isNaN(numValue) && numValue >= 1) {
+       if (numValue >= 1) {
         setState(prev => ({ ...prev, labelCount: numValue }));
-      } else if (!isNaN(numValue) && numValue < 1) {
+      } else {
         setState(prev => ({ ...prev, labelCount: 1 }));
       }
     }
   };
+  
+  const getSanitizedLabelCount = () => {
+    const count = Number(state.labelCount);
+    return isNaN(count) || count < 1 ? 1 : count;
+  }
 
   return (
     <div className="space-y-6">
@@ -86,12 +91,13 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                   name="labelCount"
                   type="number"
                   value={state.labelCount}
-                  onChange={handleLabelCountChange}
+                  onChange={e => setState(prev => ({...prev, labelCount: parseInt(e.target.value, 10) || 1}))}
+                  onBlur={handleLabelCountChange}
                   min="1"
                   className="w-24"
               />
             </div>
-            {state.labelCount > 1 && (
+            {getSanitizedLabelCount() > 1 && (
               <div className="flex items-center space-x-2 pt-6">
                 <Checkbox 
                   id="showAllPreviews"
@@ -102,14 +108,14 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
               </div>
             )}
         </div>
-        {state.labelCount > 1 && !state.showAllPreviews && (
+        {getSanitizedLabelCount() > 1 && !state.showAllPreviews && (
             <div className="space-y-2">
                 <Label>কোন লেবেলটি প্রিভিউ করবেন? ({activeLabelIndex})</Label>
                 <Slider
                     value={[activeLabelIndex]}
                     onValueChange={(value) => setActiveLabelIndex(value[0])}
                     min={1}
-                    max={state.labelCount}
+                    max={getSanitizedLabelCount()}
                     step={1}
                 />
             </div>
@@ -157,21 +163,21 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <div>
               <Label htmlFor="drops">কত ফোঁটা ঔষধ?</Label>
-              <Input id="drops" name="drops" type="number" value={state.drops} onChange={handleNumberChange} min="1" />
+              <Input id="drops" name="drops" type="number" value={state.drops} onChange={e => setState(prev => ({ ...prev, drops: parseInt(e.target.value, 10) || 0 }))} min="1" />
             </div>
             <div>
               <Label htmlFor="interval">কত ঘন্টা পর পর?</Label>
-              <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
+              <Input id="interval" name="interval" type="number" value={state.interval} onChange={e => setState(prev => ({ ...prev, interval: parseInt(e.target.value, 10) || 0 }))} min="1" />
             </div>
              {state.shakeMode === 'with' && (
               <div>
                 <Label htmlFor="shakeCount">ঝাঁকি</Label>
-                <Input id="shakeCount" name="shakeCount" type="number" value={state.shakeCount} onChange={handleNumberChange} min="1" />
+                <Input id="shakeCount" name="shakeCount" type="number" value={state.shakeCount} onChange={e => setState(prev => ({ ...prev, shakeCount: parseInt(e.target.value, 10) || 0 }))} min="1" />
               </div>
             )}
             <div>
                 <Label htmlFor="followUpDays">পরবর্তী সাক্ষাৎকার</Label>
-                <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
+                <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={e => setState(prev => ({ ...prev, followUpDays: parseInt(e.target.value, 10) || 0 }))} min="1" />
             </div>
         </div>
       </div>
