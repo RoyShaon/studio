@@ -143,7 +143,6 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
       </div>
       
       <div>
-        <Label htmlFor="instructionText" className="block text-lg font-medium text-gray-700 mb-2">মূল ঔষধ খাওয়ার নিয়মাবলী (সম্পূর্ণ টেক্সট)</Label>
         <Textarea
           id="instructionText"
           name="instructionText"
@@ -151,6 +150,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
           onChange={handleInputChange}
           rows={5}
           className="text-sm"
+          placeholder="মূল ঔষধ খাওয়ার নিয়মাবলী"
         />
         <p className="text-xs text-gray-500 mt-1">দ্রষ্টব্য: আপনি উপরের ফোঁটা, ঝাঁকি, ও ঘণ্টার মান পরিবর্তন করে এই টেক্সটটিকে প্রয়োজনমতো এডিট করতে পারবেন।</p>
       </div>
@@ -161,7 +161,6 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
             <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
         </div>
         <div>
-            <Label htmlFor="counseling" className="block text-lg font-medium text-gray-700 mb-2">পরামর্শ/বিশেষ নির্দেশনা</Label>
             <Textarea
               id="counseling"
               name="counseling"
@@ -169,6 +168,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
               onChange={handleInputChange}
               rows={4}
               className="text-sm"
+              placeholder="পরামর্শ/বিশেষ নির্দেশনা"
             />
         </div>
       </div>

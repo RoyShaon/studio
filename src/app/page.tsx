@@ -33,7 +33,7 @@ export default function Home() {
     shakeCount: 5,
     interval: 8,
     counseling:
-      "ঔষধ সেবনকালীন পেস্ট সহ যাবতীয় দেশী ও বিদেশী ঔষধ ব্যবহার নিষিদ্ধ।\nঔষধ সেবনের আধাঘন্টা আগে ও পরে কোন প্রকার খাবার ও পানীয় গ্রহণ করবেন না (সাধারণ জল ব্যতীত)।\n৭ দিন পরে আবার সাক্ষাৎ করবেন।",
+      "• ঔষধ সেবনকালীন পেস্ট সহ যাবতীয় দেশী ও বিদেশী ঔষধ ব্যবহার নিষিদ্ধ।\n• ঔষধ সেবনের আধাঘন্টা আগে ও পরে কোন প্রকার খাবার ও পানীয় গ্রহণ করবেন না (সাধারণ জল ব্যতীত)।\n• ৭ দিন পরে আবার সাক্ষাৎ করবেন।",
     instructionText: "",
     labelCount: 1,
     followUpDays: 7,
@@ -107,20 +107,12 @@ export default function Home() {
         sheet.style.width = "3.75in";
         sheet.style.height = "5.5in";
 
-        // We need to create a temporary preview to get its HTML
-        const previewContainer = document.createElement('div');
-        document.body.appendChild(previewContainer);
-        
-        // This is a simplified way to get the HTML, in a real app you'd use ReactDOMServer or a similar library.
-        // For this context, we will find the displayed preview and clone it.
         const previewNode = document.getElementById(`label-preview-${i}`);
         
         if (previewNode) {
             sheet.innerHTML = previewNode.innerHTML;
             printableContent.appendChild(sheet);
         }
-
-        document.body.removeChild(previewContainer);
     }
     
     if (printableContent.hasChildNodes()) {
@@ -129,12 +121,6 @@ export default function Home() {
         document.body.removeChild(printableContent);
     }
   };
-
-  const handleGenerate = () => {
-    // This function can be used to trigger regeneration if needed,
-    // but the preview updates live.
-    console.log("Generating with state:", labelState);
-  }
 
   if (!isClient) {
     return (
@@ -170,9 +156,6 @@ export default function Home() {
                 activeLabelIndex={activeLabelIndex}
                 setActiveLabelIndex={setActiveLabelIndex}
               />
-              <Button onClick={handleGenerate} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition duration-150 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50">
-                ফর্ম তৈরি করুন এবং প্রিভিউ দেখুন
-              </Button>
             </CardContent>
           </Card>
 
