@@ -76,13 +76,15 @@ export default function Home() {
   ]);
   
   useEffect(() => {
-    if (labelState.labelCount < 1) {
+    const count = Number(labelState.labelCount);
+    if (isNaN(count) || count < 1) {
       setLabelState(prev => ({ ...prev, labelCount: 1 }));
     }
-    if (activeLabelIndex > labelState.labelCount) {
-      setActiveLabelIndex(labelState.labelCount || 1);
+    if (activeLabelIndex > count) {
+      setActiveLabelIndex(count || 1);
     }
   }, [labelState.labelCount, activeLabelIndex]);
+
 
   useEffect(() => {
     const { followUpDays } = labelState;

@@ -28,6 +28,10 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const numValue = parseInt(value, 10);
+    if (name === "labelCount" && (isNaN(numValue) || numValue < 1)) {
+       setState((prevState) => ({ ...prevState, [name]: 1 }));
+       return;
+    }
     setState((prevState) => ({ ...prevState, [name]: isNaN(numValue) ? 0 : numValue }));
   };
   
