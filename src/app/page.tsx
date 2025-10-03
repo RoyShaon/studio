@@ -98,10 +98,6 @@ export default function Home() {
               প্রয়োজনীয় তথ্য দিয়ে ঔষধের লেবেল তৈরি এবং প্রিন্ট করুন।
             </p>
           </div>
-          <Button onClick={handlePrint} className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white">
-            <Printer className="mr-2 h-4 w-4" />
-            প্রিন্ট করুন (3.75" x 5.5" লেবেল)
-          </Button>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
@@ -123,6 +119,12 @@ export default function Home() {
               <p className="text-sm text-gray-500">নিচের ফরম্যাটটি প্রিন্ট লেবেলের মতো দেখাবে (3.75" x 5.5")।</p>
             </div>
              <LabelPreview {...labelState} />
+             <div className="text-center mt-6">
+                <Button onClick={handlePrint} className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-8 rounded-lg shadow-xl transition duration-150 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50">
+                  <Printer className="mr-2 h-4 w-4" />
+                  প্রিন্ট করুন
+                </Button>
+            </div>
           </div>
         </div>
       </div>
