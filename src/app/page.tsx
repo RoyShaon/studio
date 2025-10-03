@@ -136,7 +136,7 @@ export default function Home() {
         <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight font-headline text-indigo-700">
-              ঔষধ নির্দেশিকা জেনারেটর
+              ত্রিফুল আরোগ্য নিকেতন
             </h1>
             <p className="text-muted-foreground mt-1">
               প্রয়োজনীয় তথ্য দিয়ে ঔষধের লেবেল তৈরি এবং প্রিন্ট করুন।
@@ -149,7 +149,7 @@ export default function Home() {
             <CardHeader>
               <CardTitle className="font-headline">রোগীর তথ্য ও নির্দেশাবলী ইনপুট করুন</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent>
               <LabelForm 
                 state={labelState} 
                 setState={setLabelState} 

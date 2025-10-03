@@ -92,8 +92,7 @@ export default function LabelPreview({
     >
         {getSequentialText()}
         <div className="text-center mb-4">
-            <h1 className="text-xl sm:text-2xl font-bold mb-0">ত্রিকুল আরোগ্য নিকেতন</h1>
-            <div className="w-full h-1"></div>
+            <h1 className="text-xl sm:text-2xl font-bold mb-0">ত্রিফুল আরোগ্য নিকেতন</h1>
         </div>
         
         <div className="flex justify-between text-xs mb-3 font-medium">
