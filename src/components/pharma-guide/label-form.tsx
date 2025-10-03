@@ -5,11 +5,12 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Check } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface LabelFormProps {
   state: LabelState;
@@ -60,17 +61,31 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
       </div>
       
       <div className="space-y-4">
-        <Label htmlFor="labelCount">কতগুলো লেবেল প্রিন্ট করবেন?</Label>
-        <Input 
-            id="labelCount"
-            name="labelCount"
-            type="number"
-            value={state.labelCount}
-            onChange={handleNumberChange}
-            min="1"
-            className="w-24"
-        />
-        {state.labelCount > 1 && (
+        <div className="flex items-center gap-4">
+            <div>
+              <Label htmlFor="labelCount">কতগুলো লেবেল?</Label>
+              <Input 
+                  id="labelCount"
+                  name="labelCount"
+                  type="number"
+                  value={state.labelCount}
+                  onChange={handleNumberChange}
+                  min="1"
+                  className="w-24"
+              />
+            </div>
+            {state.labelCount > 1 && (
+              <div className="flex items-center space-x-2 pt-6">
+                <Checkbox 
+                  id="showAllPreviews"
+                  checked={state.showAllPreviews}
+                  onCheckedChange={(checked) => setState(prev => ({ ...prev, showAllPreviews: !!checked }))}
+                />
+                <Label htmlFor="showAllPreviews">সকল প্রিভিউ দেখুন</Label>
+              </div>
+            )}
+        </div>
+        {state.labelCount > 1 && !state.showAllPreviews && (
             <div className="space-y-2">
                 <Label>কোন লেবেলটি প্রিভিউ করবেন? ({activeLabelIndex})</Label>
                 <Slider

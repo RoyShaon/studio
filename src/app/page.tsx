@@ -21,22 +21,23 @@ export type LabelState = {
   instructionText: string;
   labelCount: number;
   followUpDays: number;
+  showAllPreviews: boolean;
 };
 
 export default function Home() {
   const [labelState, setLabelState] = useState<LabelState>({
     serial: "F/",
-    patientName: "Roy Shaon",
-    date: new Date("2025-09-14"),
+    patientName: "",
+    date: new Date(),
     shakeMode: "with",
     drops: 5,
     shakeCount: 5,
     interval: 8,
-    counseling:
-      "• ঔষধ সেবনকালীন পেস্ট সহ যাবতীয় দেশী ও বিদেশী ঔষধ ব্যবহার নিষিদ্ধ।\n• ঔষধ সেবনের আধাঘন্টা আগে ও পরে কোন প্রকার খাবার ও পানীয় গ্রহণ করবেন না (সাধারণ জল ব্যতীত)।\n• ৭ দিন পরে আবার সাক্ষাৎ করবেন।",
+    counseling: "",
     instructionText: "",
     labelCount: 1,
     followUpDays: 7,
+    showAllPreviews: false,
   });
   
   const [activeLabelIndex, setActiveLabelIndex] = useState(1);
@@ -98,29 +99,28 @@ export default function Home() {
 
 
   const handlePrint = () => {
+    const container = printContainerRef.current;
+    if (!container) return;
+
     const printableContent = document.createElement('div');
     printableContent.id = 'printable-content';
 
-    for (let i = 1; i <= labelState.labelCount; i++) {
-        const sheet = document.createElement('div');
-        sheet.className = "prescription-sheet print-page";
-        sheet.style.width = "3.75in";
-        sheet.style.height = "5.5in";
+    const previews = container.querySelectorAll('.printable-label-wrapper');
 
-        const previewNode = document.getElementById(`label-preview-${i}`);
-        
-        if (previewNode) {
-            sheet.innerHTML = previewNode.innerHTML;
-            printableContent.appendChild(sheet);
-        }
-    }
+    previews.forEach(preview => {
+      const sheet = document.createElement('div');
+      sheet.className = "prescription-sheet print-page";
+      sheet.innerHTML = preview.innerHTML;
+      printableContent.appendChild(sheet);
+    });
     
     if (printableContent.hasChildNodes()) {
-        document.body.appendChild(printableContent);
-        window.print();
-        document.body.removeChild(printableContent);
+      document.body.appendChild(printableContent);
+      window.print();
+      document.body.removeChild(printableContent);
     }
   };
+
 
   if (!isClient) {
     return (
@@ -129,6 +129,21 @@ export default function Home() {
       </div>
     );
   }
+
+  const renderPreviews = () => {
+    if (labelState.showAllPreviews) {
+      return Array.from({ length: labelState.labelCount }, (_, i) => i + 1).map(index => (
+        <div key={index} className="printable-label-wrapper mb-4">
+          <LabelPreview {...labelState} activeLabelIndex={index} />
+        </div>
+      ));
+    }
+    return (
+      <div className="printable-label-wrapper">
+        <LabelPreview {...labelState} activeLabelIndex={activeLabelIndex} />
+      </div>
+    );
+  };
 
   return (
     <main className="min-h-screen p-4 sm:p-6 lg:p-8 bg-background">
@@ -164,15 +179,11 @@ export default function Home() {
               <h2 className="text-2xl font-semibold text-gray-800">ফর্মের প্রিভিউ</h2>
               <p className="text-sm text-gray-500">
                 নিচের ফরম্যাটটি প্রিন্ট লেবেলের মতো দেখাবে (3.75" x 5.5")। 
-                {labelState.labelCount > 1 && ` মোট ${convertToBanglaNumerals(labelState.labelCount)}টি লেবেলের মধ্যে ${convertToBanglaNumerals(activeLabelIndex)} নং লেবেল দেখানো হচ্ছে।`}
+                {!labelState.showAllPreviews && labelState.labelCount > 1 && ` মোট ${convertToBanglaNumerals(labelState.labelCount)}টি লেবেলের মধ্যে ${convertToBanglaNumerals(activeLabelIndex)} নং লেবেল দেখানো হচ্ছে।`}
               </p>
             </div>
              <div ref={printContainerRef}>
-                {Array.from({ length: labelState.labelCount }, (_, i) => i + 1).map(index => (
-                  <div key={index} id={`label-preview-${index}`} style={{ display: index === activeLabelIndex ? 'block' : 'none' }}>
-                    <LabelPreview {...labelState} activeLabelIndex={index} />
-                  </div>
-                ))}
+                {renderPreviews()}
               </div>
 
              <div className="text-center mt-6">

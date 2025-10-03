@@ -26,9 +26,8 @@ export default function LabelPreview({
     .split("\n")
     .filter((line) => line.trim() !== "")
     .map(line => {
-      const cleanLine = line.replace(/^\s*[\d\.\-]+\s*/, '').trim(); 
-      const bnLine = cleanLine.replace(/[0-9]/g, char => convertToBanglaNumerals(char));
-      return `<li>• ${bnLine}</li>`; 
+        const bnLine = line.replace(/[0-9]/g, char => convertToBanglaNumerals(char));
+        return `<li>${bnLine}</li>`;
     }).join('');
 
   const renderInstruction = () => {
@@ -86,9 +85,7 @@ export default function LabelPreview({
 
   return (
     <div
-      id="printable-label"
       className="prescription-sheet font-headline bg-white text-black shadow-lg"
-      style={{ width: "3.75in", height: "5.5in" }}
     >
         {getSequentialText()}
         <div className="text-center mb-4">
