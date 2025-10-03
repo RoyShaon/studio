@@ -136,6 +136,9 @@
     box-shadow: none !important;
     font-size: 8pt !important;
     box-sizing: border-box;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
   }
 
   .print-page * {
