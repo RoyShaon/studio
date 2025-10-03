@@ -1,15 +1,15 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Printer, Loader2 } from "lucide-react";
-import { doc, collection } from "firebase/firestore";
+import { collection, query, where, getDocs, limit } from "firebase/firestore";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import LabelForm from "@/components/pharma-guide/label-form";
 import LabelPreview from "@/components/pharma-guide/label-preview";
 import { convertToBanglaNumerals } from "@/lib/utils";
-import { useFirebase, initiateAnonymousSignIn, setDocumentNonBlocking, addDocumentNonBlocking } from "@/firebase";
+import { useFirebase, initiateAnonymousSignIn, addDocumentNonBlocking } from "@/firebase";
 
 export type LabelState = {
   serial: string;
@@ -47,6 +47,7 @@ export default function Home() {
   const [activeLabelIndex, setActiveLabelIndex] = useState(1);
   const [isClient, setIsClient] = useState(false);
   const printContainerRef = useRef<HTMLDivElement>(null);
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
 
   useEffect(() => {
@@ -58,6 +59,44 @@ export default function Home() {
       initiateAnonymousSignIn(auth);
     }
   }, [isUserLoading, user, auth]);
+  
+  const findPatientBySerial = useCallback(async (serial: string) => {
+    if (!firestore || !serial || serial.trim() === 'F/') return;
+
+    try {
+      const patientsRef = collection(firestore, 'patients');
+      const q = query(patientsRef, where('serialNumber', '==', serial.trim()), limit(1));
+      const querySnapshot = await getDocs(q);
+      
+      if (!querySnapshot.empty) {
+        const patientDoc = querySnapshot.docs[0];
+        const patientData = patientDoc.data();
+        if (patientData.name) {
+          setLabelState(prevState => ({ ...prevState, patientName: patientData.name }));
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching patient by serial:", error);
+    }
+  }, [firestore]);
+
+
+  useEffect(() => {
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+    
+    debounceTimeoutRef.current = setTimeout(() => {
+      findPatientBySerial(labelState.serial);
+    }, 500); // 500ms debounce delay
+
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+    };
+  }, [labelState.serial, findPatientBySerial]);
+
 
   useEffect(() => {
     const updateInstructionText = () => {
@@ -125,6 +164,7 @@ export default function Home() {
     
     // Add patient to firestore and get the id
     const patientRef = await addDocumentNonBlocking(collection(firestore, "patients"), patientData);
+    if (!patientRef) return;
     const patientId = patientRef.id;
 
     // Create medication label data
