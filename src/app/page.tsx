@@ -36,7 +36,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen p-4 sm:p-6 lg:p-8">
+    <main className="min-h-screen p-4 sm:p-6 lg:p-8 bg-background">
       <div className="max-w-7xl mx-auto space-y-8">
         <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>

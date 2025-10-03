@@ -21,16 +21,20 @@ export default function LabelPreview({
     .filter((line) => line.trim() !== "");
 
   const renderInstruction = () => {
+    const dropsText = <strong className="text-red-600">{convertToBanglaNumerals(drops)}</strong>;
+    const intervalText = <strong className="text-red-600">{convertToBanglaNumerals(interval)}</strong>;
+    const shakeText = <strong className="text-red-600">{convertToBanglaNumerals(shakeCount)}</strong>;
+    
     if (shakeMode === 'with') {
       return (
         <p className="text-lg font-medium leading-relaxed">
-          এই ঔষধটি <strong className="text-red-600">{convertToBanglaNumerals(shakeCount)}</strong> টি ঝাঁকি দিয়ে <strong className="text-red-600">{convertToBanglaNumerals(drops)}</strong> ফোঁটা করে <strong className="text-red-600">{convertToBanglaNumerals(interval)}</strong> ঘণ্টা পর পর খাবেন।
+          এই ঔষধটি {shakeText} টি ঝাঁকি দিয়ে {dropsText} ফোঁটা করে {intervalText} ঘণ্টা পর পর খাবেন।
         </p>
       );
     }
     return (
       <p className="text-lg font-medium leading-relaxed">
-        এই ঔষধটি <strong className="text-red-600">{convertToBanglaNumerals(drops)}</strong> ফোঁটা করে <strong className="text-red-600">{convertToBanglaNumerals(interval)}</strong> ঘণ্টা পর পর খাবেন।
+        এই ঔষধটি {dropsText} ফোঁটা করে {intervalText} ঘণ্টা পর পর খাবেন।
       </p>
     );
   };
