@@ -105,29 +105,36 @@
 }
 
 @media print {
-  body > *:not(#printable-label), body > *:not(#printable-label) * {
+  body > *:not(#printable-content), body > *:not(#printable-content) * {
     display: none !important;
     visibility: hidden !important;
   }
-  
-  #printable-label {
+
+  #printable-content {
       display: block !important; 
       visibility: visible !important;
-      position: absolute !important;
-      background-color: white !important;
-      width: 3.75in !important;
-      height: 5.5in !important;
-      top: 0 !important;
-      left: 0 !important;
-      transform: none !important;
-      padding: 0.75in !important;
-      margin: 0 !important;
-      border: none !important;
-      box-shadow: none !important;
-      font-size: 8pt !important;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+  }
+  
+  .print-page {
+    page-break-after: always;
+    display: block !important; 
+    visibility: visible !important;
+    background-color: white !important;
+    width: 3.75in !important;
+    height: 5.5in !important;
+    padding: 0.75in !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-size: 8pt !important;
+    box-sizing: border-box;
   }
 
-  #printable-label * {
+  .print-page * {
     visibility: visible !important;
     color: #000 !important;
     font-family: 'Noto Serif Bengali', sans-serif !important;

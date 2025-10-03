@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Printer, Loader2 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,6 +19,7 @@ export type LabelState = {
   interval: number;
   counseling: string;
   instructionText: string;
+  labelCount: number;
 };
 
 export default function Home() {
@@ -33,9 +34,13 @@ export default function Home() {
     counseling:
       "১. ঔষধ সেবনকালীন পেস্ট সহ যাবতীয় দেশী ও বিদেশী ঔষধ ব্যবহার নিষিদ্ধ।\n২. ঔষধ সেবনের আধাঘন্টা আগে ও পরে কোন প্রকার খাবার ও পানীয় গ্রহণ করবেন না (সাধারণ জল ব্যতীত)।\n৩. ৭ দিন পরে আবার সাক্ষাৎ করবেন।",
     instructionText: "",
+    labelCount: 1,
   });
-
+  
+  const [activeLabelIndex, setActiveLabelIndex] = useState(1);
   const [isClient, setIsClient] = useState(false);
+  const printContainerRef = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     setIsClient(true);
@@ -66,10 +71,39 @@ export default function Home() {
     labelState.shakeCount,
     labelState.shakeMode,
   ]);
+  
+  useEffect(() => {
+    if (labelState.labelCount < 1) {
+      setLabelState(prev => ({ ...prev, labelCount: 1 }));
+    }
+    if (activeLabelIndex > labelState.labelCount) {
+      setActiveLabelIndex(labelState.labelCount || 1);
+    }
+  }, [labelState.labelCount, activeLabelIndex]);
 
 
   const handlePrint = () => {
-    window.print();
+     if (printContainerRef.current) {
+      const tempContainer = document.createElement('div');
+      tempContainer.id = 'printable-content';
+      
+      for (let i = 1; i <= labelState.labelCount; i++) {
+        const sheet = document.createElement('div');
+        sheet.className = "prescription-sheet print-page";
+        sheet.style.width = "3.75in";
+        sheet.style.height = "5.5in";
+
+        const previewNode = document.getElementById(`label-preview-${i}`);
+        if(previewNode) {
+            sheet.innerHTML = previewNode.innerHTML;
+            tempContainer.appendChild(sheet);
+        }
+      }
+      
+      document.body.appendChild(tempContainer);
+      window.print();
+      document.body.removeChild(tempContainer);
+    }
   };
 
   const handleGenerate = () => {
@@ -106,7 +140,12 @@ export default function Home() {
               <CardTitle className="font-headline">রোগীর তথ্য ও নির্দেশাবলী ইনপুট করুন</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <LabelForm state={labelState} setState={setLabelState} />
+              <LabelForm 
+                state={labelState} 
+                setState={setLabelState} 
+                activeLabelIndex={activeLabelIndex}
+                setActiveLabelIndex={setActiveLabelIndex}
+              />
               <Button onClick={handleGenerate} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition duration-150 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50">
                 ফর্ম তৈরি করুন এবং প্রিভিউ দেখুন
               </Button>
@@ -116,9 +155,19 @@ export default function Home() {
           <div className="lg:col-span-3">
             <div className="text-center mb-4">
               <h2 className="text-2xl font-semibold text-gray-800">ফর্মের প্রিভিউ</h2>
-              <p className="text-sm text-gray-500">নিচের ফরম্যাটটি প্রিন্ট লেবেলের মতো দেখাবে (3.75" x 5.5")।</p>
+              <p className="text-sm text-gray-500">
+                নিচের ফরম্যাটটি প্রিন্ট লেবেলের মতো দেখাবে (3.75" x 5.5")। 
+                {labelState.labelCount > 1 && ` মোট ${convertToBanglaNumerals(labelState.labelCount)}টি লেবেলের মধ্যে ${convertToBanglaNumerals(activeLabelIndex)} নং লেবেল দেখানো হচ্ছে।`}
+              </p>
             </div>
-             <LabelPreview {...labelState} />
+             <div ref={printContainerRef}>
+                {Array.from({ length: labelState.labelCount }, (_, i) => i + 1).map(index => (
+                  <div key={index} id={`label-preview-${index}`} style={{ display: index === activeLabelIndex ? 'block' : 'none' }}>
+                    <LabelPreview {...labelState} activeLabelIndex={index} />
+                  </div>
+                ))}
+              </div>
+
              <div className="text-center mt-6">
                 <Button onClick={handlePrint} className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-8 rounded-lg shadow-xl transition duration-150 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50">
                   <Printer className="mr-2 h-4 w-4" />

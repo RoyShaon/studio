@@ -2,6 +2,11 @@ import { format } from "date-fns";
 import { convertToBanglaNumerals } from "@/lib/utils";
 import type { LabelState } from "@/app/page";
 
+interface LabelPreviewProps extends LabelState {
+  activeLabelIndex: number;
+}
+
+
 export default function LabelPreview({
   serial,
   patientName,
@@ -11,7 +16,9 @@ export default function LabelPreview({
   drops,
   interval,
   shakeCount,
-}: LabelState) {
+  labelCount,
+  activeLabelIndex
+}: LabelPreviewProps) {
   
   const formattedDate = convertToBanglaNumerals(format(new Date(date), "dd/MM/yyyy"));
   
@@ -56,12 +63,35 @@ export default function LabelPreview({
     );
   };
   
+  const getSequentialText = () => {
+    if (labelCount <= 1) return null;
+    
+    const bnIndex = convertToBanglaNumerals(activeLabelIndex);
+    let text = "";
+
+    if (activeLabelIndex === 1) {
+      text = `${bnIndex} নং আগে খাবেন`;
+    } else {
+      const bnPrevIndex = convertToBanglaNumerals(activeLabelIndex - 1);
+      text = `${bnIndex} নং, ${bnPrevIndex} নং এর পরে খাবেন`;
+    }
+    
+    return (
+      <div className="text-center mb-2">
+        <h2 className="text-xl font-bold text-red-700 bg-yellow-200 py-1 px-2 rounded-md inline-block">
+          {text}
+        </h2>
+      </div>
+    );
+  };
+
   return (
     <div
       id="printable-label"
       className="prescription-sheet font-headline bg-white text-black shadow-lg"
       style={{ width: "3.75in", height: "5.5in" }}
     >
+        {getSequentialText()}
         <div className="text-center mb-4">
             <h1 className="text-xl sm:text-2xl font-bold mb-0">ত্রিকুল আরোগ্য নিকেতন</h1>
             <div className="w-full h-1"></div>

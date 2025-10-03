@@ -10,13 +10,16 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { Slider } from "@/components/ui/slider";
 
 interface LabelFormProps {
   state: LabelState;
   setState: Dispatch<SetStateAction<LabelState>>;
+  activeLabelIndex: number;
+  setActiveLabelIndex: Dispatch<SetStateAction<number>>;
 }
 
-export default function LabelForm({ state, setState }: LabelFormProps) {
+export default function LabelForm({ state, setState, activeLabelIndex, setActiveLabelIndex }: LabelFormProps) {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
@@ -24,7 +27,8 @@ export default function LabelForm({ state, setState }: LabelFormProps) {
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setState((prevState) => ({ ...prevState, [name]: parseInt(value) || 0 }));
+    const numValue = parseInt(value, 10);
+    setState((prevState) => ({ ...prevState, [name]: isNaN(numValue) ? 0 : numValue }));
   };
   
   return (
@@ -55,6 +59,31 @@ export default function LabelForm({ state, setState }: LabelFormProps) {
               </Label>
             </div>
           </RadioGroup>
+      </div>
+      
+      <div className="space-y-4">
+        <Label htmlFor="labelCount">কতগুলো লেবেল প্রিন্ট করবেন?</Label>
+        <Input 
+            id="labelCount"
+            name="labelCount"
+            type="number"
+            value={state.labelCount}
+            onChange={handleNumberChange}
+            min="1"
+            className="w-24"
+        />
+        {state.labelCount > 1 && (
+            <div className="space-y-2">
+                <Label>কোন লেবেলটি প্রিভিউ করবেন? ({activeLabelIndex})</Label>
+                <Slider
+                    value={[activeLabelIndex]}
+                    onValueChange={(value) => setActiveLabelIndex(value[0])}
+                    min={1}
+                    max={state.labelCount}
+                    step={1}
+                />
+            </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
