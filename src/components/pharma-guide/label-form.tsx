@@ -3,7 +3,6 @@ import type { LabelState } from "@/app/page";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Textarea } from "@/components/ui/textarea";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon } from "lucide-react";
@@ -34,7 +33,6 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
   return (
     <div className="space-y-6">
        <div className="mb-6">
-          <h3 className="text-lg font-bold mb-3 text-gray-700">নির্দেশিকার ধরণ নির্বাচন করুন</h3>
           <RadioGroup
             value={state.shakeMode}
             onValueChange={(value: "with" | "without") => setState(prev => ({...prev, shakeMode: value}))}
@@ -88,13 +86,6 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-            <Label htmlFor="patientName">রোগীর নাম</Label>
-            <Input id="patientName" name="patientName" value={state.patientName} onChange={handleInputChange} />
-        </div>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
             <Label htmlFor="serial">ক্রমিক নাম্বার</Label>
             <Input id="serial" name="serial" value={state.serial} onChange={handleInputChange} />
         </div>
@@ -125,6 +116,11 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
         </div>
       </div>
 
+      <div>
+          <Label htmlFor="patientName">রোগীর নাম</Label>
+          <Input id="patientName" name="patientName" value={state.patientName} onChange={handleInputChange} />
+      </div>
+      
       <div className="space-y-4">
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <div>
@@ -135,41 +131,16 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
               <Label htmlFor="interval">কত ঘন্টা পর পর?</Label>
               <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
             </div>
+             <div>
+                <Label htmlFor="followUpDays">পরবর্তী সাক্ষাৎকার</Label>
+                <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
+            </div>
             {state.shakeMode === 'with' && (
               <div>
-                <Label htmlFor="shakeCount">কতবার ঝাঁকাবেন?</Label>
+                <Label htmlFor="shakeCount">ঝাঁকি</Label>
                 <Input id="shakeCount" name="shakeCount" type="number" value={state.shakeCount} onChange={handleNumberChange} min="1" />
               </div>
             )}
-        </div>
-      </div>
-      
-      <div>
-        <Textarea
-          id="instructionText"
-          name="instructionText"
-          value={state.instructionText}
-          onChange={handleInputChange}
-          rows={5}
-          className="text-sm"
-        />
-        <p className="text-xs text-gray-500 mt-1">দ্রষ্টব্য: আপনি উপরের ফোঁটা, ঝাঁকি, ও ঘণ্টার মান পরিবর্তন করে এই টেক্সটটিকে প্রয়োজনমতো এডিট করতে পারবেন।</p>
-      </div>
-
-      <div className="space-y-4">
-        <div>
-            <Label htmlFor="followUpDays">পরবর্তী সাক্ষাৎকার (দিন)</Label>
-            <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
-        </div>
-        <div>
-            <Textarea
-              id="counseling"
-              name="counseling"
-              value={state.counseling}
-              onChange={handleInputChange}
-              rows={4}
-              className="text-sm"
-            />
         </div>
       </div>
     </div>
