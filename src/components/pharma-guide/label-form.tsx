@@ -27,15 +27,27 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    // For number fields, if the value is empty string, treat it as 0 temporarily.
+    // The final state update will handle validation (e.g., minimum 1 for labelCount).
     const numValue = value === '' ? 0 : parseInt(value, 10);
-    
-    if (name === "labelCount") {
-      setState((prevState) => ({ ...prevState, [name]: isNaN(numValue!) || numValue! < 1 ? 1 : numValue }));
-      return;
-    }
-    setState((prevState) => ({ ...prevState, [name]: isNaN(numValue!) ? 0 : numValue }));
+    setState((prevState) => ({ ...prevState, [name]: isNaN(numValue) ? 0 : numValue }));
   };
   
+  const handleLabelCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Allow the field to be temporarily empty, but default to 1 in state if invalid.
+    if (value === '') {
+      setState(prev => ({ ...prev, labelCount: 1 }));
+    } else {
+      const numValue = parseInt(value, 10);
+      if (!isNaN(numValue) && numValue >= 1) {
+        setState(prev => ({ ...prev, labelCount: numValue }));
+      } else if (!isNaN(numValue) && numValue < 1) {
+        setState(prev => ({ ...prev, labelCount: 1 }));
+      }
+    }
+  };
+
   return (
     <div className="space-y-6">
        <div className="mb-6">
@@ -74,11 +86,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                   name="labelCount"
                   type="number"
                   value={state.labelCount}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    const numValue = parseInt(value, 10);
-                    setState(prev => ({ ...prev, labelCount: isNaN(numValue) || numValue < 1 ? 1 : numValue}));
-                  }}
+                  onChange={handleLabelCountChange}
                   min="1"
                   className="w-24"
               />
@@ -155,16 +163,16 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
               <Label htmlFor="interval">কত ঘন্টা পর পর?</Label>
               <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
             </div>
-             <div>
-                <Label htmlFor="followUpDays">পরবর্তী সাক্ষাৎকার</Label>
-                <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
-            </div>
-            {state.shakeMode === 'with' && (
+             {state.shakeMode === 'with' && (
               <div>
                 <Label htmlFor="shakeCount">ঝাঁকি</Label>
                 <Input id="shakeCount" name="shakeCount" type="number" value={state.shakeCount} onChange={handleNumberChange} min="1" />
               </div>
             )}
+            <div>
+                <Label htmlFor="followUpDays">পরবর্তী সাক্ষাৎকার</Label>
+                <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
+            </div>
         </div>
       </div>
     </div>

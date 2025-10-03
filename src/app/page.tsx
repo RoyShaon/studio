@@ -104,21 +104,27 @@ export default function Home() {
     const container = printContainerRef.current;
     if (!container) return;
 
+    // Create a temporary element to hold all the printable sheets
     const printableContent = document.createElement('div');
     printableContent.id = 'printable-content';
 
+    // Get all the individual label wrappers
     const previews = container.querySelectorAll('.printable-label-wrapper');
 
     previews.forEach(previewNode => {
+      // For each label, create a "page" for printing
       const sheet = document.createElement('div');
       sheet.className = "print-page";
       
+      // Clone the label content into the page
       const content = previewNode.cloneNode(true) as HTMLElement;
       sheet.appendChild(content);
       
+      // Add the page to our printable container
       printableContent.appendChild(sheet);
     });
     
+    // If we have content, append it to the body, print, then remove it.
     if (printableContent.hasChildNodes()) {
       document.body.appendChild(printableContent);
       window.print();
@@ -136,8 +142,9 @@ export default function Home() {
   }
 
   const renderPreviews = () => {
+    const count = Number(labelState.labelCount) || 1;
     if (labelState.showAllPreviews) {
-      return Array.from({ length: labelState.labelCount }, (_, i) => i + 1).map(index => (
+      return Array.from({ length: count }, (_, i) => i + 1).map(index => (
         <div key={index} className="printable-label-wrapper mb-4">
           <LabelPreview {...labelState} activeLabelIndex={index} />
         </div>
