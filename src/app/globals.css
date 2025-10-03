@@ -105,6 +105,10 @@
 }
 
 @media print {
+  .prescription-sheet {
+    border: none !important;
+  }
+
   body > *:not(#printable-content), body > *:not(#printable-content) * {
     display: none !important;
     visibility: hidden !important;
