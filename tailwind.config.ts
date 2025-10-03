@@ -10,8 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ["'Noto Serif Bengali'", 'serif'],
-        headline: ["'Noto Serif Bengali'", 'serif'],
+        body: ["'Noto Serif Bengali'", "'Inter'", 'sans-serif'],
+        headline: ["'Noto Serif Bengali'", "'Inter'", 'sans-serif'],
         code: ['monospace'],
       },
       colors: {

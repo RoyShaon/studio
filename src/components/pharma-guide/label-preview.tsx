@@ -1,80 +1,94 @@
 import { format } from "date-fns";
 import { convertToBanglaNumerals } from "@/lib/utils";
 import type { LabelState } from "@/app/page";
-import { Separator } from "@/components/ui/separator";
 
 export default function LabelPreview({
   serial,
   patientName,
   date,
-  shakeMode,
-  drops,
-  shakeCount,
-  interval,
+  instructionText,
   counseling,
+  drops,
+  interval,
+  shakeCount,
 }: LabelState) {
+  
   const formattedDate = convertToBanglaNumerals(format(new Date(date), "dd/MM/yyyy"));
-  const banglaSerial = convertToBanglaNumerals(serial);
-
+  
   const counselingPoints = counseling
     .split("\n")
-    .filter((line) => line.trim() !== "");
+    .filter((line) => line.trim() !== "")
+    .map(line => {
+      const cleanLine = line.replace(/^\s*[\d\.\-]+\s*/, '').trim(); 
+      const bnLine = cleanLine.replace(/[0-9]/g, char => convertToBanglaNumerals(char));
+      return `<li>• ${bnLine}</li>`; 
+    }).join('');
 
   const renderInstruction = () => {
-    const dropsText = <strong className="text-red-600">{convertToBanglaNumerals(drops)}</strong>;
-    const intervalText = <strong className="text-red-600">{convertToBanglaNumerals(interval)}</strong>;
-    const shakeText = <strong className="text-red-600">{convertToBanglaNumerals(shakeCount)}</strong>;
+    let processedInstruction = instructionText;
+    const styleWrapper = (value: string) => `<span class="text-red-700 font-extrabold">${value}</span>`;
+
+    const bnDrops = convertToBanglaNumerals(drops);
+    const bnInterval = convertToBanglaNumerals(interval);
+    const bnShakeCount = convertToBanglaNumerals(shakeCount);
     
-    if (shakeMode === 'with') {
-      return (
-        <p className="text-lg font-medium leading-relaxed">
-          এই ঔষধটি {shakeText} টি ঝাঁকি দিয়ে {dropsText} ফোঁটা করে {intervalText} ঘণ্টা পর পর খাবেন।
-        </p>
+    // Use regex with variables
+    if (instructionText.includes(`${bnShakeCount} বার ঝাঁকি দিয়ে`)) {
+      processedInstruction = processedInstruction.replace(
+        new RegExp(`${bnShakeCount} বার ঝাঁকি দিয়ে`, 'g'),
+        `${styleWrapper(bnShakeCount)} বার ঝাঁকি দিয়ে`
       );
     }
+    processedInstruction = processedInstruction.replace(
+      new RegExp(`${bnDrops} ফোঁটা ঔষধ`, 'g'),
+      `${styleWrapper(bnDrops)} ফোঁটা ঔষধ`
+    );
+    processedInstruction = processedInstruction.replace(
+      new RegExp(`${bnInterval} ঘন্টা পর পর`, 'g'),
+      `${styleWrapper(bnInterval)} ঘন্টা পর পর`
+    );
+    
     return (
-      <p className="text-lg font-medium leading-relaxed">
-        এই ঔষধটি {dropsText} ফোঁটা করে {intervalText} ঘণ্টা পর পর খাবেন।
-      </p>
+      <div 
+        className="instruction-box text-gray-800 text-sm p-2 min-h-0"
+        dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
+      />
     );
   };
-
+  
   return (
-    <div className="flex flex-col items-center">
-      <p className="text-sm text-muted-foreground mb-2">লেবেল প্রিভিউ (৩.৭৫ ইঞ্চি x ৫.৫ ইঞ্চি)</p>
-      <div
-        id="printable-label"
-        className="font-headline bg-white text-black shadow-lg"
-        style={{ width: "3.75in", height: "5.5in" }}
-      >
-        <div className="flex h-full w-full flex-col justify-start text-center p-[0.75in] box-border">
-          <header className="w-full text-left space-y-1">
-            <div className="flex justify-between text-base">
-              <p><strong className="font-bold">ক্রমিক নং:</strong> {banglaSerial}</p>
-              <p><strong className="font-bold">তারিখ:</strong> {formattedDate}</p>
-            </div>
-            <p className="text-base"><strong className="font-bold">রোগীর নাম:</strong> {patientName}</p>
-          </header>
-          
-          <Separator className="bg-neutral-400 my-4" />
-
-          <div className="border-2 border-dashed border-black p-4 my-4 w-full flex-grow flex items-center justify-center">
-            {renderInstruction()}
-          </div>
-
-          <Separator className="bg-neutral-400 my-4" />
-
-          <div className="text-left w-full mt-auto">
-            <h3 className="font-bold text-lg mb-2">পরামর্শ/বিশেষ নির্দেশনা:</h3>
-            <ul className="list-disc list-inside space-y-1 text-base">
-              {counselingPoints.map((point, index) => (
-                <li key={index}>{point}</li>
-              ))}
-              {counselingPoints.length === 0 && <li className="text-neutral-500">কোনো বিশেষ নির্দেশনা নেই।</li>}
-            </ul>
-          </div>
+    <div
+      id="printable-label"
+      className="prescription-sheet font-headline bg-white text-black shadow-lg"
+      style={{ width: "3.75in", height: "5.5in" }}
+    >
+        <div className="text-center mb-4">
+            <h1 className="text-xl sm:text-2xl font-bold mb-0">ত্রিকুল আরোগ্য নিকেতন</h1>
+            <div className="w-full h-1"></div>
         </div>
-      </div>
+        
+        <div className="flex justify-between text-xs mb-3 font-medium">
+            <span className="truncate pr-1">ক্রমিক নং: <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
+            <span className="whitespace-nowrap">তারিখ: <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
+        </div>
+        <div className="text-left text-sm font-medium mb-3">
+            নাম: <strong className="text-indigo-700 font-extrabold">{patientName}</strong>
+        </div>
+
+        <div className="text-center mb-2"> 
+            <h2 className="text-base sm:text-lg font-extrabold border-y-2 border-gray-800 py-0.5 inline-block">ঔষধ খাওয়ার নিয়মাবলী</h2>
+        </div>
+
+        {renderInstruction()}
+
+        <div className="mt-3"> 
+            <h3 className="text-base font-bold text-red-700 mb-0.5">পরামর্শ:</h3> 
+            <ul 
+              className="advice-list text-gray-800 text-xs pl-3 list-none"
+              dangerouslySetInnerHTML={{ __html: counselingPoints }}
+            >
+            </ul>
+        </div>
     </div>
   );
 }
