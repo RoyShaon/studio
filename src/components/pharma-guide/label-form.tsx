@@ -44,7 +44,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                 htmlFor="with-shake"
                 className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 border-2 border-transparent hover:border-indigo-600 font-semibold transition duration-150 cursor-pointer peer-data-[state=checked]:bg-indigo-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-indigo-600"
               >
-                ঝাঁকি সহ (Vial Shake)
+                ঝাঁকি সহ
               </Label>
             </div>
             <div className="flex items-center">
@@ -53,7 +53,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                 htmlFor="without-shake"
                 className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 border-2 border-transparent hover:border-indigo-600 font-semibold transition duration-150 cursor-pointer peer-data-[state=checked]:bg-indigo-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-indigo-600"
               >
-                ঝাঁকি ছাড়া (No Shake)
+                ঝাঁকি ছাড়া
               </Label>
             </div>
           </RadioGroup>
