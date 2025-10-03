@@ -155,16 +155,22 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
         <p className="text-xs text-gray-500 mt-1">দ্রষ্টব্য: আপনি উপরের ফোঁটা, ঝাঁকি, ও ঘণ্টার মান পরিবর্তন করে এই টেক্সটটিকে প্রয়োজনমতো এডিট করতে পারবেন।</p>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="counseling" className="block text-lg font-medium text-gray-700 mb-2">পরামর্শ/বিশেষ নির্দেশনা</Label>
-        <Textarea
-          id="counseling"
-          name="counseling"
-          value={state.counseling}
-          onChange={handleInputChange}
-          rows={4}
-          className="text-sm"
-        />
+      <div className="space-y-4">
+        <div>
+            <Label htmlFor="followUpDays">পরবর্তী সাক্ষাৎকার (দিন)</Label>
+            <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
+        </div>
+        <div>
+            <Label htmlFor="counseling" className="block text-lg font-medium text-gray-700 mb-2">পরামর্শ/বিশেষ নির্দেশনা</Label>
+            <Textarea
+              id="counseling"
+              name="counseling"
+              value={state.counseling}
+              onChange={handleInputChange}
+              rows={4}
+              className="text-sm"
+            />
+        </div>
       </div>
     </div>
   );

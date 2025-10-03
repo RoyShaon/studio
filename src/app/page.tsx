@@ -20,6 +20,7 @@ export type LabelState = {
   counseling: string;
   instructionText: string;
   labelCount: number;
+  followUpDays: number;
 };
 
 export default function Home() {
@@ -32,9 +33,10 @@ export default function Home() {
     shakeCount: 5,
     interval: 8,
     counseling:
-      "১. ঔষধ সেবনকালীন পেস্ট সহ যাবতীয় দেশী ও বিদেশী ঔষধ ব্যবহার নিষিদ্ধ।\n২. ঔষধ সেবনের আধাঘন্টা আগে ও পরে কোন প্রকার খাবার ও পানীয় গ্রহণ করবেন না (সাধারণ জল ব্যতীত)।\n৩. ৭ দিন পরে আবার সাক্ষাৎ করবেন।",
+      "ঔষধ সেবনকালীন পেস্ট সহ যাবতীয় দেশী ও বিদেশী ঔষধ ব্যবহার নিষিদ্ধ।\nঔষধ সেবনের আধাঘন্টা আগে ও পরে কোন প্রকার খাবার ও পানীয় গ্রহণ করবেন না (সাধারণ জল ব্যতীত)।\n৭ দিন পরে আবার সাক্ষাৎ করবেন।",
     instructionText: "",
     labelCount: 1,
+    followUpDays: 7,
   });
   
   const [activeLabelIndex, setActiveLabelIndex] = useState(1);
@@ -80,6 +82,19 @@ export default function Home() {
       setActiveLabelIndex(labelState.labelCount || 1);
     }
   }, [labelState.labelCount, activeLabelIndex]);
+
+  useEffect(() => {
+    const { followUpDays } = labelState;
+    const counselingParts = [
+      "ঔষধ সেবনকালীন পেস্ট সহ যাবতীয় দেশী ও বিদেশী ঔষধ ব্যবহার নিষিদ্ধ।",
+      "ঔষধ সেবনের আধাঘন্টা আগে ও পরে কোন প্রকার খাবার ও পানীয় গ্রহণ করবেন না (সাধারণ জল ব্যতীত)।",
+      `${convertToBanglaNumerals(followUpDays)} দিন পরে আবার সাক্ষাৎ করবেন।`
+    ];
+    setLabelState(prevState => ({
+      ...prevState,
+      counseling: counselingParts.join('\n')
+    }));
+  }, [labelState.followUpDays]);
 
 
   const handlePrint = () => {
