@@ -39,7 +39,6 @@ export default function LabelPreview({
     const bnInterval = convertToBanglaNumerals(interval);
     const bnShakeCount = convertToBanglaNumerals(shakeCount);
     
-    // Use regex with variables
     if (instructionText.includes(`${bnShakeCount} বার ঝাঁকি দিয়ে`)) {
       processedInstruction = processedInstruction.replace(
         new RegExp(`${bnShakeCount} বার ঝাঁকি দিয়ে`, 'g'),
@@ -78,7 +77,7 @@ export default function LabelPreview({
     
     return (
       <div className="text-center mb-2">
-        <h2 className="text-xl font-bold text-red-700 bg-yellow-200 py-1 px-2 rounded-md inline-block">
+        <h2 className="text-xl font-bold text-red-700 py-1 px-2 rounded-md inline-block">
           {text}
         </h2>
       </div>
