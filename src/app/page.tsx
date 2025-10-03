@@ -86,9 +86,9 @@ export default function Home() {
   useEffect(() => {
     const { followUpDays } = labelState;
     const counselingParts = [
-      "ঔষধ সেবনকালীন পেস্ট সহ যাবতীয় দেশী ও বিদেশী ঔষধ ব্যবহার নিষিদ্ধ।",
-      "ঔষধ সেবনের আধাঘন্টা আগে ও পরে কোন প্রকার খাবার ও পানীয় গ্রহণ করবেন না (সাধারণ জল ব্যতীত)।",
-      `${convertToBanglaNumerals(followUpDays)} দিন পরে আবার সাক্ষাৎ করবেন।`
+      "• ঔষধ সেবনকালীন পেস্ট সহ যাবতীয় দেশী ও বিদেশী ঔষধ ব্যবহার নিষিদ্ধ।",
+      "• ঔষধ সেবনের আধাঘন্টা আগে ও পরে কোন প্রকার খাবার ও পানীয় গ্রহণ করবেন না (সাধারণ জল ব্যতীত)।",
+      `• ${convertToBanglaNumerals(followUpDays)} দিন পরে আবার সাক্ষাৎ করবেন।`
     ];
     setLabelState(prevState => ({
       ...prevState,
@@ -98,26 +98,35 @@ export default function Home() {
 
 
   const handlePrint = () => {
-     if (printContainerRef.current) {
-      const tempContainer = document.createElement('div');
-      tempContainer.id = 'printable-content';
-      
-      for (let i = 1; i <= labelState.labelCount; i++) {
+    const printableContent = document.createElement('div');
+    printableContent.id = 'printable-content';
+
+    for (let i = 1; i <= labelState.labelCount; i++) {
         const sheet = document.createElement('div');
         sheet.className = "prescription-sheet print-page";
         sheet.style.width = "3.75in";
         sheet.style.height = "5.5in";
 
+        // We need to create a temporary preview to get its HTML
+        const previewContainer = document.createElement('div');
+        document.body.appendChild(previewContainer);
+        
+        // This is a simplified way to get the HTML, in a real app you'd use ReactDOMServer or a similar library.
+        // For this context, we will find the displayed preview and clone it.
         const previewNode = document.getElementById(`label-preview-${i}`);
-        if(previewNode) {
+        
+        if (previewNode) {
             sheet.innerHTML = previewNode.innerHTML;
-            tempContainer.appendChild(sheet);
+            printableContent.appendChild(sheet);
         }
-      }
-      
-      document.body.appendChild(tempContainer);
-      window.print();
-      document.body.removeChild(tempContainer);
+
+        document.body.removeChild(previewContainer);
+    }
+    
+    if (printableContent.hasChildNodes()) {
+        document.body.appendChild(printableContent);
+        window.print();
+        document.body.removeChild(printableContent);
     }
   };
 
