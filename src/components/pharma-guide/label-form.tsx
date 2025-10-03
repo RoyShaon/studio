@@ -86,14 +86,17 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <Label htmlFor="patientName">রোগীর নাম</Label>
+            <Input id="patientName" name="patientName" value={state.patientName} onChange={handleInputChange} />
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
             <Label htmlFor="serial">ক্রমিক নাম্বার</Label>
             <Input id="serial" name="serial" value={state.serial} onChange={handleInputChange} />
-        </div>
-        <div className="md:col-span-2">
-            <Label htmlFor="patientName">রোগীর নাম</Label>
-            <Input id="patientName" name="patientName" value={state.patientName} onChange={handleInputChange} />
         </div>
         <div>
             <Label>তারিখ</Label>
@@ -123,7 +126,6 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
       </div>
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-gray-700">ঔষধের পরিমাণ সংক্রান্ত ইনপুট</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <div>
               <Label htmlFor="drops">কত ফোঁটা ঔষধ?</Label>
@@ -150,7 +152,6 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
           onChange={handleInputChange}
           rows={5}
           className="text-sm"
-          placeholder="মূল ঔষধ খাওয়ার নিয়মাবলী"
         />
         <p className="text-xs text-gray-500 mt-1">দ্রষ্টব্য: আপনি উপরের ফোঁটা, ঝাঁকি, ও ঘণ্টার মান পরিবর্তন করে এই টেক্সটটিকে প্রয়োজনমতো এডিট করতে পারবেন।</p>
       </div>
@@ -168,7 +169,6 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
               onChange={handleInputChange}
               rows={4}
               className="text-sm"
-              placeholder="পরামর্শ/বিশেষ নির্দেশনা"
             />
         </div>
       </div>
