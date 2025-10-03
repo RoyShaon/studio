@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon, Check } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -27,10 +27,11 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const numValue = parseInt(value, 10);
-    if (name === "labelCount" && (isNaN(numValue) || numValue < 1)) {
-       setState((prevState) => ({ ...prevState, [name]: 1 }));
-       return;
+    const numValue = value === '' ? 1 : parseInt(value, 10);
+    
+    if (name === "labelCount") {
+      setState((prevState) => ({ ...prevState, [name]: isNaN(numValue) || numValue < 1 ? 1 : numValue }));
+      return;
     }
     setState((prevState) => ({ ...prevState, [name]: isNaN(numValue) ? 0 : numValue }));
   };

@@ -21,24 +21,25 @@ export default function LabelPreview({
 }: LabelPreviewProps) {
   
   const formattedDate = convertToBanglaNumerals(format(new Date(date), "dd/MM/yyyy"));
-  
+  const bnPatientName = convertToBanglaNumerals(patientName);
+
   const counselingPoints = counseling
     .split("\n")
     .filter((line) => line.trim() !== "")
     .map(line => {
-        const bnLine = line.replace(/[0-9]/g, char => convertToBanglaNumerals(char));
+        const bnLine = convertToBanglaNumerals(line);
         return `<li>${bnLine}</li>`;
     }).join('');
 
   const renderInstruction = () => {
-    let processedInstruction = instructionText;
+    let processedInstruction = convertToBanglaNumerals(instructionText);
     const styleWrapper = (value: string) => `<span class="text-red-700 font-extrabold">${value}</span>`;
 
     const bnDrops = convertToBanglaNumerals(drops);
     const bnInterval = convertToBanglaNumerals(interval);
     const bnShakeCount = convertToBanglaNumerals(shakeCount);
     
-    if (instructionText.includes(`${bnShakeCount} বার ঝাঁকি দিয়ে`)) {
+    if (processedInstruction.includes(`${bnShakeCount} বার ঝাঁকি দিয়ে`)) {
       processedInstruction = processedInstruction.replace(
         new RegExp(`${bnShakeCount} বার ঝাঁকি দিয়ে`, 'g'),
         `${styleWrapper(bnShakeCount)} বার ঝাঁকি দিয়ে`
@@ -97,7 +98,7 @@ export default function LabelPreview({
             <span className="whitespace-nowrap">তারিখ: <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
         </div>
         <div className="text-left text-sm font-medium mb-3">
-            নাম: <strong className="text-indigo-700 font-extrabold">{patientName}</strong>
+            নাম: <strong className="text-indigo-700 font-extrabold">{bnPatientName}</strong>
         </div>
 
         <div className="text-center mb-2"> 
