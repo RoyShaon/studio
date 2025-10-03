@@ -2,12 +2,14 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Printer, Loader2 } from "lucide-react";
+import { doc, collection } from "firebase/firestore";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import LabelForm from "@/components/pharma-guide/label-form";
 import LabelPreview from "@/components/pharma-guide/label-preview";
 import { convertToBanglaNumerals } from "@/lib/utils";
+import { useFirebase, initiateAnonymousSignIn, setDocumentNonBlocking, addDocumentNonBlocking } from "@/firebase";
 
 export type LabelState = {
   serial: string;
@@ -25,6 +27,8 @@ export type LabelState = {
 };
 
 export default function Home() {
+  const { auth, firestore, user, isUserLoading } = useFirebase();
+
   const [labelState, setLabelState] = useState<LabelState>({
     serial: "F/",
     patientName: "",
@@ -48,6 +52,12 @@ export default function Home() {
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      initiateAnonymousSignIn(auth);
+    }
+  }, [isUserLoading, user, auth]);
 
   useEffect(() => {
     const updateInstructionText = () => {
@@ -100,31 +110,56 @@ export default function Home() {
   }, [labelState.followUpDays]);
 
 
-  const handlePrint = () => {
+  const handlePrint = async () => {
+    if (!firestore || !user) {
+      console.error("Firestore not initialized or user not logged in.");
+      return;
+    }
+    
+    // Create patient data
+    const patientData = {
+      name: labelState.patientName,
+      serialNumber: labelState.serial,
+      dateOfBirth: labelState.date.toISOString(), // Assuming date is dob for now
+    };
+    
+    // Add patient to firestore and get the id
+    const patientRef = await addDocumentNonBlocking(collection(firestore, "patients"), patientData);
+    const patientId = patientRef.id;
+
+    // Create medication label data
+    const medicationLabelData = {
+      patientId: patientId,
+      drops: labelState.drops,
+      shakeCount: labelState.shakeCount,
+      intervalHours: labelState.interval,
+      shakeMode: labelState.shakeMode,
+      counselingInstructions: labelState.counseling,
+      dateCreated: new Date().toISOString(),
+    };
+
+    const medicationLabelsColRef = collection(firestore, "patients", patientId, "medicationLabels");
+    await addDocumentNonBlocking(medicationLabelsColRef, medicationLabelData);
+
+
     const container = printContainerRef.current;
     if (!container) return;
 
-    // Create a temporary element to hold all the printable sheets
     const printableContent = document.createElement('div');
     printableContent.id = 'printable-content';
 
-    // Get all the individual label wrappers
     const previews = container.querySelectorAll('.printable-label-wrapper');
 
     previews.forEach(previewNode => {
-      // For each label, create a "page" for printing
       const sheet = document.createElement('div');
       sheet.className = "print-page";
       
-      // Clone the label content into the page
       const content = previewNode.cloneNode(true) as HTMLElement;
       sheet.appendChild(content);
       
-      // Add the page to our printable container
       printableContent.appendChild(sheet);
     });
     
-    // If we have content, append it to the body, print, then remove it.
     if (printableContent.hasChildNodes()) {
       document.body.appendChild(printableContent);
       window.print();
@@ -133,7 +168,7 @@ export default function Home() {
   };
 
 
-  if (!isClient) {
+  if (!isClient || isUserLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Loader2 className="h-16 w-16 animate-spin" />
