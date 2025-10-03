@@ -141,6 +141,7 @@
     max-width: 3.75in;
     height: 5.5in;
     margin: 0;
+    visibility: visible !important;
   }
 
   .print-page * {

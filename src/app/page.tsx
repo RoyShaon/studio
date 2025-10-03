@@ -167,7 +167,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
           <Card className="lg:col-span-2 shadow-lg">
             <CardHeader>
-              <CardTitle className="font-headline">রোগীর তথ্য ও নির্দেশাবলী ইনপুট করুন</CardTitle>
+              <CardTitle className="font-headline">রোগীর তথ্য ও নির্দেশাবলী</CardTitle>
             </CardHeader>
             <CardContent>
               <LabelForm 
