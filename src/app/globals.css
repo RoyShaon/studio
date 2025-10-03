@@ -106,22 +106,16 @@
 }
 
 @media print {
-  .prescription-sheet {
-    border: none !important;
-  }
-
-  body > *:not(#printable-content), body > *:not(#printable-content) * {
+  body > *:not(#printable-content) {
     display: none !important;
-    visibility: hidden !important;
   }
 
   #printable-content {
-      display: block !important; 
-      visibility: visible !important;
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
   }
   
   .print-page {
@@ -137,10 +131,10 @@
     box-shadow: none !important;
     font-size: 8pt !important;
     box-sizing: border-box;
+    transform: translateX(-50%);
     position: fixed !important;
     top: 0 !important;
     left: 50% !important;
-    transform: translateX(-50%);
   }
 
   .print-page * {
