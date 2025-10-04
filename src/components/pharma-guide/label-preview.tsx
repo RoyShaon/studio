@@ -83,7 +83,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="instruction-box text-gray-800 text-sm p-2 min-h-0 text-center"
+        className="instruction-box text-gray-800 text-base p-2 min-h-0 text-justify"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -125,7 +125,7 @@ export default function LabelPreview({
             <span className="whitespace-nowrap">তারিখ: <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
         </div>
         <div className="text-left text-sm font-medium mb-3">
-            নাম: <strong className="text-indigo-700 font-extrabold">{bnPatientName}</strong>
+            নাম: <strong className="text-indigo-700 font-extrabold">{bnPatientName || ""}</strong>
         </div>
 
         <div className="text-center mb-2"> 
