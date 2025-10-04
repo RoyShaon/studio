@@ -114,41 +114,41 @@ export default function LabelPreview({
     <div
       className="prescription-sheet font-headline bg-white text-black flex flex-col"
     >
-        <div className="flex-grow">
-            {getSequentialText()}
-            
-            <div className="flex justify-between text-xs mb-3 font-medium">
-                <span className="truncate pr-1">ক্রমিক নং: <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
-                <span className="whitespace-nowrap">তারিখ: <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
-            </div>
-            <div className="text-left text-sm font-medium mb-3">
-                নাম: <strong className="text-indigo-700 font-extrabold">{patientName || "রোগীর নাম"}</strong>
-            </div>
-
-            <div className="text-center mb-2"> 
-                <h2 className="text-base sm:text-lg font-extrabold border-b-2 border-gray-800 py-0.5 inline-block text-center">ঔষধ খাওয়ার নিয়মাবলী</h2>
-            </div>
-
-            {renderInstruction()}
-
-            <div className="mt-3 text-left">
-              <h3 className="text-center text-base font-bold text-red-700 mb-0.5">পরামর্শ:</h3>
-              <ul
-                className="advice-list text-gray-800 text-xs pl-0 list-none"
-                dangerouslySetInnerHTML={{ __html: counselingPoints }}
-              ></ul>
-            </div>
+      <div className="flex-grow">
+        {getSequentialText()}
+        
+        <div className="flex justify-between text-xs mb-3 font-medium">
+            <span className="truncate pr-1">ক্রমিক নং: <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
+            <span className="whitespace-nowrap">তারিখ: <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
+        </div>
+        <div className="text-left text-sm font-medium mb-3">
+            নাম: <strong className="text-indigo-700 font-extrabold">{patientName || "রোগীর নাম"}</strong>
         </div>
 
-        <div className="text-center mt-auto pt-4">
-            <h1 className="text-lg font-bold mb-1">ত্রিফুল আরোগ্য নিকেতন</h1>
-            <div className="text-xs font-medium">
-                <p className="text-base font-bold">ডা: নীহার রঞ্জন রায়</p>
-                <p>আদর্শ হোমিওপ্যাথিক চিকিৎসক</p>
-                <p>B.Sc, D.H.M.S</p>
-                <p>মোবাইল : 01716954699, 01922788466, 01871811181</p>
-            </div>
+        <div className="text-center mb-2"> 
+            <h2 className="text-base sm:text-lg font-extrabold border-b-2 border-gray-800 py-0.5 inline-block text-center">ঔষধ খাওয়ার নিয়মাবলী</h2>
         </div>
+
+        {renderInstruction()}
+
+        <div className="mt-3 text-left">
+          <h3 className="text-center text-base font-bold text-red-700 mb-0.5">পরামর্শ:</h3>
+          <ul
+            className="advice-list text-gray-800 text-xs pl-0 list-none"
+            dangerouslySetInnerHTML={{ __html: counselingPoints }}
+          ></ul>
+        </div>
+      </div>
+
+      <div className="text-center mt-4 pt-2">
+          <h1 className="text-lg font-bold mb-1">ত্রিফুল আরোগ্য নিকেতন</h1>
+          <div className="text-xs font-medium">
+              <p className="text-base font-bold">ডা: নীহার রঞ্জন রায়</p>
+              <p>আদর্শ হোমিওপ্যাথিক চিকিৎসক</p>
+              <p>বি.এস.সি, ডি.এইচ.এম.এস</p>
+              <p>মোবাইল : 01716954699, 01922788466, 01871811181</p>
+          </div>
+      </div>
     </div>
   );
 }
