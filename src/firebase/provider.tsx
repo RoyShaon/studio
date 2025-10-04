@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { DependencyList, createContext, useContext, ReactNode, useMemo, useState, useEffect } from 'react';
+import React, { createContext, useContext, ReactNode, useMemo, useState, useEffect } from 'react';
 import { FirebaseApp } from 'firebase/app';
 import { Firestore } from 'firebase/firestore';
 import { Auth, User, onAuthStateChanged } from 'firebase/auth';
@@ -154,22 +154,6 @@ export const useFirebaseApp = (): FirebaseApp => {
   const { firebaseApp } = useFirebase();
   return firebaseApp;
 };
-
-type MemoFirebase<T> = T & { __memo?: boolean };
-
-export function useMemoFirebase<T>(factory: () => T, deps: DependencyList): T {
-    const memoized = useMemo(factory, deps);
-    
-    if (memoized !== null && typeof memoized === 'object') {
-        Object.defineProperty(memoized, '__memo', {
-            value: true,
-            writable: false,
-            enumerable: false,
-        });
-    }
-  
-    return memoized as T;
-}
 
 
 /**
