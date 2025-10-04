@@ -24,7 +24,6 @@ export type LabelState = {
   interval: number;
   mixtureAmount: string;
   counseling: string;
-  instructionText: string;
   labelCount: number;
   followUpDays: number;
   showAllPreviews: boolean;
@@ -43,7 +42,6 @@ export default function Home() {
     interval: 8,
     mixtureAmount: "এক চামচ",
     counseling: "",
-    instructionText: "",
     labelCount: 1,
     followUpDays: 7,
     showAllPreviews: false,
@@ -104,9 +102,6 @@ export default function Home() {
 
 
   useEffect(() => {
-    // This effect is now just for generating the base counseling text.
-    // The main instruction text is now fully generated within the LabelPreview component
-    // to ensure the correct ordinal number is used for each label.
     const { followUpDays } = labelState;
     const counselingParts = [
       "• ঔষধ সেবনকালীন পেস্ট সহ যাবতীয় দেশী ও বিদেশী ঔষধ ব্যবহার নিষিদ্ধ।",

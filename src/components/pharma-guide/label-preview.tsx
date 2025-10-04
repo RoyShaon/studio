@@ -44,7 +44,7 @@ export default function LabelPreview({
   const renderInstruction = () => {
     const bnDrops = convertToBanglaNumerals(drops);
     const bnInterval = convertToBanglaNumerals(interval);
-    const bnShakeCount = convertToBanglaNumerals(shakeCount);
+    const bnShakeCount = shakeMode === 'with' ? convertToBanglaNumerals(shakeCount) : '';
     const bnMixtureAmount = convertToBanglaNumerals(mixtureAmount);
     
     const bnIndex = convertToBanglaNumerals(activeLabelIndex);
