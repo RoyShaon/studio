@@ -138,13 +138,15 @@ export default function LabelPreview({
                 dangerouslySetInnerHTML={{ __html: counselingPoints }}
               ></ul>
             </div>
-             <div className="text-center mt-4">
-                <h1 className="text-xl font-bold mb-1">ত্রিফুল আরোগ্য নিকেতন</h1>
-                <div className="text-xs font-medium">
-                    <p className="text-base font-bold">ডাক্তার নিহার রঞ্জন রায়</p>
-                    <p>আদর্শ হোমিওপ্যাথিক চিকিৎসক, বিএসসি ডি এইচ এম এস</p>
-                    <p>মোবাইল : 01716954699, 01922788466, 01871811181</p>
-                </div>
+        </div>
+
+        <div className="text-center mt-auto pt-4">
+            <h1 className="text-lg font-bold mb-1">ত্রিফুল আরোগ্য নিকেতন</h1>
+            <div className="text-xs font-medium">
+                <p className="text-base font-bold">ডা: নীহার রঞ্জন রায়</p>
+                <p>আদর্শ হোমিওপ্যাথিক চিকিৎসক</p>
+                <p>B.Sc, D.H.M.S</p>
+                <p>মোবাইল : 01716954699, 01922788466, 01871811181</p>
             </div>
         </div>
     </div>
