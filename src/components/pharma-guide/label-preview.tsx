@@ -138,10 +138,10 @@ export default function LabelPreview({
                 dangerouslySetInnerHTML={{ __html: counselingPoints }}
               ></ul>
             </div>
-        </div>
-
-        <div className="text-center mt-auto pt-4">
-            <h1 className="text-xl sm:text-2xl font-bold mb-0">ত্রিফুল আরোগ্য নিকেতন</h1>
+            
+            <div className="text-center mt-4">
+                <h1 className="text-xl sm:text-2xl font-bold mb-0">ত্রিফুল আরোগ্য নিকেতন</h1>
+            </div>
         </div>
     </div>
   );
