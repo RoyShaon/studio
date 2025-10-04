@@ -91,6 +91,8 @@
     background-color: white;
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
 }
 
 .instruction-box {
@@ -133,7 +135,7 @@
     background-color: white !important;
     width: 100% !important;
     height: 100% !important;
-    padding: 0.1in !important;
+    padding: 0 !important;
     margin: 0 !important;
     border: none !important;
     box-shadow: none !important;
