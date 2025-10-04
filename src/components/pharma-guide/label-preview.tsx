@@ -110,7 +110,7 @@ export default function LabelPreview({
       text = `${bnIndex} নং আগে খাবেন`;
     } else {
       const bnPrevIndex = convertToBanglaNumerals(activeLabelIndex - 1);
-      text = `${bnIndex} নং, ${bnPrevIndex} নং এর পরে খাবেন`;
+      text = `${bnIndex} নং, (${bnPrevIndex} নং এর পরে খাবেন)`;
     }
     
     return (
