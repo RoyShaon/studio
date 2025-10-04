@@ -112,7 +112,7 @@ export default function LabelPreview({
 
   return (
     <div
-      className="prescription-sheet font-headline bg-white text-black shadow-lg"
+      className="prescription-sheet font-headline bg-white text-black"
     >
         {getSequentialText()}
         <div className="text-center mb-4">
@@ -124,7 +124,7 @@ export default function LabelPreview({
             <span className="whitespace-nowrap">তারিখ: <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
         </div>
         <div className="text-left text-sm font-medium mb-3">
-            নাম: <strong className="text-indigo-700 font-extrabold">{patientName || ""}</strong>
+            নাম: <strong className="text-indigo-700 font-extrabold">{patientName}</strong>
         </div>
 
         <div className="text-center mb-2"> 
@@ -136,7 +136,7 @@ export default function LabelPreview({
         <div className="mt-3 text-left">
           <h3 className="text-center text-base font-bold text-red-700 mb-0.5">পরামর্শ:</h3>
           <ul
-            className="advice-list text-gray-800 text-xs pl-0 list-none"
+            className="advice-list text-gray-800 text-xs pl-0 list-none text-left"
             dangerouslySetInnerHTML={{ __html: counselingPoints }}
           ></ul>
         </div>

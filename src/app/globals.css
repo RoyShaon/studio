@@ -84,13 +84,11 @@
 }
 
 .prescription-sheet {
-    border: 2px solid #333;
     padding: 2rem 1.5rem; 
     max-width: 450px;
     height: 660px;
     margin: 2rem auto;
     background-color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .instruction-box {
@@ -142,6 +140,8 @@
     height: 5.5in;
     margin: 0;
     visibility: visible !important;
+    border: 2px solid #333 !important;
+    box-shadow: none !important;
   }
 
   .print-page * {
