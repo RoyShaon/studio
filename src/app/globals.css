@@ -89,6 +89,8 @@
     height: 660px;
     margin: 2rem auto;
     background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .instruction-box {
@@ -103,6 +105,9 @@
 }
 
 @media print {
+  body {
+    background-color: white !important;
+  }
   body > *:not(#printable-content) {
     display: none !important;
   }
@@ -114,32 +119,36 @@
     left: 0;
     width: 100%;
     height: 100%;
+    margin: 0;
+    padding: 0;
   }
   
   .print-page {
     page-break-after: always;
     display: flex !important;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     visibility: visible !important;
     background-color: white !important;
     width: 100% !important;
     height: 100% !important;
-    padding: 0.25in !important;
+    padding: 0.1in !important;
     margin: 0 !important;
     border: none !important;
     box-shadow: none !important;
-    font-size: 8pt !important;
+    font-size: 9.5pt !important;
     box-sizing: border-box;
+    line-height: 1.3;
   }
 
   .print-page .prescription-sheet {
     max-width: 3.6in;
     height: 5.6in;
     margin: 0;
+    padding: 0.25in 0.3in;
     visibility: visible !important;
-    border: 2px solid #333 !important;
+    border: none !important; /* Hide border for print */
     box-shadow: none !important;
   }
 
@@ -147,6 +156,30 @@
     visibility: visible !important;
     color: #000 !important;
     font-family: 'Noto Serif Bengali', sans-serif !important;
+  }
+  
+  .print-page .instruction-box {
+    padding: 0.5rem;
+    min-height: 75px;
+  }
+
+  .print-page .advice-list {
+    padding-left: 0;
+    list-style: none;
+  }
+  
+  .print-page .advice-list li {
+    font-size: 8.5pt !important;
+    line-height: 1.2;
+    margin-bottom: 0;
+  }
+
+  .print-page .doctor-info {
+    font-size: 8.5pt !important;
+    line-height: 1.2;
+  }
+  .print-page .doctor-info p {
+    margin-bottom: 0.5px;
   }
 
   @page {

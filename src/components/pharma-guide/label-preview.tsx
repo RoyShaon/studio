@@ -114,7 +114,7 @@ export default function LabelPreview({
     <div
       className="prescription-sheet font-headline bg-white text-black flex flex-col"
     >
-      <div>
+      <div className="flex-grow">
         {getSequentialText()}
         
         <div className="flex justify-between text-xs mb-3 font-medium">
@@ -132,7 +132,7 @@ export default function LabelPreview({
         {renderInstruction()}
 
         <div className="mt-3 text-left">
-          <h3 className="text-center text-base font-bold text-red-700 mb-0.5">পরামর্শ:</h3>
+          <h3 className="text-center text-base font-bold text-red-700 mb-0.5 border-b border-gray-400 inline-block w-full pb-1">পরামর্শ:</h3>
           <ul
             className="advice-list text-gray-800 text-xs pl-0 list-none"
             dangerouslySetInnerHTML={{ __html: counselingPoints }}
@@ -140,7 +140,7 @@ export default function LabelPreview({
         </div>
       </div>
 
-      <div className="text-center pt-4">
+      <div className="text-center pt-4 doctor-info">
           <h1 className="text-lg font-bold mb-1 underline">ত্রিফুল আরোগ্য নিকেতন</h1>
           <div className="text-xs font-medium">
               <p className="text-base font-bold">ডা: নীহার রঞ্জন রায়</p>
