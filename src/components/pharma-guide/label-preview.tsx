@@ -102,8 +102,8 @@ export default function LabelPreview({
     }
     
     return (
-      <div className="text-center mb-2 border border-black rounded-md py-1">
-        <h2 className="text-xl font-bold text-red-700">
+      <div className="text-center mb-2">
+        <h2 className="text-xl font-bold text-red-700 inline-block border border-black rounded-md py-1 px-3">
           {text}
         </h2>
       </div>
