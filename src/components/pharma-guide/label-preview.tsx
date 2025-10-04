@@ -122,7 +122,7 @@ export default function LabelPreview({
                 <span className="whitespace-nowrap">তারিখ: <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
             </div>
             <div className="text-left text-sm font-medium mb-3">
-                নাম: <strong className="text-indigo-700 font-extrabold">{patientName || ""}</strong>
+                নাম: <strong className="text-indigo-700 font-extrabold">{patientName || "রোগীর নাম"}</strong>
             </div>
 
             <div className="text-center mb-2"> 
