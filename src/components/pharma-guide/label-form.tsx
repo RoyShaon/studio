@@ -12,6 +12,14 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 
 interface LabelFormProps {
   state: LabelState;
@@ -119,42 +127,50 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
       
       <div className="space-y-4">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {state.shakeMode === 'with' && (
-              <div>
-                <Label htmlFor="shakeCount">ঝাঁকি</Label>
-                <Input id="shakeCount" name="shakeCount" type="number" value={state.shakeCount} onChange={handleNumberChange} min="1" />
-              </div>
-            )}
+          {state.shakeMode === 'with' && (
             <div>
-              <Label htmlFor="drops">কত ফোঁটা?</Label>
-              <Input id="drops" name="drops" type="number" value={state.drops} onChange={handleNumberChange} min="1" />
+              <Label htmlFor="shakeCount">ঝাঁকি</Label>
+              <Input id="shakeCount" name="shakeCount" type="number" value={state.shakeCount} onChange={handleNumberChange} min="1" />
             </div>
-            <div>
-              <Label htmlFor="interval">কত ঘন্টা পর?</Label>
-              <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
-            </div>
-            <div>
-                <Label htmlFor="mixtureNumber">কত নং মিশ্রণ?</Label>
-                <Input id="mixtureNumber" name="mixtureNumber" type="text" value={state.mixtureNumber} onChange={handleInputChange} />
-            </div>
-             <div>
-                <Label htmlFor="mixtureAmount">মিশ্রণ</Label>
-                <Input id="mixtureAmount" name="mixtureAmount" type="text" value={state.mixtureAmount} onChange={handleInputChange} />
-            </div>
-             <div>
-                <Label htmlFor="durationDays">কত দিন?</Label>
-                <Input id="durationDays" name="durationDays" type="number" value={state.durationDays} onChange={handleNumberChange} min="1" />
-            </div>
-            <div>
-                <Label htmlFor="followUpDays">পরবর্তী সাক্ষাৎকার</Label>
-                <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
-            </div>
-        </div>
-      </div>
-
-       <div className="space-y-4">
-        <div className="flex items-center gap-4">
-            <div>
+          )}
+          <div>
+            <Label htmlFor="drops">কত ফোঁটা?</Label>
+            <Input id="drops" name="drops" type="number" value={state.drops} onChange={handleNumberChange} min="1" />
+          </div>
+          <div>
+            <Label htmlFor="interval">কত ঘন্টা পর?</Label>
+            <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
+          </div>
+          <div>
+            <Label htmlFor="mixtureNumber">কত নং মিশ্রণ?</Label>
+            <Select 
+              name="mixtureNumber" 
+              value={state.mixtureNumber} 
+              onValueChange={(value) => setState(prev => ({ ...prev, mixtureNumber: value }))}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="১ম">১ম</SelectItem>
+                <SelectItem value="২য়">২য়</SelectItem>
+                <SelectItem value="৩য়">৩য়</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+              <Label htmlFor="mixtureAmount">মিশ্রণ</Label>
+              <Input id="mixtureAmount" name="mixtureAmount" type="text" value={state.mixtureAmount} onChange={handleInputChange} />
+          </div>
+          <div>
+              <Label htmlFor="durationDays">কত দিন?</Label>
+              <Input id="durationDays" name="durationDays" type="number" value={state.durationDays} onChange={handleNumberChange} min="1" />
+          </div>
+          <div>
+              <Label htmlFor="followUpDays">সাক্ষাৎকার</Label>
+              <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
+          </div>
+           <div>
               <Label htmlFor="labelCount">কতগুলো লেবেল?</Label>
               <Input 
                   id="labelCount"
@@ -168,9 +184,14 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                     }
                   }}
                   min="1"
-                  className="w-24"
               />
             </div>
+        </div>
+      </div>
+
+       <div className="space-y-4">
+        <div className="flex items-center gap-4">
+           
             {getSanitizedLabelCount() > 1 && (
               <div className="flex items-center space-x-2 pt-6">
                 <Checkbox 
@@ -199,3 +220,4 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     </div>
   );
 }
+
