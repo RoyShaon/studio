@@ -25,7 +25,7 @@ export default function LabelPreview({
 }: LabelPreviewProps) {
   
   const formattedDate = convertToBanglaNumerals(format(new Date(date), "dd/MM/yyyy"));
-  const bnPatientName = convertToBanglaNumerals(patientName);
+  const bnPatientName = patientName ? convertToBanglaNumerals(patientName) : "রোগীর নাম";
 
   const counselingPoints = counseling
     .split("\n")
@@ -36,13 +36,6 @@ export default function LabelPreview({
         return `<li>${bnLine}</li>`;
     }).join('');
     
-  const getOrdinalSuffix = (num: number) => {
-    if (num === 1) return 'ম';
-    if (num === 2) return 'য়';
-    if (num === 3) return 'য়';
-    return 'ম';
-  };
-
   const renderInstruction = () => {
     const bnDrops = convertToBanglaNumerals(drops);
     const bnInterval = convertToBanglaNumerals(interval);
@@ -76,6 +69,10 @@ export default function LabelPreview({
     processedInstruction = processedInstruction.replace(
       new RegExp(`${bnInterval}`, 'g'),
       styleWrapper(bnInterval)
+    );
+    processedInstruction = processedInstruction.replace(
+        new RegExp(bnMixtureAmount, 'g'),
+        styleWrapper(bnMixtureAmount)
     );
      processedInstruction = processedInstruction.replace(
       new RegExp(`${bnDurationDays}`, 'g'),
