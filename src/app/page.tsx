@@ -163,7 +163,7 @@ export default function Home() {
             dateOfBirth: labelState.date.toISOString(),
         };
         // Non-blocking write
-        setDocumentNonBlocking(newPatientRef, patientData, { merge: false });
+        setDocumentNonBlocking(newPatientRef, patientData);
       }
       
       const medicationLabelData = {
