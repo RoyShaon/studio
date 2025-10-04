@@ -103,9 +103,9 @@ export default function LabelPreview({
     
     return (
       <div className="text-center mb-2">
-        <h2 className="text-xl font-bold text-red-700 inline-block border border-black rounded-md py-1 px-3">
+        <span className="text-xl font-bold text-red-700 inline-block border border-black rounded-md py-1 px-3">
           {text}
-        </h2>
+        </span>
       </div>
     );
   };
@@ -114,7 +114,7 @@ export default function LabelPreview({
     <div
       className="prescription-sheet font-headline bg-white text-black flex flex-col"
     >
-      <div className="flex-grow">
+      <div>
         {getSequentialText()}
         
         <div className="flex justify-between text-xs mb-3 font-medium">
@@ -140,7 +140,7 @@ export default function LabelPreview({
         </div>
       </div>
 
-      <div className="text-center mt-auto pt-4">
+      <div className="text-center pt-4">
           <h1 className="text-lg font-bold mb-1 underline">ত্রিফুল আরোগ্য নিকেতন</h1>
           <div className="text-xs font-medium">
               <p className="text-base font-bold">ডা: নীহার রঞ্জন রায়</p>
