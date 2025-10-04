@@ -104,20 +104,37 @@ export default function Home() {
 
   useEffect(() => {
     const updateInstructionText = () => {
-      const { drops, interval, shakeCount, shakeMode, mixtureAmount } = labelState;
+      const { drops, interval, shakeCount, shakeMode, mixtureAmount, labelCount } = labelState;
       const bnDrops = convertToBanglaNumerals(drops);
       const bnInterval = convertToBanglaNumerals(interval);
       const bnShakeCount = convertToBanglaNumerals(shakeCount);
+      const bnMixtureAmount = convertToBanglaNumerals(mixtureAmount);
+      
+      const getOrdinalSuffix = (num: number) => {
+        if (num === 1) return 'ম';
+        if (num === 2) return 'য়';
+        if (num === 3) return 'য়';
+        return 'ম';
+      };
+      
+      const generateInstruction = (index: number) => {
+        const bnIndex = convertToBanglaNumerals(index);
+        const ordinal = labelCount > 1 ? `${bnIndex}${getOrdinalSuffix(index)}` : "";
+        const mixtureText = labelCount > 1 ? `${ordinal} মিশ্রণ থেকে` : 'মিশ্রণ থেকে';
+        
+        if (shakeMode === "with") {
+          return `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${mixtureText} ${bnMixtureAmount} করে সেবন করুন।`;
+        } else {
+          return `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${mixtureText} ${bnMixtureAmount} করে সেবন করুন।`;
+        }
+      };
+      
+      // We generate a base instruction text. The LabelPreview component will handle generating the specific text for each label index.
+      const baseInstruction = generateInstruction(1);
 
-      let defaultInstruction = "";
-      if (shakeMode === "with") {
-        defaultInstruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর মিশ্রণ থেকে ${mixtureAmount} করে সেবন করুন।`;
-      } else {
-        defaultInstruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর মিশ্রণ থেকে ${mixtureAmount} করে সেবন করুন।`;
-      }
       setLabelState((prevState) => ({
         ...prevState,
-        instructionText: defaultInstruction,
+        instructionText: baseInstruction, // Set a base text, preview will specialize it
       }));
     };
     updateInstructionText();
@@ -127,6 +144,7 @@ export default function Home() {
     labelState.shakeCount,
     labelState.shakeMode,
     labelState.mixtureAmount,
+    labelState.labelCount
   ]);
   
   useEffect(() => {
@@ -170,6 +188,12 @@ export default function Home() {
       if (!querySnapshot.empty) {
         // Patient exists, use existing ID
         patientId = querySnapshot.docs[0].id;
+        // Optionally update patient info if it has changed
+        const patientRef = doc(firestore, 'patients', patientId);
+        await setDoc(patientRef, { 
+            name: labelState.patientName,
+            serialNumber: labelState.serial.trim(),
+        }, { merge: true });
       } else {
         // Patient doesn't exist, create a new one
         const patientData = {

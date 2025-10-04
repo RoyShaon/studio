@@ -12,12 +12,12 @@ export default function LabelPreview({
   serial,
   patientName,
   date,
-  instructionText,
-  counseling,
+  shakeMode,
   drops,
   interval,
   shakeCount,
   mixtureAmount,
+  counseling,
   labelCount,
   activeLabelIndex
 }: LabelPreviewProps) {
@@ -32,16 +32,35 @@ export default function LabelPreview({
         const bnLine = convertToBanglaNumerals(line);
         return `<li>${bnLine}</li>`;
     }).join('');
+    
+  const getOrdinalSuffix = (num: number) => {
+    if (num === 1) return 'ম';
+    if (num === 2) return 'য়';
+    if (num === 3) return 'য়';
+    return 'ম';
+  };
 
   const renderInstruction = () => {
-    let processedInstruction = convertToBanglaNumerals(instructionText);
-    const styleWrapper = (value: string) => `<span class="text-red-700 font-extrabold">${value}</span>`;
-
     const bnDrops = convertToBanglaNumerals(drops);
     const bnInterval = convertToBanglaNumerals(interval);
     const bnShakeCount = convertToBanglaNumerals(shakeCount);
     const bnMixtureAmount = convertToBanglaNumerals(mixtureAmount);
     
+    const bnIndex = convertToBanglaNumerals(activeLabelIndex);
+    const ordinal = labelCount > 1 ? `${bnIndex}${getOrdinalSuffix(activeLabelIndex)}` : "";
+    const mixtureText = labelCount > 1 ? `${ordinal} মিশ্রণ থেকে` : 'মিশ্রণ থেকে';
+    const mixtureStyleWrapper = (value: string) => `<span class="text-red-700 font-extrabold">${value}</span>`;
+
+    let instruction;
+    if (shakeMode === "with") {
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${mixtureText} ${bnMixtureAmount} করে সেবন করুন।`;
+    } else {
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${mixtureText} ${bnMixtureAmount} করে সেবন করুন।`;
+    }
+    
+    let processedInstruction = convertToBanglaNumerals(instruction);
+    const styleWrapper = (value: string) => `<span class="text-red-700 font-extrabold">${value}</span>`;
+
     if (processedInstruction.includes(`${bnShakeCount} বার ঝাঁকি দিয়ে`)) {
       processedInstruction = processedInstruction.replace(
         new RegExp(`${bnShakeCount} বার ঝাঁকি দিয়ে`, 'g'),
@@ -56,9 +75,15 @@ export default function LabelPreview({
       new RegExp(`${bnInterval} ঘন্টা পর পর`, 'g'),
       `${styleWrapper(bnInterval)} ঘন্টা পর পর`
     );
+     if (labelCount > 1) {
+         processedInstruction = processedInstruction.replace(
+            new RegExp(mixtureText, 'g'),
+            mixtureStyleWrapper(mixtureText)
+        );
+     }
      processedInstruction = processedInstruction.replace(
-      new RegExp(`মিশ্রণ থেকে ${bnMixtureAmount} করে সেবন করুন`, 'g'),
-      `মিশ্রণ থেকে ${styleWrapper(bnMixtureAmount)} করে সেবন করুন`
+      new RegExp(`${bnMixtureAmount} করে সেবন করুন`, 'g'),
+      `${styleWrapper(bnMixtureAmount)} করে সেবন করুন`
     );
     
     return (
