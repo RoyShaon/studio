@@ -55,9 +55,9 @@ export default function LabelPreview({
 
     let instruction;
     if (shakeMode === "with") {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${ordinalHighlight} মিশ্রণ থেকে ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${bnMixtureNumber} মিশ্রণ থেকে ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করুন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${ordinalHighlight} মিশ্রণ থেকে ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${bnMixtureNumber} মিশ্রণ থেকে ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -70,18 +70,21 @@ export default function LabelPreview({
         );
     }
     processedInstruction = processedInstruction.replace(
-      new RegExp(`${bnDrops} ফোঁটা ঔষধ`, 'g'),
-      `${styleWrapper(bnDrops)} ফোঁটা ঔষধ`
+      new RegExp(`${bnDrops}`, 'g'),
+      styleWrapper(bnDrops)
     );
     processedInstruction = processedInstruction.replace(
-      new RegExp(`${bnInterval} ঘন্টা পর পর`, 'g'),
-      `${styleWrapper(bnInterval)} ঘন্টা পর পর`
+      new RegExp(`${bnInterval}`, 'g'),
+      styleWrapper(bnInterval)
+    );
+     processedInstruction = processedInstruction.replace(
+      new RegExp(`${bnDurationDays}`, 'g'),
+      styleWrapper(bnDurationDays)
     );
 
     // Re-apply the ordinal highlight as the general conversion might have removed the span
-    const plainOrdinalText = `${bnMixtureNumber} মিশ্রণ থেকে`;
-    const highlightedOrdinalText = `${ordinalHighlight} মিশ্রণ থেকে`;
-    processedInstruction = processedInstruction.replace(plainOrdinalText, highlightedOrdinalText);
+    const plainOrdinalText = new RegExp(bnMixtureNumber, 'g');
+    processedInstruction = processedInstruction.replace(plainOrdinalText, ordinalHighlight);
     
     return (
       <div 
