@@ -129,8 +129,8 @@
     page-break-after: always;
     display: flex !important;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+    justify-content: flex-start !important; /* Align to top */
+    align-items: flex-start !important; /* Align to left */
     visibility: visible !important;
     background-color: white !important;
     width: 100% !important;
