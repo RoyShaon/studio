@@ -25,7 +25,6 @@ export default function LabelPreview({
 }: LabelPreviewProps) {
   
   const formattedDate = convertToBanglaNumerals(format(new Date(date), "dd/MM/yyyy"));
-  const bnPatientName = patientName ? convertToBanglaNumerals(patientName) : "";
 
   const counselingPoints = counseling
     .split("\n")
@@ -47,7 +46,7 @@ export default function LabelPreview({
 
     let instruction;
     if (shakeMode === "with") {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${bnMixtureNumber} মিশ্রণ থেকে ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করুন।`;
+      instruction = `প্রতিবার সেবনের পূর্বে শিশিটিকে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${bnMixtureNumber} মিশ্রণ থেকে ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করুন।`;
     } else {
       instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${bnMixtureNumber} মিশ্রণ থেকে ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করুন।`;
     }
@@ -83,7 +82,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="instruction-box text-gray-800 text-base p-2 min-h-0 text-justify"
+        className="instruction-box text-gray-800 text-lg p-2 min-h-0 text-justify"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -125,7 +124,7 @@ export default function LabelPreview({
             <span className="whitespace-nowrap">তারিখ: <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
         </div>
         <div className="text-left text-sm font-medium mb-3">
-            নাম: <strong className="text-indigo-700 font-extrabold">{bnPatientName || ""}</strong>
+            নাম: <strong className="text-indigo-700 font-extrabold">{patientName || ""}</strong>
         </div>
 
         <div className="text-center mb-2"> 
