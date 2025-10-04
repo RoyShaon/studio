@@ -135,8 +135,8 @@
   }
 
   .print-page .prescription-sheet {
-    max-width: 3.75in;
-    height: 5.5in;
+    max-width: 3.6in;
+    height: 5.6in;
     margin: 0;
     visibility: visible !important;
     border: 2px solid #333 !important;
@@ -150,7 +150,7 @@
   }
 
   @page {
-      size: 3.75in 5.5in;
+      size: 3.6in 5.6in;
       margin: 0;
   }
 }
