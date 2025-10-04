@@ -110,6 +110,7 @@ export default function Home() {
     const counselingParts = [
       "• চিকিৎসাকালীন অন্য কোনো ওষুধ বা পেস্ট ব্যবহার করবেন না।",
       "• ওষুধের ৩০ মিনিট আগে ও পরে কিছু খাবেন বা পান করবেন না (পানি ছাড়া)।",
+      "• জরুরী প্রয়োজনে কল করুন সকাল ৭ টা থেকে বিকেল ৮ টা।",
       `• ${convertToBanglaNumerals(followUpDays)} দিন পরে আবার সাক্ষাৎ করবেন।`
     ];
     setLabelState(prevState => ({

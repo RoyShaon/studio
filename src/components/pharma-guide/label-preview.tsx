@@ -82,7 +82,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="instruction-box text-gray-800 text-lg p-2 min-h-[70px] text-justify"
+        className="instruction-box text-gray-800 text-lg p-2 min-h-[90px] text-justify"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -134,13 +134,17 @@ export default function LabelPreview({
             <div className="mt-3 text-left">
               <h3 className="text-center text-base font-bold text-red-700 mb-0.5">পরামর্শ:</h3>
               <ul
-                className="advice-list text-gray-800 text-xs pl-0 list-none text-left"
+                className="advice-list text-gray-800 text-xs pl-0 list-none"
                 dangerouslySetInnerHTML={{ __html: counselingPoints }}
               ></ul>
             </div>
-            
-            <div className="text-center mt-4">
-                <h1 className="text-xl sm:text-2xl font-bold mb-0">ত্রিফুল আরোগ্য নিকেতন</h1>
+        </div>
+        <div className="text-center mt-auto pt-2">
+            <h1 className="text-xl font-bold mb-1">ত্রিফুল আরোগ্য নিকেতন</h1>
+            <div className="text-xs font-medium">
+                <p>ডাক্তার নিহার রঞ্জন রায়</p>
+                <p>আদর্শ হোমিওপ্যাথিক চিকিৎসক, বিএসসি ডি এইচ এম এস</p>
+                <p>মোবাইল : 01716954699, 01922788466, 01871811181</p>
             </div>
         </div>
     </div>
