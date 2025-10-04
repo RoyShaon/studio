@@ -102,7 +102,7 @@ export default function LabelPreview({
     }
     
     return (
-      <div className="text-center mb-2">
+      <div className="text-center mb-2 border border-black rounded-md py-1">
         <h2 className="text-xl font-bold text-red-700">
           {text}
         </h2>
@@ -114,7 +114,7 @@ export default function LabelPreview({
     <div
       className="prescription-sheet font-headline bg-white text-black flex flex-col"
     >
-      <div className="flex-grow">
+      <div className="flex-grow flex flex-col">
         {getSequentialText()}
         
         <div className="flex justify-between text-xs mb-3 font-medium">
@@ -122,7 +122,7 @@ export default function LabelPreview({
             <span className="whitespace-nowrap">তারিখ: <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
         </div>
         <div className="text-left text-sm font-medium mb-3">
-            রোগীর নাম: <strong className="text-indigo-700 font-extrabold">{patientName}</strong>
+            রোগীর নাম: <strong className="text-indigo-700 font-extrabold">{patientName || ''}</strong>
         </div>
 
         <div className="text-center mb-2"> 
@@ -140,8 +140,8 @@ export default function LabelPreview({
         </div>
       </div>
 
-      <div className="text-center mt-4 pt-2">
-          <h1 className="text-lg font-bold mb-1">ত্রিফুল আরোগ্য নিকেতন</h1>
+      <div className="text-center mt-auto pt-4">
+          <h1 className="text-lg font-bold mb-1 underline">ত্রিফুল আরোগ্য নিকেতন</h1>
           <div className="text-xs font-medium">
               <p className="text-base font-bold">ডা: নীহার রঞ্জন রায়</p>
               <p>আদর্শ হোমিওপ্যাথিক চিকিৎসক</p>
