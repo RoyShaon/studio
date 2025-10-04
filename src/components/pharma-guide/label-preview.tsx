@@ -29,6 +29,7 @@ export default function LabelPreview({
     .split("\n")
     .filter((line) => line.trim() !== "")
     .map(line => {
+        // Convert the entire line to Bangla, assuming line might contain numbers
         const bnLine = convertToBanglaNumerals(line);
         return `<li>${bnLine}</li>`;
     }).join('');
@@ -48,24 +49,28 @@ export default function LabelPreview({
     
     const bnIndex = convertToBanglaNumerals(activeLabelIndex);
     const ordinal = labelCount > 1 ? `${bnIndex}${getOrdinalSuffix(activeLabelIndex)}` : "";
-    const mixtureText = labelCount > 1 ? `${ordinal} মিশ্রণ থেকে` : 'মিশ্রণ থেকে';
-    const mixtureStyleWrapper = (value: string) => `<span class="text-red-700 font-extrabold">${value}</span>`;
+    const ordinalHighlight = `<span class="text-red-700 font-extrabold">${ordinal}</span>`;
+
+    let mixturePart = "";
+    if (labelCount > 1) {
+        mixturePart = ` ${ordinalHighlight} মিশ্রণ থেকে`;
+    }
 
     let instruction;
     if (shakeMode === "with") {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${mixtureText} ${bnMixtureAmount} করে সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর${mixturePart} ${bnMixtureAmount} করে সেবন করুন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${mixtureText} ${bnMixtureAmount} করে সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর${mixturePart} ${bnMixtureAmount} করে সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
     const styleWrapper = (value: string) => `<span class="text-red-700 font-extrabold">${value}</span>`;
 
-    if (processedInstruction.includes(`${bnShakeCount} বার ঝাঁকি দিয়ে`)) {
-      processedInstruction = processedInstruction.replace(
-        new RegExp(`${bnShakeCount} বার ঝাঁকি দিয়ে`, 'g'),
-        `${styleWrapper(bnShakeCount)} বার ঝাঁকি দিয়ে`
-      );
+    if (shakeMode === "with") {
+        processedInstruction = processedInstruction.replace(
+            new RegExp(bnShakeCount, 'g'),
+            styleWrapper(bnShakeCount)
+        );
     }
     processedInstruction = processedInstruction.replace(
       new RegExp(`${bnDrops} ফোঁটা ঔষধ`, 'g'),
@@ -75,16 +80,17 @@ export default function LabelPreview({
       new RegExp(`${bnInterval} ঘন্টা পর পর`, 'g'),
       `${styleWrapper(bnInterval)} ঘন্টা পর পর`
     );
-     if (labelCount > 1) {
-         processedInstruction = processedInstruction.replace(
-            new RegExp(mixtureText, 'g'),
-            mixtureStyleWrapper(mixtureText)
-        );
-     }
      processedInstruction = processedInstruction.replace(
       new RegExp(`${bnMixtureAmount} করে সেবন করুন`, 'g'),
       `${styleWrapper(bnMixtureAmount)} করে সেবন করুন`
     );
+
+    // Re-apply the ordinal highlight as the general conversion might have removed the span
+    if (labelCount > 1) {
+        const plainOrdinalText = `${ordinal} মিশ্রণ থেকে`;
+        const highlightedOrdinalText = `${ordinalHighlight} মিশ্রণ থেকে`;
+        processedInstruction = processedInstruction.replace(plainOrdinalText, highlightedOrdinalText);
+    }
     
     return (
       <div 

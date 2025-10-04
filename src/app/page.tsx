@@ -103,41 +103,42 @@ export default function Home() {
 
 
   useEffect(() => {
-    const updateInstructionText = () => {
-      const { drops, interval, shakeCount, shakeMode, mixtureAmount, labelCount } = labelState;
-      const bnDrops = convertToBanglaNumerals(drops);
-      const bnInterval = convertToBanglaNumerals(interval);
-      const bnShakeCount = convertToBanglaNumerals(shakeCount);
-      const bnMixtureAmount = convertToBanglaNumerals(mixtureAmount);
-      
-      const getOrdinalSuffix = (num: number) => {
+    // This effect will only set a base instruction text.
+    // The final, index-specific text is generated inside the LabelPreview component.
+    const { drops, interval, shakeCount, shakeMode, mixtureAmount, labelCount } = labelState;
+    const bnDrops = convertToBanglaNumerals(drops);
+    const bnInterval = convertToBanglaNumerals(interval);
+    const bnShakeCount = convertToBanglaNumerals(shakeCount);
+    const bnMixtureAmount = mixtureAmount;
+    
+    const getOrdinalSuffix = (num: number) => {
         if (num === 1) return 'ম';
         if (num === 2) return 'য়';
         if (num === 3) return 'য়';
         return 'ম';
-      };
-      
-      const generateInstruction = (index: number) => {
-        const bnIndex = convertToBanglaNumerals(index);
-        const ordinal = labelCount > 1 ? `${bnIndex}${getOrdinalSuffix(index)}` : "";
-        const mixtureText = labelCount > 1 ? `${ordinal} মিশ্রণ থেকে` : 'মিশ্রণ থেকে';
-        
-        if (shakeMode === "with") {
-          return `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${mixtureText} ${bnMixtureAmount} করে সেবন করুন।`;
-        } else {
-          return `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${mixtureText} ${bnMixtureAmount} করে সেবন করুন।`;
-        }
-      };
-      
-      // We generate a base instruction text. The LabelPreview component will handle generating the specific text for each label index.
-      const baseInstruction = generateInstruction(1);
-
-      setLabelState((prevState) => ({
-        ...prevState,
-        instructionText: baseInstruction, // Set a base text, preview will specialize it
-      }));
     };
-    updateInstructionText();
+
+    const generateInstruction = (index: number) => {
+      const bnIndex = convertToBanglaNumerals(index);
+      const ordinal = labelCount > 1 ? `${bnIndex}${getOrdinalSuffix(index)}` : "";
+      
+      let instruction = "";
+      const mixturePart = labelCount > 1 ? ` ${ordinal} মিশ্রণ থেকে` : "";
+
+      if (shakeMode === "with") {
+        instruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর${mixturePart} ${bnMixtureAmount} করে সেবন করুন।`;
+      } else {
+        instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর${mixturePart} ${bnMixtureAmount} করে সেবন করুন।`;
+      }
+      return instruction;
+    };
+    
+    const baseInstruction = generateInstruction(1);
+
+    setLabelState((prevState) => ({
+      ...prevState,
+      instructionText: baseInstruction,
+    }));
   }, [
     labelState.drops,
     labelState.interval,
@@ -150,7 +151,10 @@ export default function Home() {
   useEffect(() => {
     const count = Number(labelState.labelCount);
     if (isNaN(count) || count < 1) {
-      setLabelState(prev => ({ ...prev, labelCount: 1 }));
+       // Do not reset to 1 if it's an intermediate empty state
+      if (String(labelState.labelCount) !== "") {
+        setLabelState(prev => ({ ...prev, labelCount: 1 }));
+      }
     }
     if (activeLabelIndex > count) {
       setActiveLabelIndex(count || 1);
@@ -178,7 +182,6 @@ export default function Home() {
     }
 
     try {
-      // 1. Find or Create Patient
       const patientsRef = collection(firestore, 'patients');
       const q = query(patientsRef, where('serialNumber', '==', labelState.serial.trim()), limit(1));
       const querySnapshot = await getDocs(q);
@@ -186,27 +189,24 @@ export default function Home() {
       let patientId: string;
 
       if (!querySnapshot.empty) {
-        // Patient exists, use existing ID
         patientId = querySnapshot.docs[0].id;
-        // Optionally update patient info if it has changed
         const patientRef = doc(firestore, 'patients', patientId);
         await setDoc(patientRef, { 
             name: labelState.patientName,
             serialNumber: labelState.serial.trim(),
         }, { merge: true });
       } else {
-        // Patient doesn't exist, create a new one
+        const newPatientRef = doc(collection(firestore, 'patients'));
         const patientData = {
+            id: newPatientRef.id,
             name: labelState.patientName,
             serialNumber: labelState.serial.trim(),
             dateOfBirth: labelState.date.toISOString(),
         };
-        const newPatientRef = doc(collection(firestore, 'patients'));
         await setDoc(newPatientRef, patientData);
         patientId = newPatientRef.id;
       }
-
-      // 2. Create Medication Label
+      
       const medicationLabelData = {
         patientId: patientId,
         drops: labelState.drops,
@@ -216,17 +216,14 @@ export default function Home() {
         counselingInstructions: labelState.counseling,
         dateCreated: new Date().toISOString(),
       };
-
       const medicationLabelsColRef = collection(firestore, "patients", patientId, "medicationLabels");
       await addDoc(medicationLabelsColRef, medicationLabelData);
 
     } catch (error) {
       console.error("Error saving data to Firestore:", error);
-      // Optionally show a toast notification to the user about the error
-      return; // Stop if there was an error saving
+      return; 
     }
 
-    // 3. Handle Printing
     const container = printContainerRef.current;
     if (!container) return;
 
