@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Printer, Loader2 } from "lucide-react";
-import { collection, query, where, getDocs, limit, doc, setDoc, addDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, limit, doc, setDoc } from "firebase/firestore";
 import { useFirebase, initiateAnonymousSignIn } from "@/firebase";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import LabelForm from "@/components/pharma-guide/label-form";
 import LabelPreview from "@/components/pharma-guide/label-preview";
 import { convertToBanglaNumerals } from "@/lib/utils";
+import { addDocumentNonBlocking, setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 
 export type LabelState = {
@@ -191,7 +192,7 @@ export default function Home() {
       if (!querySnapshot.empty) {
         patientId = querySnapshot.docs[0].id;
         const patientRef = doc(firestore, 'patients', patientId);
-        await setDoc(patientRef, { 
+        setDocumentNonBlocking(patientRef, { 
             name: labelState.patientName,
             serialNumber: labelState.serial.trim(),
         }, { merge: true });
@@ -203,7 +204,7 @@ export default function Home() {
             serialNumber: labelState.serial.trim(),
             dateOfBirth: labelState.date.toISOString(),
         };
-        await setDoc(newPatientRef, patientData);
+        setDocumentNonBlocking(newPatientRef, patientData, { merge: false });
         patientId = newPatientRef.id;
       }
       
@@ -217,11 +218,12 @@ export default function Home() {
         dateCreated: new Date().toISOString(),
       };
       const medicationLabelsColRef = collection(firestore, "patients", patientId, "medicationLabels");
-      await addDoc(medicationLabelsColRef, medicationLabelData);
+      addDocumentNonBlocking(medicationLabelsColRef, medicationLabelData);
 
     } catch (error) {
       console.error("Error saving data to Firestore:", error);
-      return; 
+      // Even if saving fails, we might still want to allow printing.
+      // Depending on requirements, you could return here to block printing on DB error.
     }
 
     const container = printContainerRef.current;

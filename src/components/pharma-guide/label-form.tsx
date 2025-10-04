@@ -29,11 +29,19 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const numValue = value === '' ? '' : parseInt(value, 10);
-     if (name === 'labelCount') {
-      // Ensure labelCount is always at least 1, even when the input is temporarily empty
-      setState(prevState => ({ ...prevState, [name]: isNaN(numValue as number) || (numValue as number) < 1 ? 1 : numValue }));
+    
+    // For labelCount, if the input is cleared, don't immediately set it to 1.
+    // Let it be an empty string temporarily. It will default to 1 on blur/re-render if invalid.
+    if (name === 'labelCount') {
+      if (value === '') {
+        setState(prevState => ({ ...prevState, [name]: '' }));
+      } else {
+        const parsed = parseInt(value, 10);
+        setState(prevState => ({ ...prevState, [name]: isNaN(parsed) || parsed < 1 ? 1 : parsed }));
+      }
     } else {
-      setState(prevState => ({ ...prevState, [name]: isNaN(numValue as number) ? 0 : numValue }));
+       const parsed = parseInt(value, 10);
+       setState(prevState => ({ ...prevState, [name]: isNaN(parsed) ? 0 : parsed }));
     }
   };
   
@@ -60,7 +68,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
               </Label>
             </div>
             <div className="flex items-center">
-              <RadioGroupItem value="without" id="without-shake" className="peer sr_only" />
+              <RadioGroupItem value="without" id="without-shake" className="peer sr-only" />
               <Label 
                 htmlFor="without-shake"
                 className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 border-2 border-transparent hover:border-indigo-600 font-semibold transition duration-150 cursor-pointer peer-data-[state=checked]:bg-indigo-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-indigo-600"
