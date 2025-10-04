@@ -114,7 +114,7 @@ export default function LabelPreview({
     <div
       className="prescription-sheet font-headline bg-white text-black flex flex-col"
     >
-      <div className="flex-grow flex flex-col">
+      <div className="flex-grow">
         {getSequentialText()}
         
         <div className="flex justify-between text-xs mb-3 font-medium">
