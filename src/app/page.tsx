@@ -108,8 +108,8 @@ export default function Home() {
   useEffect(() => {
     const { followUpDays } = labelState;
     const counselingParts = [
-      "• ঔষধ সেবনকালীন পেস্ট সহ যাবতীয় দেশী ও বিদেশী ঔষধ ব্যবহার নিষিদ্ধ।",
-      "• ঔষধ সেবনের আধাঘন্টা আগে ও পরে কোন প্রকার খাবার ও পানীয় গ্রহণ করবেন না (সাধারণ জল ব্যতীত)।",
+      "• চিকিৎসাকালীন অন্য কোনো ওষুধ বা পেস্ট ব্যবহার করবেন না।",
+      "• ওষুধের ৩০ মিনিট আগে ও পরে কিছু খাবেন বা পান করবেন না (পানি ছাড়া)।",
       `• ${convertToBanglaNumerals(followUpDays)} দিন পরে আবার সাক্ষাৎ করবেন।`
     ];
     setLabelState(prevState => ({

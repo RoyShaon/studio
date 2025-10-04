@@ -136,10 +136,10 @@ export default function LabelPreview({
 
         {renderInstruction()}
 
-        <div className="mt-3"> 
+        <div className="mt-3 text-center"> 
             <h3 className="text-base font-bold text-red-700 mb-0.5">পরামর্শ:</h3> 
             <ul 
-              className="advice-list text-gray-800 text-xs pl-3 list-none"
+              className="advice-list text-gray-800 text-xs pl-0 list-none"
               dangerouslySetInnerHTML={{ __html: counselingPoints }}
             >
             </ul>
