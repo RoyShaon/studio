@@ -118,28 +118,28 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
       </div>
       
       <div className="space-y-4">
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            <div>
-              <Label htmlFor="drops">কত ফোঁটা ঔষধ?</Label>
-              <Input id="drops" name="drops" type="number" value={state.drops} onChange={handleNumberChange} min="1" />
-            </div>
-            <div>
-              <Label htmlFor="interval">কত ঘন্টা পর পর?</Label>
-              <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
-            </div>
-             {state.shakeMode === 'with' && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {state.shakeMode === 'with' && (
               <div>
                 <Label htmlFor="shakeCount">ঝাঁকি</Label>
                 <Input id="shakeCount" name="shakeCount" type="number" value={state.shakeCount} onChange={handleNumberChange} min="1" />
               </div>
             )}
-             <div>
-                <Label htmlFor="mixtureAmount">মিশ্রণ</Label>
-                <Input id="mixtureAmount" name="mixtureAmount" type="text" value={state.mixtureAmount} onChange={handleInputChange} />
+            <div>
+              <Label htmlFor="drops">কত ফোঁটা?</Label>
+              <Input id="drops" name="drops" type="number" value={state.drops} onChange={handleNumberChange} min="1" />
+            </div>
+            <div>
+              <Label htmlFor="interval">কত ঘন্টা পর?</Label>
+              <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
             </div>
             <div>
                 <Label htmlFor="mixtureNumber">কত নং মিশ্রণ?</Label>
                 <Input id="mixtureNumber" name="mixtureNumber" type="text" value={state.mixtureNumber} onChange={handleInputChange} />
+            </div>
+             <div>
+                <Label htmlFor="mixtureAmount">মিশ্রণ</Label>
+                <Input id="mixtureAmount" name="mixtureAmount" type="text" value={state.mixtureAmount} onChange={handleInputChange} />
             </div>
              <div>
                 <Label htmlFor="durationDays">কত দিন?</Label>
