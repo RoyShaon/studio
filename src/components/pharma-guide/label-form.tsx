@@ -101,7 +101,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
        <div className="mb-6">
           <RadioGroup
             value={state.shakeMode}
-            onValueChange={(value: "with" | "without") => setState(prev => ({...prev, shakeMode: value}))}
+            onValuechainge={(value: "with" | "without") => setState(prev => ({...prev, shakeMode: value}))}
             className="flex flex-wrap gap-4"
           >
             <div className="flex items-center">
@@ -160,7 +160,20 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
           </div>
           <div>
               <Label htmlFor="mixtureAmount">মিশ্রণ</Label>
-              <Input id="mixtureAmount" name="mixtureAmount" type="text" value={state.mixtureAmount} onChange={handleInputChange} />
+              <Select
+                name="mixtureAmount"
+                value={state.mixtureAmount}
+                onValueChange={(value) => setState(prev => ({...prev, mixtureAmount: value}))}
+                >
+                <SelectTrigger>
+                    <SelectValue placeholder="Select..."/>
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="এক চামচ">এক চামচ</SelectItem>
+                    <SelectItem value="দুই চামচ">দুই চামচ</SelectItem>
+                    <SelectItem value="তিন চামচ">তিন চামচ</SelectItem>
+                </SelectContent>
+              </Select>
           </div>
           <div>
               <Label htmlFor="durationDays">কত দিন?</Label>
@@ -171,7 +184,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
               <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
           </div>
            <div>
-              <Label htmlFor="labelCount">কতগুলো লেবেল?</Label>
+              <Label htmlFor="labelCount">লেবেল</Label>
               <Input 
                   id="labelCount"
                   name="labelCount"
@@ -220,4 +233,3 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     </div>
   );
 }
-
