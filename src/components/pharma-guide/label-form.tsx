@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { cn, convertToBanglaNumerals } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -101,7 +101,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
        <div className="mb-6">
           <RadioGroup
             value={state.shakeMode}
-            onValuechainge={(value: "with" | "without") => setState(prev => ({...prev, shakeMode: value}))}
+            onValueChange={(value: "with" | "without") => setState(prev => ({...prev, shakeMode: value}))}
             className="flex flex-wrap gap-4"
           >
             <div className="flex items-center">
@@ -126,22 +126,24 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
       </div>
       
       <div className="space-y-4">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {state.shakeMode === 'with' && (
+        {state.shakeMode === 'with' && (
             <div>
-              <Label htmlFor="shakeCount">ঝাঁকি</Label>
-              <Input id="shakeCount" name="shakeCount" type="number" value={state.shakeCount} onChange={handleNumberChange} min="1" />
+            <Label htmlFor="shakeCount">কত বার ঝাঁকি দিবেন?</Label>
+            <Input id="shakeCount" name="shakeCount" type="number" value={state.shakeCount} onChange={handleNumberChange} min="1" />
             </div>
-          )}
-          <div>
-            <Label htmlFor="drops">কত ফোঁটা?</Label>
+        )}
+
+        <div>
+            <Label htmlFor="drops">কত ফোঁটা করে খাবেন?</Label>
             <Input id="drops" name="drops" type="number" value={state.drops} onChange={handleNumberChange} min="1" />
-          </div>
-          <div>
-            <Label htmlFor="interval">কত ঘন্টা পর?</Label>
+        </div>
+
+        <div>
+            <Label htmlFor="interval">কত ঘন্টা পর পর খাবেন?</Label>
             <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
-          </div>
-          <div>
+        </div>
+
+        <div>
             <Label htmlFor="mixtureNumber">কত নং মিশ্রণ?</Label>
             <Select 
               name="mixtureNumber" 
@@ -157,10 +159,11 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                 <SelectItem value="৩য়">৩য়</SelectItem>
               </SelectContent>
             </Select>
-          </div>
-          <div>
-              <Label htmlFor="mixtureAmount">মিশ্রণ</Label>
-              <Select
+        </div>
+
+         <div>
+            <Label htmlFor="mixtureAmount">কিভাবে খাবেন?</Label>
+             <Select
                 name="mixtureAmount"
                 value={state.mixtureAmount}
                 onValueChange={(value) => setState(prev => ({...prev, mixtureAmount: value}))}
@@ -174,31 +177,33 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                     <SelectItem value="তিন চামচ">তিন চামচ</SelectItem>
                 </SelectContent>
               </Select>
-          </div>
-          <div>
-              <Label htmlFor="durationDays">কত দিন?</Label>
-              <Input id="durationDays" name="durationDays" type="number" value={state.durationDays} onChange={handleNumberChange} min="1" />
-          </div>
-          <div>
-              <Label htmlFor="followUpDays">সাক্ষাৎকার</Label>
-              <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
-          </div>
-           <div>
-              <Label htmlFor="labelCount">লেবেল</Label>
-              <Input 
-                  id="labelCount"
-                  name="labelCount"
-                  type="number"
-                  value={state.labelCount}
-                  onChange={handleLabelCountChange}
-                  onBlur={(e) => {
-                    if (e.target.value === '' || parseInt(e.target.value, 10) < 1) {
-                      setState(prev => ({...prev, labelCount: 1}));
-                    }
-                  }}
-                  min="1"
-              />
-            </div>
+        </div>
+
+        <div>
+            <Label htmlFor="durationDays">কত দিন খাবেন?</Label>
+            <Input id="durationDays" name="durationDays" type="number" value={state.durationDays} onChange={handleNumberChange} min="1" />
+        </div>
+
+        <div>
+            <Label htmlFor="followUpDays">কত দিন পর সাক্ষাৎ করবেন?</Label>
+            <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
+        </div>
+        
+        <div>
+            <Label htmlFor="labelCount">কতগুলো লেবেল?</Label>
+            <Input 
+                id="labelCount"
+                name="labelCount"
+                type="number"
+                value={state.labelCount}
+                onChange={handleLabelCountChange}
+                onBlur={(e) => {
+                  if (e.target.value === '' || parseInt(e.target.value, 10) < 1) {
+                    setState(prev => ({...prev, labelCount: 1}));
+                  }
+                }}
+                min="1"
+            />
         </div>
       </div>
 
@@ -218,7 +223,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
         </div>
         {getSanitizedLabelCount() > 1 && !state.showAllPreviews && (
             <div className="space-y-2">
-                <Label>কোন লেবেলটি প্রিভিউ করবেন? ({activeLabelIndex})</Label>
+                <Label>কোন লেবেলটি প্রিভিউ করবেন? ({convertToBanglaNumerals(activeLabelIndex)})</Label>
                 <Slider
                     value={[activeLabelIndex]}
                     onValueChange={(value) => setActiveLabelIndex(value[0])}
@@ -229,7 +234,6 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
             </div>
         )}
       </div>
-
     </div>
   );
 }
