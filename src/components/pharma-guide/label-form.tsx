@@ -28,20 +28,23 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const numValue = value === '' ? '' : parseInt(value, 10);
-    
-    // For labelCount, if the input is cleared, don't immediately set it to 1.
-    // Let it be an empty string temporarily. It will default to 1 on blur/re-render if invalid.
-    if (name === 'labelCount') {
-      if (value === '') {
-        setState(prevState => ({ ...prevState, [name]: '' }));
-      } else {
-        const parsed = parseInt(value, 10);
-        setState(prevState => ({ ...prevState, [name]: isNaN(parsed) || parsed < 1 ? 1 : parsed }));
-      }
+    if (value === '') {
+      setState(prevState => ({ ...prevState, [name]: '' }));
     } else {
-       const parsed = parseInt(value, 10);
-       setState(prevState => ({ ...prevState, [name]: isNaN(parsed) ? 0 : parsed }));
+      const numValue = parseInt(value, 10);
+      setState(prevState => ({ ...prevState, [name]: isNaN(numValue) ? 0 : numValue }));
+    }
+  };
+
+  const handleLabelCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (value === '' || value === '0') {
+      setState(prevState => ({...prevState, [name]: 1}));
+    } else {
+        const numValue = parseInt(value, 10);
+        if (!isNaN(numValue) && numValue > 0) {
+            setState(prevState => ({...prevState, [name]: numValue}));
+        }
     }
   };
   
@@ -52,72 +55,6 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
   return (
     <div className="space-y-6">
-       <div className="mb-6">
-          <RadioGroup
-            value={state.shakeMode}
-            onValueChange={(value: "with" | "without") => setState(prev => ({...prev, shakeMode: value}))}
-            className="flex flex-wrap gap-4"
-          >
-            <div className="flex items-center">
-              <RadioGroupItem value="with" id="with-shake" className="peer sr-only" />
-              <Label 
-                htmlFor="with-shake"
-                className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 border-2 border-transparent hover:border-indigo-600 font-semibold transition duration-150 cursor-pointer peer-data-[state=checked]:bg-indigo-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-indigo-600"
-              >
-                ঝাঁকি সহ
-              </Label>
-            </div>
-            <div className="flex items-center">
-              <RadioGroupItem value="without" id="without-shake" className="peer sr-only" />
-              <Label 
-                htmlFor="without-shake"
-                className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 border-2 border-transparent hover:border-indigo-600 font-semibold transition duration-150 cursor-pointer peer-data-[state=checked]:bg-indigo-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-indigo-600"
-              >
-                ঝাঁকি ছাড়া
-              </Label>
-            </div>
-          </RadioGroup>
-      </div>
-      
-      <div className="space-y-4">
-        <div className="flex items-center gap-4">
-            <div>
-              <Label htmlFor="labelCount">কতগুলো লেবেল?</Label>
-              <Input 
-                  id="labelCount"
-                  name="labelCount"
-                  type="number"
-                  value={state.labelCount}
-                  onChange={handleNumberChange}
-                  min="1"
-                  className="w-24"
-              />
-            </div>
-            {getSanitizedLabelCount() > 1 && (
-              <div className="flex items-center space-x-2 pt-6">
-                <Checkbox 
-                  id="showAllPreviews"
-                  checked={state.showAllPreviews}
-                  onCheckedChange={(checked) => setState(prev => ({ ...prev, showAllPreviews: !!checked }))}
-                />
-                <Label htmlFor="showAllPreviews">সকল প্রিভিউ দেখুন</Label>
-              </div>
-            )}
-        </div>
-        {getSanitizedLabelCount() > 1 && !state.showAllPreviews && (
-            <div className="space-y-2">
-                <Label>কোন লেবেলটি প্রিভিউ করবেন? ({activeLabelIndex})</Label>
-                <Slider
-                    value={[activeLabelIndex]}
-                    onValueChange={(value) => setActiveLabelIndex(value[0])}
-                    min={1}
-                    max={getSanitizedLabelCount()}
-                    step={1}
-                />
-            </div>
-        )}
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
             <Label htmlFor="serial">ক্রমিক নাম্বার</Label>
@@ -154,6 +91,33 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
           <Label htmlFor="patientName">রোগীর নাম</Label>
           <Input id="patientName" name="patientName" value={state.patientName} onChange={handleInputChange} />
       </div>
+
+       <div className="mb-6">
+          <RadioGroup
+            value={state.shakeMode}
+            onValueChange={(value: "with" | "without") => setState(prev => ({...prev, shakeMode: value}))}
+            className="flex flex-wrap gap-4"
+          >
+            <div className="flex items-center">
+              <RadioGroupItem value="with" id="with-shake" className="peer sr-only" />
+              <Label 
+                htmlFor="with-shake"
+                className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 border-2 border-transparent hover:border-indigo-600 font-semibold transition duration-150 cursor-pointer peer-data-[state=checked]:bg-indigo-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-indigo-600"
+              >
+                ঝাঁকি সহ
+              </Label>
+            </div>
+            <div className="flex items-center">
+              <RadioGroupItem value="without" id="without-shake" className="peer sr-only" />
+              <Label 
+                htmlFor="without-shake"
+                className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 border-2 border-transparent hover:border-indigo-600 font-semibold transition duration-150 cursor-pointer peer-data-[state=checked]:bg-indigo-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-indigo-600"
+              >
+                ঝাঁকি ছাড়া
+              </Label>
+            </div>
+          </RadioGroup>
+      </div>
       
       <div className="space-y-4">
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -181,6 +145,51 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
             </div>
         </div>
       </div>
+
+       <div className="space-y-4">
+        <div className="flex items-center gap-4">
+            <div>
+              <Label htmlFor="labelCount">কতগুলো লেবেল?</Label>
+              <Input 
+                  id="labelCount"
+                  name="labelCount"
+                  type="number"
+                  value={state.labelCount}
+                  onChange={handleLabelCountChange}
+                  onBlur={(e) => {
+                    if (e.target.value === '' || parseInt(e.target.value, 10) < 1) {
+                      setState(prev => ({...prev, labelCount: 1}));
+                    }
+                  }}
+                  min="1"
+                  className="w-24"
+              />
+            </div>
+            {getSanitizedLabelCount() > 1 && (
+              <div className="flex items-center space-x-2 pt-6">
+                <Checkbox 
+                  id="showAllPreviews"
+                  checked={state.showAllPreviews}
+                  onCheckedChange={(checked) => setState(prev => ({ ...prev, showAllPreviews: !!checked }))}
+                />
+                <Label htmlFor="showAllPreviews">সকল প্রিভিউ দেখুন</Label>
+              </div>
+            )}
+        </div>
+        {getSanitizedLabelCount() > 1 && !state.showAllPreviews && (
+            <div className="space-y-2">
+                <Label>কোন লেবেলটি প্রিভিউ করবেন? ({activeLabelIndex})</Label>
+                <Slider
+                    value={[activeLabelIndex]}
+                    onValueChange={(value) => setActiveLabelIndex(value[0])}
+                    min={1}
+                    max={getSanitizedLabelCount()}
+                    step={1}
+                />
+            </div>
+        )}
+      </div>
+
     </div>
   );
 }

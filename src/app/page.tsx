@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Printer, Loader2 } from "lucide-react";
-import { collection, query, where, getDocs, limit, doc, setDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, limit, doc } from "firebase/firestore";
 import { useFirebase, initiateAnonymousSignIn } from "@/firebase";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -104,66 +104,9 @@ export default function Home() {
 
 
   useEffect(() => {
-    // This effect will only set a base instruction text.
-    // The final, index-specific text is generated inside the LabelPreview component.
-    const { drops, interval, shakeCount, shakeMode, mixtureAmount, labelCount } = labelState;
-    const bnDrops = convertToBanglaNumerals(drops);
-    const bnInterval = convertToBanglaNumerals(interval);
-    const bnShakeCount = convertToBanglaNumerals(shakeCount);
-    const bnMixtureAmount = mixtureAmount;
-    
-    const getOrdinalSuffix = (num: number) => {
-        if (num === 1) return 'ম';
-        if (num === 2) return 'য়';
-        if (num === 3) return 'য়';
-        return 'ম';
-    };
-
-    const generateInstruction = (index: number) => {
-      const bnIndex = convertToBanglaNumerals(index);
-      const ordinal = labelCount > 1 ? `${bnIndex}${getOrdinalSuffix(index)}` : "";
-      
-      let instruction = "";
-      const mixturePart = labelCount > 1 ? ` ${ordinal} মিশ্রণ থেকে` : "";
-
-      if (shakeMode === "with") {
-        instruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর${mixturePart} ${bnMixtureAmount} করে সেবন করুন।`;
-      } else {
-        instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর${mixturePart} ${bnMixtureAmount} করে সেবন করুন।`;
-      }
-      return instruction;
-    };
-    
-    const baseInstruction = generateInstruction(1);
-
-    setLabelState((prevState) => ({
-      ...prevState,
-      instructionText: baseInstruction,
-    }));
-  }, [
-    labelState.drops,
-    labelState.interval,
-    labelState.shakeCount,
-    labelState.shakeMode,
-    labelState.mixtureAmount,
-    labelState.labelCount
-  ]);
-  
-  useEffect(() => {
-    const count = Number(labelState.labelCount);
-    if (isNaN(count) || count < 1) {
-       // Do not reset to 1 if it's an intermediate empty state
-      if (String(labelState.labelCount) !== "") {
-        setLabelState(prev => ({ ...prev, labelCount: 1 }));
-      }
-    }
-    if (activeLabelIndex > count) {
-      setActiveLabelIndex(count || 1);
-    }
-  }, [labelState.labelCount, activeLabelIndex]);
-
-
-  useEffect(() => {
+    // This effect is now just for generating the base counseling text.
+    // The main instruction text is now fully generated within the LabelPreview component
+    // to ensure the correct ordinal number is used for each label.
     const { followUpDays } = labelState;
     const counselingParts = [
       "• ঔষধ সেবনকালীন পেস্ট সহ যাবতীয় দেশী ও বিদেশী ঔষধ ব্যবহার নিষিদ্ধ।",
@@ -175,6 +118,18 @@ export default function Home() {
       counseling: counselingParts.join('\n')
     }));
   }, [labelState.followUpDays]);
+  
+  useEffect(() => {
+    const count = Number(labelState.labelCount);
+    if (isNaN(count) || count < 1) {
+      if (String(labelState.labelCount) !== "") {
+        setLabelState(prev => ({ ...prev, labelCount: 1 }));
+      }
+    }
+    if (activeLabelIndex > count) {
+      setActiveLabelIndex(count || 1);
+    }
+  }, [labelState.labelCount, activeLabelIndex]);
 
   const handlePrint = async () => {
     if (!firestore || !user) {
@@ -222,8 +177,6 @@ export default function Home() {
 
     } catch (error) {
       console.error("Error saving data to Firestore:", error);
-      // Even if saving fails, we might still want to allow printing.
-      // Depending on requirements, you could return here to block printing on DB error.
     }
 
     const container = printContainerRef.current;
