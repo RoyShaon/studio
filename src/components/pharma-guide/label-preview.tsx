@@ -31,7 +31,6 @@ export default function LabelPreview({
     .split("\n")
     .filter((line) => line.trim() !== "")
     .map(line => {
-        // Convert the entire line to Bangla, assuming line might contain numbers
         const bnLine = convertToBanglaNumerals(line);
         return `<li>${bnLine}</li>`;
     }).join('');
@@ -79,7 +78,6 @@ export default function LabelPreview({
       styleWrapper(bnDurationDays)
     );
 
-    // Re-apply the ordinal highlight as the general conversion might have removed the span
     const plainOrdinalText = new RegExp(bnMixtureNumber, 'g');
     processedInstruction = processedInstruction.replace(plainOrdinalText, ordinalHighlight);
     
