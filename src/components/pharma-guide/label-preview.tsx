@@ -1,3 +1,4 @@
+
 import { format } from "date-fns";
 import { convertToBanglaNumerals } from "@/lib/utils";
 import type { LabelState } from "@/app/page";
@@ -16,6 +17,7 @@ export default function LabelPreview({
   drops,
   interval,
   shakeCount,
+  mixtureAmount,
   labelCount,
   activeLabelIndex
 }: LabelPreviewProps) {
@@ -38,6 +40,7 @@ export default function LabelPreview({
     const bnDrops = convertToBanglaNumerals(drops);
     const bnInterval = convertToBanglaNumerals(interval);
     const bnShakeCount = convertToBanglaNumerals(shakeCount);
+    const bnMixtureAmount = convertToBanglaNumerals(mixtureAmount);
     
     if (processedInstruction.includes(`${bnShakeCount} বার ঝাঁকি দিয়ে`)) {
       processedInstruction = processedInstruction.replace(
@@ -52,6 +55,10 @@ export default function LabelPreview({
     processedInstruction = processedInstruction.replace(
       new RegExp(`${bnInterval} ঘন্টা পর পর`, 'g'),
       `${styleWrapper(bnInterval)} ঘন্টা পর পর`
+    );
+     processedInstruction = processedInstruction.replace(
+      new RegExp(`মিশ্রণ থেকে ${bnMixtureAmount} করে সেবন করুন`, 'g'),
+      `মিশ্রণ থেকে ${styleWrapper(bnMixtureAmount)} করে সেবন করুন`
     );
     
     return (

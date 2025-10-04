@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -20,6 +21,7 @@ export type LabelState = {
   drops: number;
   shakeCount: number;
   interval: number;
+  mixtureAmount: string;
   counseling: string;
   instructionText: string;
   labelCount: number;
@@ -38,6 +40,7 @@ export default function Home() {
     drops: 5,
     shakeCount: 5,
     interval: 8,
+    mixtureAmount: "এক চামচ",
     counseling: "",
     instructionText: "",
     labelCount: 1,
@@ -101,16 +104,16 @@ export default function Home() {
 
   useEffect(() => {
     const updateInstructionText = () => {
-      const { drops, interval, shakeCount, shakeMode } = labelState;
+      const { drops, interval, shakeCount, shakeMode, mixtureAmount } = labelState;
       const bnDrops = convertToBanglaNumerals(drops);
       const bnInterval = convertToBanglaNumerals(interval);
       const bnShakeCount = convertToBanglaNumerals(shakeCount);
 
       let defaultInstruction = "";
       if (shakeMode === "with") {
-        defaultInstruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর মিশ্রণ থেকে এক চামচ করে সেবন করুন।`;
+        defaultInstruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর মিশ্রণ থেকে ${mixtureAmount} করে সেবন করুন।`;
       } else {
-        defaultInstruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর মিশ্রণ থেকে এক চামচ করে সেবন করুন।`;
+        defaultInstruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর মিশ্রণ থেকে ${mixtureAmount} করে সেবন করুন।`;
       }
       setLabelState((prevState) => ({
         ...prevState,
@@ -123,6 +126,7 @@ export default function Home() {
     labelState.interval,
     labelState.shakeCount,
     labelState.shakeMode,
+    labelState.mixtureAmount,
   ]);
   
   useEffect(() => {
@@ -168,13 +172,13 @@ export default function Home() {
         patientId = querySnapshot.docs[0].id;
       } else {
         // Patient doesn't exist, create a new one
-        const newPatientRef = doc(patientsRef); // Create a new doc with a random ID
         const patientData = {
-          name: labelState.patientName,
-          serialNumber: labelState.serial.trim(),
-          dateOfBirth: labelState.date.toISOString(),
+            name: labelState.patientName,
+            serialNumber: labelState.serial.trim(),
+            dateOfBirth: labelState.date.toISOString(),
         };
-        await setDoc(newPatientRef, patientData); // Save the new patient data
+        const newPatientRef = doc(collection(firestore, 'patients'));
+        await setDoc(newPatientRef, patientData);
         patientId = newPatientRef.id;
       }
 

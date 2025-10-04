@@ -1,3 +1,4 @@
+
 import type { Dispatch, SetStateAction } from "react";
 import type { LabelState } from "@/app/page";
 import { Label } from "@/components/ui/label";
@@ -27,24 +28,12 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    // For number fields, if the value is empty string, treat it as 0 temporarily.
-    // The final state update will handle validation (e.g., minimum 1 for labelCount).
     const numValue = value === '' ? '' : parseInt(value, 10);
-    setState((prevState) => ({ ...prevState, [name]: isNaN(numValue as number) ? '' : numValue }));
-  };
-  
-  const handleLabelCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const numValue = parseInt(value, 10);
-
-    if (value === '' || isNaN(numValue)) {
-      setState(prev => ({ ...prev, labelCount: 1 }));
+     if (name === 'labelCount') {
+      // Ensure labelCount is always at least 1, even when the input is temporarily empty
+      setState(prevState => ({ ...prevState, [name]: isNaN(numValue as number) || (numValue as number) < 1 ? 1 : numValue }));
     } else {
-       if (numValue >= 1) {
-        setState(prev => ({ ...prev, labelCount: numValue }));
-      } else {
-        setState(prev => ({ ...prev, labelCount: 1 }));
-      }
+      setState(prevState => ({ ...prevState, [name]: isNaN(numValue as number) ? 0 : numValue }));
     }
   };
   
@@ -71,7 +60,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
               </Label>
             </div>
             <div className="flex items-center">
-              <RadioGroupItem value="without" id="without-shake" className="peer sr-only" />
+              <RadioGroupItem value="without" id="without-shake" className="peer sr_only" />
               <Label 
                 htmlFor="without-shake"
                 className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 border-2 border-transparent hover:border-indigo-600 font-semibold transition duration-150 cursor-pointer peer-data-[state=checked]:bg-indigo-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-indigo-600"
@@ -91,8 +80,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                   name="labelCount"
                   type="number"
                   value={state.labelCount}
-                  onChange={e => setState(prev => ({...prev, labelCount: parseInt(e.target.value, 10) || 1}))}
-                  onBlur={handleLabelCountChange}
+                  onChange={handleNumberChange}
                   min="1"
                   className="w-24"
               />
@@ -163,21 +151,25 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <div>
               <Label htmlFor="drops">কত ফোঁটা ঔষধ?</Label>
-              <Input id="drops" name="drops" type="number" value={state.drops} onChange={e => setState(prev => ({ ...prev, drops: parseInt(e.target.value, 10) || 0 }))} min="1" />
+              <Input id="drops" name="drops" type="number" value={state.drops} onChange={handleNumberChange} min="1" />
             </div>
             <div>
               <Label htmlFor="interval">কত ঘন্টা পর পর?</Label>
-              <Input id="interval" name="interval" type="number" value={state.interval} onChange={e => setState(prev => ({ ...prev, interval: parseInt(e.target.value, 10) || 0 }))} min="1" />
+              <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
             </div>
              {state.shakeMode === 'with' && (
               <div>
                 <Label htmlFor="shakeCount">ঝাঁকি</Label>
-                <Input id="shakeCount" name="shakeCount" type="number" value={state.shakeCount} onChange={e => setState(prev => ({ ...prev, shakeCount: parseInt(e.target.value, 10) || 0 }))} min="1" />
+                <Input id="shakeCount" name="shakeCount" type="number" value={state.shakeCount} onChange={handleNumberChange} min="1" />
               </div>
             )}
+             <div>
+                <Label htmlFor="mixtureAmount">মিশ্রণের পরিমাণ</Label>
+                <Input id="mixtureAmount" name="mixtureAmount" type="text" value={state.mixtureAmount} onChange={handleInputChange} />
+            </div>
             <div>
                 <Label htmlFor="followUpDays">পরবর্তী সাক্ষাৎকার</Label>
-                <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={e => setState(prev => ({ ...prev, followUpDays: parseInt(e.target.value, 10) || 0 }))} min="1" />
+                <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
             </div>
         </div>
       </div>
