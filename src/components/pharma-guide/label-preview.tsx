@@ -80,10 +80,6 @@ export default function LabelPreview({
       new RegExp(`${bnInterval} ঘন্টা পর পর`, 'g'),
       `${styleWrapper(bnInterval)} ঘন্টা পর পর`
     );
-     processedInstruction = processedInstruction.replace(
-      new RegExp(`${bnMixtureAmount} করে সেবন করুন`, 'g'),
-      `${styleWrapper(bnMixtureAmount)} করে সেবন করুন`
-    );
 
     // Re-apply the ordinal highlight as the general conversion might have removed the span
     if (labelCount > 1) {

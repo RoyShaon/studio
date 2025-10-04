@@ -38,13 +38,11 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
   const handleLabelCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (value === '' || value === '0') {
-      setState(prevState => ({...prevState, [name]: 1}));
+    const numValue = parseInt(value, 10);
+    if (!isNaN(numValue) && numValue > 0) {
+      setState(prevState => ({ ...prevState, [name]: numValue }));
     } else {
-        const numValue = parseInt(value, 10);
-        if (!isNaN(numValue) && numValue > 0) {
-            setState(prevState => ({...prevState, [name]: numValue}));
-        }
+      setState(prevState => ({ ...prevState, [name]: '' }));
     }
   };
   
@@ -136,7 +134,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
               </div>
             )}
              <div>
-                <Label htmlFor="mixtureAmount">মিশ্রণের পরিমাণ</Label>
+                <Label htmlFor="mixtureAmount">মিশ্রণ</Label>
                 <Input id="mixtureAmount" name="mixtureAmount" type="text" value={state.mixtureAmount} onChange={handleInputChange} />
             </div>
             <div>
