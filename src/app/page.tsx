@@ -62,7 +62,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!isUserLoading && !user) {
+    if (!isUserLoading && !user && auth) {
       initiateAnonymousSignIn(auth);
     }
   }, [isUserLoading, user, auth]);
@@ -83,35 +83,36 @@ export default function Home() {
         }
       }
     } catch (error) {
+      // Non-critical read error, logging to console is acceptable here.
       console.error("Error fetching patient by serial:", error);
     }
   }, [firestore]);
 
 
   useEffect(() => {
-    if (debounceTimeoutRef.current) {
-      clearTimeout(debounceTimeoutRef.current);
+    if (labelState.serial.trim() !== 'F/' && labelState.serial.trim() !== '') {
+        if (debounceTimeoutRef.current) {
+            clearTimeout(debounceTimeoutRef.current);
+        }
+        debounceTimeoutRef.current = setTimeout(() => {
+            findPatientBySerial(labelState.serial);
+        }, 500); // 500ms debounce delay
     }
-    
-    debounceTimeoutRef.current = setTimeout(() => {
-      findPatientBySerial(labelState.serial);
-    }, 500); // 500ms debounce delay
 
     return () => {
-      if (debounceTimeoutRef.current) {
-        clearTimeout(debounceTimeoutRef.current);
-      }
+        if (debounceTimeoutRef.current) {
+            clearTimeout(debounceTimeoutRef.current);
+        }
     };
   }, [labelState.serial, findPatientBySerial]);
 
 
   useEffect(() => {
-    const { followUpDays } = labelState;
     const counselingParts = [
       "• চিকিৎসাকালীন অন্য কোনো ওষুধ বা পেস্ট ব্যবহার করবেন না।",
       "• ওষুধের ৩০ মিনিট আগে ও পরে কিছু খাবেন বা পান করবেন না (পানি ছাড়া)।",
       `• জরুরী প্রয়োজনে কল করুন (সকাল ৭ টা থেকে রাত ৮ টা)।`,
-      `• ${convertToBanglaNumerals(followUpDays)} দিন পরে আবার সাক্ষাৎ করবেন।`
+      `• ${convertToBanglaNumerals(labelState.followUpDays)} দিন পরে আবার সাক্ষাৎ করবেন।`
     ];
     setLabelState(prevState => ({
       ...prevState,
@@ -121,22 +122,22 @@ export default function Home() {
   
   useEffect(() => {
     const count = Number(labelState.labelCount);
-    if (isNaN(count) || count < 1) {
-      if (String(labelState.labelCount) !== "") {
-        setLabelState(prev => ({ ...prev, labelCount: 1 }));
-      }
-    }
-    if (activeLabelIndex > count) {
-      setActiveLabelIndex(count || 1);
+    const currentCount = isNaN(count) || count < 1 ? 1 : count;
+    
+    if (activeLabelIndex > currentCount) {
+      setActiveLabelIndex(currentCount);
     }
   }, [labelState.labelCount, activeLabelIndex]);
 
   const handlePrint = async () => {
     if (!firestore || !user) {
       console.error("Firestore not initialized or user not logged in.");
+      // Optionally, show a toast to the user.
       return;
     }
 
+    // This part handles the logic of finding an existing patient or creating a new one.
+    // The actual database writes are non-blocking.
     try {
       const patientsRef = collection(firestore, 'patients');
       const q = query(patientsRef, where('serialNumber', '==', labelState.serial.trim()), limit(1));
@@ -147,20 +148,22 @@ export default function Home() {
       if (!querySnapshot.empty) {
         patientId = querySnapshot.docs[0].id;
         const patientRef = doc(firestore, 'patients', patientId);
+        // Non-blocking update
         setDocumentNonBlocking(patientRef, { 
             name: labelState.patientName,
             serialNumber: labelState.serial.trim(),
         }, { merge: true });
       } else {
         const newPatientRef = doc(collection(firestore, 'patients'));
+        patientId = newPatientRef.id;
         const patientData = {
-            id: newPatientRef.id,
+            id: patientId,
             name: labelState.patientName,
             serialNumber: labelState.serial.trim(),
             dateOfBirth: labelState.date.toISOString(),
         };
+        // Non-blocking write
         setDocumentNonBlocking(newPatientRef, patientData, { merge: false });
-        patientId = newPatientRef.id;
       }
       
       const medicationLabelData = {
@@ -173,12 +176,17 @@ export default function Home() {
         dateCreated: new Date().toISOString(),
       };
       const medicationLabelsColRef = collection(firestore, "patients", patientId, "medicationLabels");
+      // Non-blocking add
       addDocumentNonBlocking(medicationLabelsColRef, medicationLabelData);
 
     } catch (error) {
-      console.error("Error saving data to Firestore:", error);
+       // This catch block will mostly handle errors from getDocs, as writes are non-blocking.
+      console.error("Error preparing data for Firestore:", error);
+       // We don't use the errorEmitter here unless we are sure it's a permission error,
+       // which is handled inside the non-blocking functions.
     }
 
+    // Proceed with printing immediately.
     const container = printContainerRef.current;
     if (!container) return;
 
@@ -262,7 +270,7 @@ export default function Home() {
             <div className="text-center mb-4">
               <h2 className="text-2xl font-semibold text-gray-800">ফর্মের প্রিভিউ</h2>
               <p className="text-sm text-gray-500">
-                নিচের ফরম্যাটটি প্রিন্ট লেবেলের মতো দেখাবে (3.75" x 5.5")। 
+                নিচের ফরম্যাটটি প্রিন্ট লেবেলের মতো দেখাবে ({convertToBanglaNumerals('3.6')}” x {convertToBanglaNumerals('5.6')}”)। 
                 {!labelState.showAllPreviews && labelState.labelCount > 1 && ` মোট ${convertToBanglaNumerals(labelState.labelCount)}টি লেবেলের মধ্যে ${convertToBanglaNumerals(activeLabelIndex)} নং লেবেল দেখানো হচ্ছে।`}
               </p>
             </div>
@@ -282,3 +290,5 @@ export default function Home() {
     </main>
   );
 }
+
+    
