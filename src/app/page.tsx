@@ -23,6 +23,8 @@ export type LabelState = {
   shakeCount: number;
   interval: number;
   mixtureAmount: string;
+  mixtureNumber: string;
+  durationDays: number;
   counseling: string;
   labelCount: number;
   followUpDays: number;
@@ -41,6 +43,8 @@ export default function Home() {
     shakeCount: 5,
     interval: 8,
     mixtureAmount: "এক চামচ",
+    mixtureNumber: "১ম",
+    durationDays: 7,
     counseling: "",
     labelCount: 1,
     followUpDays: 7,

@@ -17,6 +17,8 @@ export default function LabelPreview({
   interval,
   shakeCount,
   mixtureAmount,
+  mixtureNumber,
+  durationDays,
   counseling,
   labelCount,
   activeLabelIndex
@@ -46,21 +48,16 @@ export default function LabelPreview({
     const bnInterval = convertToBanglaNumerals(interval);
     const bnShakeCount = shakeMode === 'with' ? convertToBanglaNumerals(shakeCount) : '';
     const bnMixtureAmount = convertToBanglaNumerals(mixtureAmount);
+    const bnMixtureNumber = convertToBanglaNumerals(mixtureNumber);
+    const bnDurationDays = convertToBanglaNumerals(durationDays);
     
-    const bnIndex = convertToBanglaNumerals(activeLabelIndex);
-    const ordinal = labelCount > 1 ? `${bnIndex}${getOrdinalSuffix(activeLabelIndex)}` : "";
-    const ordinalHighlight = `<span class="text-red-700 font-extrabold">${ordinal}</span>`;
-
-    let mixturePart = "";
-    if (labelCount > 1) {
-        mixturePart = ` ${ordinalHighlight} মিশ্রণ থেকে`;
-    }
+    const ordinalHighlight = `<span class="text-red-700 font-extrabold">${bnMixtureNumber}</span>`;
 
     let instruction;
     if (shakeMode === "with") {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর${mixturePart} ${bnMixtureAmount} করে সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে শিশিটিকে হাতের তালুর উপরে সজোরে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${ordinalHighlight} মিশ্রণ থেকে ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করুন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর${mixturePart} ${bnMixtureAmount} করে সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ জলে ভালোভাবে মিশিয়ে ${bnInterval} ঘন্টা পর পর ${ordinalHighlight} মিশ্রণ থেকে ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -82,11 +79,9 @@ export default function LabelPreview({
     );
 
     // Re-apply the ordinal highlight as the general conversion might have removed the span
-    if (labelCount > 1) {
-        const plainOrdinalText = `${ordinal} মিশ্রণ থেকে`;
-        const highlightedOrdinalText = `${ordinalHighlight} মিশ্রণ থেকে`;
-        processedInstruction = processedInstruction.replace(plainOrdinalText, highlightedOrdinalText);
-    }
+    const plainOrdinalText = `${bnMixtureNumber} মিশ্রণ থেকে`;
+    const highlightedOrdinalText = `${ordinalHighlight} মিশ্রণ থেকে`;
+    processedInstruction = processedInstruction.replace(plainOrdinalText, highlightedOrdinalText);
     
     return (
       <div 

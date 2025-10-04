@@ -138,6 +138,14 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                 <Input id="mixtureAmount" name="mixtureAmount" type="text" value={state.mixtureAmount} onChange={handleInputChange} />
             </div>
             <div>
+                <Label htmlFor="mixtureNumber">কত নং মিশ্রণ?</Label>
+                <Input id="mixtureNumber" name="mixtureNumber" type="text" value={state.mixtureNumber} onChange={handleInputChange} />
+            </div>
+             <div>
+                <Label htmlFor="durationDays">কত দিন?</Label>
+                <Input id="durationDays" name="durationDays" type="number" value={state.durationDays} onChange={handleNumberChange} min="1" />
+            </div>
+            <div>
                 <Label htmlFor="followUpDays">পরবর্তী সাক্ষাৎকার</Label>
                 <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
             </div>
