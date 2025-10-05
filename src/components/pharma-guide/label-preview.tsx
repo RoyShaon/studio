@@ -24,7 +24,7 @@ export default function LabelPreview({
   activeLabelIndex
 }: LabelPreviewProps) {
   
-  const formattedDate = convertToBanglaNumerals(format(new Date(date), "dd/MM/yyyy"));
+  const formattedDate = convertToBanglaNumerals(format(date, "dd/MM/yyyy"));
 
   const counselingPoints = counseling
     .split("\n")
@@ -101,7 +101,7 @@ export default function LabelPreview({
 
   return (
     <div
-      className="prescription-sheet font-headline bg-white text-black"
+      className="prescription-sheet font-headline bg-white text-black flex flex-col"
     >
         <div className="space-y-4">
             <div>
