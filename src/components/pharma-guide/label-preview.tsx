@@ -101,7 +101,7 @@ export default function LabelPreview({
 
   return (
     <div
-      className="prescription-sheet font-headline bg-white text-black flex flex-col justify-between"
+      className="prescription-sheet font-headline bg-white text-black flex flex-col"
     >
       <div className="space-y-4">
         <div>
@@ -136,7 +136,7 @@ export default function LabelPreview({
         </div>
       </div>
       
-      <div className="text-center doctor-info space-y-px mt-4">
+      <div className="text-center doctor-info space-y-px mt-auto">
           <div className="text-xs font-medium">
               <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় <span className="text-sm font-medium">(বিএসসি, ডিএইচএমএস)</span></p>
               <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
