@@ -1,13 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ত্রিফুল আরোগ্য নিকেতন - সম্পূর্ণ প্রজেক্ট কাঠামো</title>
+    <title>ত্রিফুল আরোগ্য নিকেতন - লেবেল জেনারেটর</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         @tailwind base;
         @tailwind components;
@@ -91,13 +91,7 @@
         }
         body {
             @apply bg-background text-foreground;
-            font-family: 'Hind Siliguri', 'Inter', sans-serif;
         }
-        }
-        
-        body {
-            --font-inter: 'Inter', sans-serif;
-            --font-hind-siliguri: 'Hind Siliguri', sans-serif;
         }
 
         .prescription-sheet {
@@ -123,298 +117,697 @@
             margin-bottom: 0.1rem; 
         }
 
+        @media print {
+        body {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            background-color: white !important;
+        }
+        body > *:not(#printable-content) {
+            display: none !important;
+        }
+
+        #printable-content {
+            display: block !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .print-page {
+            page-break-after: always;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            visibility: visible !important;
+            background-color: white !important;
+            width: 100% !important;
+            height: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+            font-size: 10pt !important;
+            box-sizing: border-box;
+        }
+
+        .print-page .prescription-sheet {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: flex-start !important;
+            max-width: 3.6in !important;
+            height: 5.6in !important;
+            padding: 0.25in !important;
+            margin: 0 !important;
+            visibility: visible !important;
+            border: none !important;
+            box-shadow: none !important;
+            background-color: white !important;
+        }
+
+        .print-page * {
+            visibility: visible !important;
+            color: #000 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+        
+        .print-page .text-base {
+            font-size: 11pt !important;
+        }
+        .print-page .text-sm {
+            font-size: 10pt !important;
+        }
+        .print-page .text-xs {
+            font-size: 8pt !important;
+        }
+
+        .print-page .text-red-700 {
+            color: #b91c1c !important;
+        }
+
+        .print-page .text-indigo-700 {
+            color: #4338ca !important;
+        }
+        
+        .print-page .instruction-box {
+            padding: 0.5rem !important;
+            border: none !important;
+            line-height: 1.5 !important;
+        }
+
+        .print-page .advice-list {
+            padding-left: 0 !important;
+            list-style: none !important;
+        }
+        
+        .print-page .advice-list li {
+            line-height: 1.3 !important;
+            margin-bottom: 0 !important;
+        }
+
+        .print-page .doctor-info {
+            line-height: 1.3 !important;
+            margin-top: auto !important;
+        }
+        .print-page .doctor-info p {
+            margin-bottom: 0px !important;
+            line-height: 1.3 !important;
+        }
+
+        @page {
+            size: 3.6in 5.6in;
+            margin: 0.1in;
+        }
+        }
     </style>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        body: ['var(--font-hind-siliguri)', 'var(--font-inter)', 'sans-serif'],
-                        headline: ['var(--font-hind-siliguri)', 'var(--font-inter)', 'sans-serif'],
-                        code: ['monospace'],
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    body: ['var(--font-hind-siliguri)', 'var(--font-inter)', 'sans-serif'],
+                    headline: ['var(--font-hind-siliguri)', 'var(--font-inter)', 'sans-serif'],
+                    code: ['monospace'],
+                },
+                colors: {
+                    background: 'hsl(var(--background))',
+                    foreground: 'hsl(var(--foreground))',
+                    card: {
+                    DEFAULT: 'hsl(var(--card))',
+                    foreground: 'hsl(var(--card-foreground))',
                     },
-                    colors: {
-                        background: 'hsl(var(--background))',
-                        foreground: 'hsl(var(--foreground))',
-                        card: {
-                        DEFAULT: 'hsl(var(--card))',
-                        foreground: 'hsl(var(--card-foreground))',
-                        },
-                        popover: {
-                        DEFAULT: 'hsl(var(--popover))',
-                        foreground: 'hsl(var(--popover-foreground))',
-                        },
-                        primary: {
-                        DEFAULT: 'hsl(var(--primary))',
-                        foreground: 'hsl(var(--primary-foreground))',
-                        },
-                        secondary: {
-                        DEFAULT: 'hsl(var(--secondary))',
-                        foreground: 'hsl(var(--secondary-foreground))',
-                        },
-                        muted: {
-                        DEFAULT: 'hsl(var(--muted))',
-                        foreground: 'hsl(var(--muted-foreground))',
-                        },
-                        accent: {
-                        DEFAULT: 'hsl(var(--accent))',
-                        foreground: 'hsl(var(--accent-foreground))',
-                        },
-                        destructive: {
-                        DEFAULT: 'hsl(var(--destructive))',
-                        foreground: 'hsl(var(--destructive-foreground))',
-                        },
-                        border: 'hsl(var(--border))',
-                        input: 'hsl(var(--input))',
-                        ring: 'hsl(var(--ring))',
+                    popover: {
+                    DEFAULT: 'hsl(var(--popover))',
+                    foreground: 'hsl(var(--popover-foreground))',
                     },
-                    borderRadius: {
-                        lg: 'var(--radius)',
-                        md: 'calc(var(--radius) - 2px)',
-                        sm: 'calc(var(--radius) - 4px)',
+                    primary: {
+                    DEFAULT: 'hsl(var(--primary))',
+                    foreground: 'hsl(var(--primary-foreground))',
                     },
-                }
+                    secondary: {
+                    DEFAULT: 'hsl(var(--secondary))',
+                    foreground: 'hsl(var(--secondary-foreground))',
+                    },
+                    muted: {
+                    DEFAULT: 'hsl(var(--muted))',
+                    foreground: 'hsl(var(--muted-foreground))',
+                    },
+                    accent: {
+                    DEFAULT: 'hsl(var(--accent))',
+                    foreground: 'hsl(var(--accent-foreground))',
+                    },
+                    destructive: {
+                    DEFAULT: 'hsl(var(--destructive))',
+                    foreground: 'hsl(var(--destructive-foreground))',
+                    },
+                    border: 'hsl(var(--border))',
+                    input: 'hsl(var(--input))',
+                    ring: 'hsl(var(--ring))',
+                },
             }
         }
+    }
     </script>
 </head>
-<body class="font-body antialiased">
+<body class="font-body antialiased" style="--font-inter: 'Inter'; --font-hind-siliguri: 'Hind Siliguri';">
 
-    <!-- Section for Home Page (page.tsx) -->
-    <section id="home-page" class="bg-gray-50/50">
-        <main class="min-h-screen p-4 sm:p-6 lg:p-8 bg-background">
-            <div class="max-w-7xl mx-auto space-y-8">
-                <header class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+<main class="min-h-screen p-4 sm:p-6 lg:p-8 bg-background">
+    <div class="max-w-7xl mx-auto space-y-8">
+    <header class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+        <h1 class="text-4xl font-bold tracking-tight font-body text-indigo-700">
+            ত্রিফুল আরোগ্য নিকেতন
+        </h1>
+        <p class="text-muted-foreground mt-1">
+            প্রয়োজনীয় তথ্য দিয়ে ঔষধের লেবেল তৈরি এবং প্রিন্ট করুন।
+        </p>
+        </div>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+        <!-- Component: LabelForm -->
+        <div class="lg:col-span-2 shadow-lg rounded-lg border bg-card text-card-foreground">
+        <div class="flex flex-col space-y-1.5 p-6">
+            <div class="text-2xl font-semibold leading-none tracking-tight font-body">রোগীর তথ্য ও নির্দেশাবলী</div>
+        </div>
+        <div class="p-6 pt-0">
+            <div class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <h1 class="text-4xl font-bold tracking-tight font-body text-indigo-700">
-                        ত্রিফুল আরোগ্য নিকেতন
-                        </h1>
-                        <p class="text-muted-foreground mt-1">
-                        প্রয়োজনীয় তথ্য দিয়ে ঔষধের লেবেল তৈরি এবং প্রিন্ট করুন।
-                        </p>
+                        <label for="serial" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">ক্রমিক নং</label>
+                        <input id="serial" name="serial" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" value="F/">
                     </div>
-                </header>
+                    <div>
+                        <label for="date" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">তারিখ</label>
+                        <input type="date" id="date" name="date" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background">
+                    </div>
+                </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-                    <div class="lg:col-span-2 shadow-lg rounded-lg border bg-card text-card-foreground">
-                        <div class="flex flex-col space-y-1.5 p-6">
-                            <h2 class="text-2xl font-semibold leading-none tracking-tight font-body">রোগীর তথ্য ও নির্দেশাবলী</h2>
+                <div>
+                    <label for="patientName" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">রোগীর নাম</label>
+                    <input id="patientName" name="patientName" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" value="">
+                </div>
+
+                <div class="mb-6">
+                    <div class="flex flex-wrap gap-4" id="shakeMode">
+                        <div class="flex items-center">
+                            <input type="radio" value="with" id="with-shake" name="shakeMode" class="peer sr-only" checked>
+                            <label for="with-shake" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 border-2 border-transparent hover:border-indigo-600 font-semibold transition duration-150 cursor-pointer peer-data-[state=checked]:bg-indigo-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-indigo-600">ঝাঁকি সহ</label>
                         </div>
-                        <div class="p-6 pt-0">
-                            <!-- Component: LabelForm -->
-                            <div class="space-y-6">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label for="serial" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">ক্রমিক নং</label>
-                                    <input id="serial" name="serial" value="F/" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                                </div>
-                                <div>
-                                    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">তারিখ</label>
-                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full justify-start text-left font-normal">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10"></line></svg>
-                                        <span>Oct 05, 2024</span>
-                                    </button>
-                                </div>
-                                </div>
-
-                                <div>
-                                    <label for="patientName" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">রোগীর নাম</label>
-                                    <input id="patientName" name="patientName" value="Placeholder Patient" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                                </div>
-
-                                <div class="mb-6">
-                                    <div role="radiogroup" class="flex flex-wrap gap-4">
-                                        <div class="flex items-center">
-                                            <label class="px-4 py-2 rounded-lg bg-indigo-600 text-white border-2 border-indigo-600 font-semibold transition duration-150 cursor-pointer">ঝাঁকি সহ</label>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <label class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 border-2 border-transparent hover:border-indigo-600 font-semibold transition duration-150 cursor-pointer">ঝাঁকি ছাড়া</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="space-y-4">
-                                    <div>
-                                        <label for="shakeCount" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">কত বার ঝাঁকি দিবেন?</label>
-                                        <input id="shakeCount" name="shakeCount" type="number" value="10" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                                    </div>
-
-                                    <div>
-                                        <label for="drops" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">কত ফোঁটা করে খাবেন?</label>
-                                        <input id="drops" name="drops" type="number" value="3" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                                    </div>
-
-                                    <div>
-                                        <label for="interval" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">কত ঘণ্টা পর পর খাবেন?</label>
-                                        <input id="interval" name="interval" type="number" value="12" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                                    </div>
-
-                                    <div>
-                                        <label for="mixtureAmount" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">কিভাবে খাবেন?</label>
-                                        <input value="১ চামচ" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                                    </div>
-
-                                    <div>
-                                        <label for="durationDays" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">কত দিন খাবেন?</label>
-                                        <input id="durationDays" name="durationDays" type="number" value="7" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                                    </div>
-                                    
-                                    <div>
-                                        <label for="labelCount" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">কতগুলো লেবেল?</label>
-                                        <input id="labelCount" name="labelCount" type="number" value="1" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                                    </div>
-                                </div>
-
-                                <div class="space-y-4 pt-4">
-                                    <h3 class="text-lg font-semibold border-b pb-2">পরামর্শ ও ফলো-আপ</h3>
-                                    
-                                    <div class="space-y-2">
-                                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">বর্তমান পরামর্শসমূহ:</label>
-                                        <div class="space-y-1">
-                                            <div class="flex items-center justify-between bg-gray-100 p-2 rounded-md">
-                                                <span class="text-sm">• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।</span>
-                                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-red-500"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
-                                                </button>
-                                            </div>
-                                             <div class="flex items-center justify-between bg-gray-100 p-2 rounded-md">
-                                                <span class="text-sm">• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।</span>
-                                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-red-500"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="space-y-2">
-                                        <label for="counseling-select" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">নতুন পরামর্শ যোগ করুন</label>
-                                        <div class="flex gap-2">
-                                            <select class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                                                <option>• ঔষধ সেবনকালীন টক খাওয়া নিষেধ।</option>
-                                                <option>• ঔষধ সেবনকালীন দুধ, ডিম, মাংস খাওয়া নিষেধ।</option>
-                                                <option>• গোরুর মাংস খাওয়া একদম নিষেধ।</option>
-                                            </select>
-                                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 mr-2"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>
-                                                যোগ করুন
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label for="followUpDays" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">কত দিন পরে আসবেন?</label>
-                                        <input id="followUpDays" name="followUpDays" type="number" value="7" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Component: LabelForm -->
+                        <div class="flex items-center">
+                            <input type="radio" value="without" id="without-shake" name="shakeMode" class="peer sr-only">
+                            <label for="without-shake" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 border-2 border-transparent hover:border-indigo-600 font-semibold transition duration-150 cursor-pointer peer-data-[state=checked]:bg-indigo-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-indigo-600">ঝাঁকি ছাড়া</label>
                         </div>
                     </div>
+                </div>
 
-                    <div class="lg:col-span-3">
-                        <div class="text-center mb-4">
-                        <h2 class="text-2xl font-semibold text-gray-800">ফর্মের প্রিভিউ</h2>
-                        <p class="text-sm text-gray-500">
-                            নিচের ফরম্যাটটি প্রিন্ট লেবেলের মতো দেখাবে (৩.৬” x ৫.৬”)। 
-                        </p>
+                <div class="space-y-4">
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div id="shake-count-wrapper">
+                            <label for="shakeCount" class="text-sm font-medium leading-none">কত বার ঝাঁকি দিবেন?</label>
+                            <input id="shakeCount" name="shakeCount" type="number" value="10" min="1" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
                         </div>
                         <div>
-                            <!-- Component: LabelPreview -->
-                            <div class="prescription-sheet font-body bg-white text-black flex flex-col">
-                                <div class="flex-grow space-y-4">
-                                    <div>
-                                        <div class="flex justify-between items-center text-sm font-medium mb-1">
-                                            <span class="truncate pr-1">ক্রমিক নং: <strong class="text-indigo-700 font-extrabold">F/</strong></span>
-                                            <span class="whitespace-nowrap">তারিখঃ <strong class="text-indigo-700 font-extrabold">০৫/১০/২০২৪</strong></span>
-                                        </div>
-                                        <div class="text-left text-base font-medium mb-4">
-                                            রোগীর নামঃ <strong class="text-indigo-700 font-extrabold">Placeholder Patient</strong>
-                                        </div>
-                                    </div>
-
-                                    <div class="space-y-3">
-                                        <div class="text-center"> 
-                                            <h2 class="inline-block border-b-2 border-gray-800 py-0.5 text-center font-extrabold" style="font-size: 17px;">ঔষধ খাবার নিয়মাবলী</h2>
-                                        </div>
-                                        <div class="instruction-box">
-                                            <div class="text-gray-800 text-justify leading-snug" style="font-size: 13px;">
-                                                ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="text-red-700 font-extrabold" style="font-size: 13px;">১০</span> বার ঝাঁকি দিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">৩</span> ফোঁটা ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">১২</span> ঘণ্টা অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">১ চামচ</span> করে <span class="text-red-700 font-extrabold" style="font-size: 13px;">৭</span> দিন সেবন করবেন।
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="space-y-4">
-                                        <div class="text-center">
-                                            <h3 class="text-base font-bold text-red-700 mb-1 inline-block border-b-2 border-red-700">পরামর্শ</h3>
-                                            <ul class="advice-list text-gray-800 text-xs pl-0 list-none text-left">
-                                                <li>• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।</li>
-                                                <li>• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।</li>
-                                                <li>• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।</li>
-                                                <li>• <strong>৭ দিন</strong> পরে আসবেন।</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            
-                                <div class="doctor-info instruction-box text-center mt-auto">
-                                    <p class="font-bold mb-0" style="font-size: 0.8rem;">ত্রিফুল আরোগ্য নিকেতন</p>
-                                    <p class="mb-0" style="font-size: 0.5rem;">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
-                                    <p class="mb-0" style="font-size: 0.7rem;">
-                                        <span class="font-medium">ডাঃ নীহার রঞ্জন রায়</span> <span class="font-medium" style="font-size: 0.5rem;">(বি.এস.সি, ডি.এইচ.এম.এস)</span>
-                                    </p>
-                                    <p class="mb-0" style="font-size: 0.5rem;">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
-                                    <p class="mb-0" style="font-size: 0.6rem;">কোটালীপাড়া, গোপালগঞ্জ</p>
-                                    <p class="font-bold mb-0">
-                                        <span style="font-size: 0.6rem;">মোবাইল: </span>
-                                        <span style="font-size: 0.65rem;">01716954699, 01922788466, 01714-719422</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- End Component: LabelPreview -->
+                            <label for="drops" class="text-sm font-medium leading-none">কত ফোঁটা করে খাবেন?</label>
+                            <input id="drops" name="drops" type="number" value="3" min="1" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
                         </div>
+                    </div>
 
-                        <div class="text-center mt-6">
-                            <button class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-8 rounded-lg shadow-xl transition duration-150 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm ring-offset-background h-10">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect width="12" height="8" x="6" y="14"></rect></svg>
-                                প্রিন্ট করুন
+
+                    <div>
+                        <label for="interval" id="interval-label" class="text-sm font-medium leading-none">কত ঘন্টা পর পর খাবেন?</label>
+                        <input id="interval" name="interval" type="number" value="12" min="1" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+                        <div class="flex gap-4 mt-2" id="intervalUnit">
+                            <div class="flex items-center space-x-2">
+                                <input type="radio" value="hours" id="hours" name="intervalUnit" checked>
+                                <label for="hours">ঘণ্টা</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="radio" value="days" id="days" name="intervalUnit">
+                                <label for="days">দিন</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="mixtureAmount" class="text-sm font-medium leading-none">কিভাবে খাবেন?</label>
+                        <select name="mixtureAmount" id="mixtureAmount" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+                            <option value="১ চামচ">১ চামচ</option>
+                            <option value="২ চামচ">২ চামচ</option>
+                            <option value="৩ চামচ">৩ চামচ</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="durationDays" class="text-sm font-medium leading-none">কত দিন খাবেন?</label>
+                            <input id="durationDays" name="durationDays" type="number" value="7" min="1" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+                        </div>
+                        <div>
+                            <label for="labelCount" class="text-sm font-medium leading-none">কতগুলো লেবেল?</label>
+                            <input id="labelCount" name="labelCount" type="number" value="1" min="1" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4 pt-4">
+                    <h3 class="text-lg font-semibold border-b pb-2">পরামর্শ ও ফলো-আপ</h3>
+                    
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none">বর্তমান পরামর্শসমূহ:</label>
+                        <div id="counseling-list" class="space-y-1">
+                            <!-- Counseling items will be dynamically added here -->
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="counseling-select" class="text-sm font-medium leading-none">নতুন পরামর্শ যোগ করুন</label>
+                        <div class="flex gap-2">
+                            <select id="counseling-select" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+                                <option>• ঔষধ সেবনকালীন টক খাওয়া নিষেধ।</option>
+                                <option>• ঔষধ সেবনকালীন দুধ, ডিম, মাংস খাওয়া নিষেধ।</option>
+                                <option>• গোরুর মাংস খাওয়া একদম নিষেধ।</option>
+                            </select>
+                            <button id="add-counseling-btn" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-primary text-primary-foreground">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 mr-2"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+                                যোগ করুন
                             </button>
                         </div>
                     </div>
+
+                    <div>
+                        <label for="followUpDays" class="text-sm font-medium leading-none">কত দিন পরে আসবেন?</label>
+                        <input id="followUpDays" name="followUpDays" type="number" value="7" min="1" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+                    </div>
+                </div>
+
+                <div id="multi-label-controls" class="space-y-4 hidden">
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center space-x-2 pt-6">
+                            <input type="checkbox" id="showAllPreviews">
+                            <label for="showAllPreviews">সকল প্রিভিউ দেখুন</label>
+                        </div>
+                    </div>
+                    <div id="active-label-slider-wrapper" class="space-y-2">
+                        <label for="activeLabelIndex">কোন লেবেলটি প্রিভিউ করবেন? (<span id="active-label-value">১</span>)</label>
+                        <input type="range" id="activeLabelIndex" name="activeLabelIndex" min="1" max="1" step="1" value="1" class="w-full">
+                    </div>
                 </div>
             </div>
-        </main>
-    </section>
+        </div>
+        </div>
+        <!-- End Component: LabelForm -->
 
-    <!-- Divider -->
-    <hr class="my-12 border-t-4 border-dashed border-gray-300">
 
-    <!-- Section for Login Page (login/page.tsx) -->
-    <section id="login-page">
-         <main class="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-            <div class="w-full max-w-md rounded-lg border bg-card text-card-foreground shadow-sm">
-                <div class="flex flex-col space-y-1.5 p-6">
-                    <h2 class="text-2xl font-semibold leading-none tracking-tight">লগইন করুন</h2>
-                    <p class="text-sm text-muted-foreground">আপনার অ্যাকাউন্টে প্রবেশ করতে আপনার ইমেল এবং পাসওয়ার্ড দিন।</p>
-                </div>
-                <div class="p-6 pt-0">
-                    <form class="space-y-4">
-                        <div class="space-y-2">
-                        <label for="email" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">ইমেল</label>
-                        <input id="email" type="email" placeholder="email@example.com" value="dev.royshaon@gmail.com" required="" autocomplete="email" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+        <div class="lg:col-span-3">
+        <div class="text-center mb-4">
+            <h2 class="text-2xl font-semibold text-gray-800">ফর্মের প্রিভিউ</h2>
+            <p id="preview-description" class="text-sm text-gray-500">
+                নিচের ফরম্যাটটি প্রিন্ট লেবেলের মতো দেখাবে (৩.৬” x ৫.৬”)।
+            </p>
+        </div>
+        <div id="print-container">
+             <!-- Component: LabelPreview -->
+             <div id="label-preview-wrapper" class="printable-label-wrapper">
+                <!-- Preview content will be dynamically generated here -->
+             </div>
+             <!-- End Component: LabelPreview -->
+        </div>
+
+        <div class="text-center mt-6">
+            <button id="print-btn" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-8 rounded-lg shadow-xl inline-flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect width="12" height="8" x="6" y="14"></rect></svg>
+                প্রিন্ট করুন
+            </button>
+        </div>
+        </div>
+    </div>
+    </div>
+</main>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // STATE MANAGEMENT
+    const labelState = {
+        serial: 'F/',
+        patientName: '',
+        date: new Date(),
+        shakeMode: 'with',
+        drops: 3,
+        shakeCount: 10,
+        interval: 12,
+        intervalUnit: 'hours',
+        mixtureAmount: '১ চামচ',
+        durationDays: 7,
+        counseling: [
+            "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
+            "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
+            "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।"
+        ],
+        labelCount: 1,
+        followUpDays: 7,
+        showAllPreviews: false,
+        activeLabelIndex: 1
+    };
+
+    // UTILITY FUNCTIONS
+    const convertToBanglaNumerals = (text) => {
+        if (text === undefined || text === null) return "";
+        const banglaDigits = { '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪', '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯' };
+        return String(text).replace(/[0-9]/g, (digit) => banglaDigits[digit]);
+    };
+
+    const formatDate = (date) => {
+        if (!date) return '';
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
+    // DOM ELEMENTS
+    const formElements = {
+        serial: document.getElementById('serial'),
+        date: document.getElementById('date'),
+        patientName: document.getElementById('patientName'),
+        shakeMode: document.getElementById('shakeMode'),
+        shakeCountWrapper: document.getElementById('shake-count-wrapper'),
+        shakeCount: document.getElementById('shakeCount'),
+        drops: document.getElementById('drops'),
+        interval: document.getElementById('interval'),
+        intervalLabel: document.getElementById('interval-label'),
+        intervalUnit: document.getElementById('intervalUnit'),
+        mixtureAmount: document.getElementById('mixtureAmount'),
+        durationDays: document.getElementById('durationDays'),
+        labelCount: document.getElementById('labelCount'),
+        followUpDays: document.getElementById('followUpDays'),
+        counselingSelect: document.getElementById('counseling-select'),
+        addCounselingBtn: document.getElementById('add-counseling-btn'),
+        counselingList: document.getElementById('counseling-list'),
+        multiLabelControls: document.getElementById('multi-label-controls'),
+        showAllPreviews: document.getElementById('showAllPreviews'),
+        activeLabelSliderWrapper: document.getElementById('active-label-slider-wrapper'),
+        activeLabelIndex: document.getElementById('activeLabelIndex'),
+        activeLabelValue: document.getElementById('active-label-value'),
+        previewDescription: document.getElementById('preview-description'),
+        printBtn: document.getElementById('print-btn'),
+        printContainer: document.getElementById('print-container'),
+        labelPreviewWrapper: document.getElementById('label-preview-wrapper')
+    };
+
+    // RENDER/UPDATE FUNCTIONS
+    const updatePreview = () => {
+        const { showAllPreviews, labelCount, activeLabelIndex } = labelState;
+        formElements.printContainer.innerHTML = ''; // Clear previous previews
+
+        const count = Number(labelCount) || 1;
+        if (showAllPreviews) {
+            for (let i = 1; i <= count; i++) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'printable-label-wrapper mb-4';
+                wrapper.innerHTML = generatePreviewHTML(i);
+                formElements.printContainer.appendChild(wrapper);
+            }
+        } else {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'printable-label-wrapper';
+            wrapper.innerHTML = generatePreviewHTML(activeLabelIndex);
+            formElements.printContainer.appendChild(wrapper);
+        }
+        updatePreviewDescription();
+    };
+
+    const generatePreviewHTML = (currentIndex) => {
+        const {
+            serial, patientName, date, shakeMode, drops, interval, intervalUnit,
+            shakeCount, mixtureAmount, durationDays, counseling, followUpDays, labelCount
+        } = labelState;
+
+        const formattedDate = convertToBanglaNumerals(formatDate(date));
+
+        const counselingPoints = counseling.map(line => {
+            let bnLine = convertToBanglaNumerals(line);
+            bnLine = bnLine.trim().startsWith('•') ? bnLine.trim() : `• ${bnLine.trim()}`;
+            return `<li>${bnLine}</li>`;
+        }).join('');
+        const finalCounseling = `${counselingPoints}<li>• <strong>${convertToBanglaNumerals(followUpDays)} দিন</strong> পরে আসবেন।</li>`;
+
+        const bnDrops = convertToBanglaNumerals(drops);
+        const bnInterval = convertToBanglaNumerals(interval);
+        const bnShakeCount = shakeMode === 'with' ? convertToBanglaNumerals(shakeCount) : '';
+        const bnMixtureAmount = convertToBanglaNumerals(mixtureAmount);
+        const bnDurationDays = convertToBanglaNumerals(durationDays);
+        const intervalUnitText = intervalUnit === 'hours' ? 'ঘণ্টা' : 'দিন';
+
+        let instruction;
+        if (shakeMode === "with") {
+            instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnShakeCount}</span> বার ঝাঁকি দিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> ফোঁটা ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval}</span> ${intervalUnitText} অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span> করে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> দিন সেবন করবেন।`;
+        } else {
+            instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> ফোঁটা ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval}</span> ${intervalUnitText} অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span> করে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> দিন সেবন করবেন।`;
+        }
+        const processedInstruction = convertToBanglaNumerals(instruction);
+
+        let sequentialText = '';
+        if (labelCount > 1) {
+            const bnIndex = convertToBanglaNumerals(currentIndex);
+            let text;
+            if (currentIndex > 1) {
+                const prevIndex = convertToBanglaNumerals(currentIndex - 1);
+                text = `${bnIndex} নং ঔষধ (${prevIndex} নং এর পরে খাবেন)`;
+            } else {
+                text = `${bnIndex} নং ঔষধ`;
+            }
+            sequentialText = `
+                <div class="text-center mb-2">
+                    <span class="text-xl font-bold text-red-700 inline-block border border-black rounded-md py-1 px-3">
+                    ${text}
+                    </span>
+                </div>`;
+        }
+
+        return `
+            <div class="prescription-sheet font-body bg-white text-black flex flex-col">
+                <div class="flex-grow space-y-4">
+                    <div>
+                        <div class="flex justify-between items-center text-sm font-medium mb-1">
+                            <span class="truncate pr-1">ক্রমিক নং: <strong class="text-indigo-700 font-extrabold">${serial}</strong></span>
+                            <span class="whitespace-nowrap">তারিখঃ <strong class="text-indigo-700 font-extrabold">${formattedDate}</strong></span>
                         </div>
-                        <div class="space-y-2">
-                        <label for="password" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">পাসওয়ার্ড</label>
-                        <input id="password" type="password" value="Shaon@5823" required="" autocomplete="current-password" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                        <div class="text-left text-base font-medium mb-4">
+                            রোগীর নামঃ <strong class="text-indigo-700 font-extrabold">${patientName || ''}</strong>
                         </div>
-                        <p class="text-sm text-red-600">Login functionality is disabled as Firebase has been removed.</p>
-                        <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">
-                            লগইন
-                        </button>
-                    </form>
+                    </div>
+                    ${sequentialText}
+                    <div class="space-y-3">
+                        <div class="text-center"> 
+                            <h2 class="inline-block border-b-2 border-gray-800 py-0.5 text-center font-extrabold" style="font-size: 17px;">ঔষধ খাবার নিয়মাবলী</h2>
+                        </div>
+                        <div class="instruction-box">
+                            <div class="text-gray-800 text-justify leading-snug" style="font-size: 13px;">
+                                ${processedInstruction}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="text-center">
+                            <h3 class="text-base font-bold text-red-700 mb-1 inline-block border-b-2 border-red-700">পরামর্শ</h3>
+                            <ul class="advice-list text-gray-800 text-xs pl-0 list-none text-left">${finalCounseling}</ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </main>
-    </section>
+                <div class="doctor-info instruction-box text-center mt-auto">
+                    <p class="font-bold mb-0" style="font-size: 0.8rem;">ত্রিফুল আরোগ্য নিকেতন</p>
+                    <p class="mb-0" style="font-size: 0.5rem;">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
+                    <p class="mb-0" style="font-size: 0.7rem;">
+                        <span class="font-medium">ডাঃ নীহার রঞ্জন রায়</span> <span class="font-medium" style="font-size: 0.5rem;">(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+                    </p>
+                    <p class="mb-0" style="font-size: 0.5rem;">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+                    <p class="mb-0" style="font-size: 0.6rem;">কোটালীপাড়া, গোপালগঞ্জ</p>
+                    <p class="font-bold mb-0">
+                        <span style="font-size: 0.6rem;">মোবাইল: </span>
+                        <span style="font-size: 0.65rem;">01716954699, 01922788466, 01714-719422</span>
+                    </p>
+                </div>
+            </div>`;
+    };
+    
+    const updateCounselingList = () => {
+        formElements.counselingList.innerHTML = '';
+        labelState.counseling.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = "flex items-center justify-between bg-gray-100 p-2 rounded-md";
+            div.innerHTML = `
+                <span class="text-sm">${item}</span>
+                <button data-index="${index}" class="remove-counseling-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-red-500 pointer-events-none"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
+                </button>
+            `;
+            formElements.counselingList.appendChild(div);
+        });
+    };
+    
+    const updatePreviewDescription = () => {
+        let text = `নিচের ফরম্যাটটি প্রিন্ট লেবেলের মতো দেখাবে (${convertToBanglaNumerals('3.6')}” x ${convertToBanglaNumerals('5.6')}”)।`;
+        if (!labelState.showAllPreviews && labelState.labelCount > 1) {
+            text += ` মোট ${convertToBanglaNumerals(labelState.labelCount)}টি লেবেলের মধ্যে ${convertToBanglaNumerals(labelState.activeLabelIndex)} নং লেবেল দেখানো হচ্ছে।`;
+        }
+        formElements.previewDescription.textContent = text;
+    };
+    
+    const updateMultiLabelControls = () => {
+        const count = Number(labelState.labelCount) || 1;
+        if (count > 1) {
+            formElements.multiLabelControls.classList.remove('hidden');
+            formElements.activeLabelIndex.max = count;
+            if (labelState.showAllPreviews) {
+                formElements.activeLabelSliderWrapper.classList.add('hidden');
+            } else {
+                formElements.activeLabelSliderWrapper.classList.remove('hidden');
+            }
+        } else {
+            formElements.multiLabelControls.classList.add('hidden');
+        }
+    };
+
+
+    // EVENT HANDLERS
+    const handleInputChange = (e) => {
+        const { name, value, type } = e.target;
+        if (type === 'number') {
+            labelState[name] = value === '' ? '' : parseInt(value, 10);
+        } else if (type === 'date') {
+            labelState[name] = value ? new Date(value) : null;
+        } else {
+            labelState[name] = value;
+        }
+        updatePreview();
+    };
+
+    // INITIALIZATION
+    const initialize = () => {
+        // Set initial values
+        formElements.serial.value = labelState.serial;
+        formElements.patientName.value = labelState.patientName;
+        formElements.date.valueAsDate = labelState.date;
+        document.querySelector(`input[name="shakeMode"][value="${labelState.shakeMode}"]`).checked = true;
+        formElements.shakeCount.value = labelState.shakeCount;
+        formElements.drops.value = labelState.drops;
+        formElements.interval.value = labelState.interval;
+        document.querySelector(`input[name="intervalUnit"][value="${labelState.intervalUnit}"]`).checked = true;
+        formElements.mixtureAmount.value = labelState.mixtureAmount;
+        formElements.durationDays.value = labelState.durationDays;
+        formElements.labelCount.value = labelState.labelCount;
+        formElements.followUpDays.value = labelState.followUpDays;
+        formElements.showAllPreviews.checked = labelState.showAllPreviews;
+        formElements.activeLabelIndex.value = labelState.activeLabelIndex;
+
+        // Add event listeners
+        Object.keys(formElements).forEach(key => {
+            if (['serial', 'patientName', 'date', 'shakeCount', 'drops', 'interval', 'durationDays', 'followUpDays', 'mixtureAmount'].includes(key)) {
+                formElements[key].addEventListener('input', handleInputChange);
+            }
+        });
+        
+        formElements.shakeMode.addEventListener('change', (e) => {
+            labelState.shakeMode = e.target.value;
+            formElements.shakeCountWrapper.style.display = labelState.shakeMode === 'with' ? 'block' : 'none';
+            updatePreview();
+        });
+        
+        formElements.intervalUnit.addEventListener('change', (e) => {
+            labelState.intervalUnit = e.target.value;
+            formElements.intervalLabel.textContent = `কত ${e.target.value === 'hours' ? 'ঘন্টা' : 'দিন'} পর পর খাবেন?`;
+            updatePreview();
+        });
+        
+        formElements.labelCount.addEventListener('input', (e) => {
+            const value = e.target.value;
+            const numValue = value === '' ? 1 : parseInt(value, 10);
+            labelState.labelCount = isNaN(numValue) || numValue < 1 ? 1 : numValue;
+            if (labelState.activeLabelIndex > labelState.labelCount) {
+                labelState.activeLabelIndex = labelState.labelCount;
+                formElements.activeLabelIndex.value = labelState.activeLabelIndex;
+                formElements.activeLabelValue.textContent = convertToBanglaNumerals(labelState.activeLabelIndex);
+            }
+            updateMultiLabelControls();
+            updatePreview();
+        });
+        
+        formElements.showAllPreviews.addEventListener('change', (e) => {
+            labelState.showAllPreviews = e.target.checked;
+            updateMultiLabelControls();
+            updatePreview();
+        });
+
+        formElements.activeLabelIndex.addEventListener('input', (e) => {
+            labelState.activeLabelIndex = parseInt(e.target.value, 10);
+            formElements.activeLabelValue.textContent = convertToBanglaNumerals(labelState.activeLabelIndex);
+            updatePreview();
+        });
+
+        formElements.addCounselingBtn.addEventListener('click', () => {
+            const selected = formElements.counselingSelect.value;
+            if (selected && !labelState.counseling.includes(selected)) {
+                labelState.counseling.push(selected);
+                updateCounselingList();
+                updatePreview();
+            }
+        });
+        
+        formElements.counselingList.addEventListener('click', (e) => {
+            if (e.target.closest('.remove-counseling-btn')) {
+                const index = parseInt(e.target.closest('.remove-counseling-btn').dataset.index, 10);
+                labelState.counseling.splice(index, 1);
+                updateCounselingList();
+                updatePreview();
+            }
+        });
+        
+        formElements.printBtn.addEventListener('click', () => {
+            const container = formElements.printContainer;
+            if (!container) return;
+
+            const printableContent = document.createElement('div');
+            printableContent.id = 'printable-content';
+
+            const previews = container.querySelectorAll('.printable-label-wrapper');
+
+            previews.forEach(previewNode => {
+                const sheet = document.createElement('div');
+                sheet.className = "print-page";
+                const content = previewNode.cloneNode(true);
+                sheet.appendChild(content);
+                printableContent.appendChild(sheet);
+            });
+
+            if (printableContent.hasChildNodes()) {
+                document.body.appendChild(printableContent);
+                window.print();
+                document.body.removeChild(printableContent);
+            }
+        });
+
+
+        // Initial render
+        formElements.shakeCountWrapper.style.display = labelState.shakeMode === 'with' ? 'block' : 'none';
+        updateCounselingList();
+        updateMultiLabelControls();
+        updatePreview();
+    };
+
+    initialize();
+});
+</script>
 
 </body>
 </html>
+
+    
