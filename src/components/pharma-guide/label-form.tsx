@@ -7,12 +7,17 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon, PlusCircle, XCircle } from "lucide-react";
+import { CalendarIcon, PlusCircle, XCircle, ChevronDown } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn, convertToBanglaNumerals } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import {
   Select,
   SelectContent,
@@ -37,6 +42,7 @@ const predefinedCounseling: string[] = [
 
 export default function LabelForm({ state, setState, activeLabelIndex, setActiveLabelIndex }: LabelFormProps) {
   const [selectedCounseling, setSelectedCounseling] = useState<string>(predefinedCounseling[0]);
+  const [isCounselingOpen, setIsCounselingOpen] = useState(false);
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -229,41 +235,50 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
             </div>
         </div>
       </div>
-
-       <div className="space-y-4 pt-4">
-        <h3 className="text-lg font-semibold border-b pb-2">পরামর্শ</h3>
-        
-        <div className="space-y-2">
-            <Label>বর্তমান পরামর্শসমূহ:</Label>
-            <div className="space-y-1">
-                {state.counseling.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between bg-gray-100 p-2 rounded-md">
-                        <span className="text-sm">{item}</span>
-                        <Button variant="ghost" size="icon" onClick={() => removeCounseling(index)}>
-                            <XCircle className="h-4 w-4 text-red-500" />
-                        </Button>
-                    </div>
-                ))}
+      
+      <Collapsible
+        open={isCounselingOpen}
+        onOpenChange={setIsCounselingOpen}
+        className="space-y-4 pt-4 border-t"
+      >
+        <CollapsibleTrigger className="flex w-full justify-between items-center text-lg font-semibold">
+          <h3>পরামর্শ</h3>
+          <ChevronDown className={cn("h-5 w-5 transition-transform", isCounselingOpen && "rotate-180")} />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="space-y-4 data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
+            <div className="space-y-2">
+                <Label>বর্তমান পরামর্শসমূহ:</Label>
+                <div className="space-y-1">
+                    {state.counseling.map((item, index) => (
+                        <div key={index} className="flex items-center justify-between bg-gray-100 p-2 rounded-md">
+                            <span className="text-sm">{item}</span>
+                            <Button variant="ghost" size="icon" onClick={() => removeCounseling(index)}>
+                                <XCircle className="h-4 w-4 text-red-500" />
+                            </Button>
+                        </div>
+                    ))}
+                </div>
             </div>
-        </div>
 
-        <div className="space-y-2">
-            <Label htmlFor="counseling-select">নতুন পরামর্শ যোগ করুন</Label>
-            <div className="flex gap-2">
-                <Select value={selectedCounseling} onValueChange={setSelectedCounseling}>
-                    <SelectTrigger id="counseling-select">
-                        <SelectValue placeholder="পরামর্শ নির্বাচন করুন..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {predefinedCounseling.map((item, index) => (
-                            <SelectItem key={index} value={item}>{item}</SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-                <Button onClick={addCounseling}><PlusCircle className="h-4 w-4 mr-2" /> যোগ করুন</Button>
+            <div className="space-y-2">
+                <Label htmlFor="counseling-select">নতুন পরামর্শ যোগ করুন</Label>
+                <div className="flex gap-2">
+                    <Select value={selectedCounseling} onValueChange={setSelectedCounseling}>
+                        <SelectTrigger id="counseling-select">
+                            <SelectValue placeholder="পরামর্শ নির্বাচন করুন..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {predefinedCounseling.map((item, index) => (
+                                <SelectItem key={index} value={item}>{item}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <Button onClick={addCounseling}><PlusCircle className="h-4 w-4 mr-2" /> যোগ করুন</Button>
+                </div>
             </div>
-        </div>
-       </div>
+        </CollapsibleContent>
+       </Collapsible>
+
 
        <div className="space-y-4">
         <div className="flex items-center gap-4">
