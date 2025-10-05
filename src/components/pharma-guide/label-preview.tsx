@@ -29,12 +29,10 @@ export default function LabelPreview({
   const formattedDate = convertToBanglaNumerals(format(date, "dd/MM/yyyy"));
 
   const counselingPoints = counseling
-    .split("\n")
-    .filter((line) => line.trim() !== "")
     .map(line => {
         let bnLine = convertToBanglaNumerals(line);
-        // Replace bullet points but handle different kinds that might be passed.
-        bnLine = bnLine.replace(/^[•❖-]/, '•');
+        // Ensure it starts with a bullet
+        bnLine = bnLine.trim().startsWith('•') ? bnLine.trim() : `• ${bnLine.trim()}`;
         return `<li>${bnLine}</li>`;
     }).join('');
 

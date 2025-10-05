@@ -27,7 +27,7 @@ export type LabelState = {
   mixtureAmount: string;
   mixtureNumber: string;
   durationDays: number;
-  counseling: string;
+  counseling: string[];
   labelCount: number;
   followUpDays: number;
   showAllPreviews: boolean;
@@ -49,7 +49,7 @@ export default function Home() {
     mixtureAmount: "১ চামচ",
     mixtureNumber: "১ম",
     durationDays: 7,
-    counseling: "",
+    counseling: [],
     labelCount: 1,
     followUpDays: 7,
     showAllPreviews: false,
@@ -129,7 +129,7 @@ export default function Home() {
     ];
     setLabelState(prevState => ({
       ...prevState,
-      counseling: counselingParts.join('\n')
+      counseling: counselingParts
     }));
   }, []);
   
@@ -191,7 +191,7 @@ export default function Home() {
                 shakeCount: labelState.shakeCount,
                 intervalHours: labelState.interval,
                 shakeMode: labelState.shakeMode,
-                counselingInstructions: labelState.counseling,
+                counselingInstructions: labelState.counseling.join('\n'),
                 dateCreated: new Date().toISOString(),
             };
             const medicationLabelsColRef = collection(firestore, "patients", patientId, "medicationLabels");
@@ -312,7 +312,3 @@ export default function Home() {
     </main>
   );
 }
-
-    
-
-    

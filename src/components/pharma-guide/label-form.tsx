@@ -1,12 +1,13 @@
 
 import type { Dispatch, SetStateAction } from "react";
+import React, { useState } from "react";
 import type { LabelState } from "@/app/page";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, PlusCircle, XCircle } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn, convertToBanglaNumerals } from "@/lib/utils";
@@ -28,7 +29,15 @@ interface LabelFormProps {
   setActiveLabelIndex: Dispatch<SetStateAction<number>>;
 }
 
+const predefinedCounseling: string[] = [
+    "• ঔষধ সেবনকালীন টক খাওয়া নিষেধ।",
+    "• ঔষধ সেবনকালীন দুধ, ডিম, মাংস খাওয়া নিষেধ।",
+    "• গোরুর মাংস খাওয়া একদম নিষেধ।",
+];
+
 export default function LabelForm({ state, setState, activeLabelIndex, setActiveLabelIndex }: LabelFormProps) {
+  const [selectedCounseling, setSelectedCounseling] = useState<string>(predefinedCounseling[0]);
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
@@ -58,6 +67,22 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     const count = Number(state.labelCount);
     return isNaN(count) || count < 1 ? 1 : count;
   }
+  
+  const addCounseling = () => {
+      if (selectedCounseling && !state.counseling.includes(selectedCounseling)) {
+          setState(prevState => ({
+              ...prevState,
+              counseling: [...prevState.counseling, selectedCounseling]
+          }));
+      }
+  };
+
+  const removeCounseling = (index: number) => {
+      setState(prevState => ({
+          ...prevState,
+          counseling: prevState.counseling.filter((_, i) => i !== index)
+      }));
+  };
 
   return (
     <div className="space-y-6">
@@ -201,6 +226,39 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
        <div className="space-y-4 pt-4">
         <h3 className="text-lg font-semibold border-b pb-2">পরামর্শ ও ফলো-আপ</h3>
+        
+        <div className="space-y-2">
+            <Label>বর্তমান পরামর্শসমূহ:</Label>
+            <div className="space-y-1">
+                {state.counseling.map((item, index) => (
+                    <div key={index} className="flex items-center justify-between bg-gray-100 p-2 rounded-md">
+                        <span className="text-sm">{item}</span>
+                        <Button variant="ghost" size="icon" onClick={() => removeCounseling(index)}>
+                            <XCircle className="h-4 w-4 text-red-500" />
+                        </Button>
+                    </div>
+                ))}
+            </div>
+        </div>
+
+        <div className="space-y-2">
+            <Label htmlFor="counseling-select">নতুন পরামর্শ যোগ করুন</Label>
+            <div className="flex gap-2">
+                <Select value={selectedCounseling} onValueChange={setSelectedCounseling}>
+                    <SelectTrigger id="counseling-select">
+                        <SelectValue placeholder="পরামর্শ নির্বাচন করুন..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {predefinedCounseling.map((item, index) => (
+                            <SelectItem key={index} value={item}>{item}</SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+                <Button onClick={addCounseling}><PlusCircle className="h-4 w-4 mr-2" /> যোগ করুন</Button>
+            </div>
+        </div>
+
+
         <div>
             <Label htmlFor="followUpDays">কত দিন পরে আসবেন?</Label>
             <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
