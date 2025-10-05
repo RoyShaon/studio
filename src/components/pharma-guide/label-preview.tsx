@@ -150,7 +150,7 @@ export default function LabelPreview({
       
       <div className="doctor-info instruction-box text-center mt-auto space-y-1">
           <p className="text-base font-bold">ত্রিফুল আরোগ্য নিকেতন</p>
-          <p className="text-xs">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
+          <p style={{ fontSize: '0.625rem' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
           <p className="text-base">
             <span className="font-medium">ডাঃ নীহার রঞ্জন রায়</span> <span className="font-medium text-xs">(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
