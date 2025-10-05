@@ -135,6 +135,7 @@ export default function LabelPreview({
           <div className="text-xs font-medium">
               <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় (বিএসসি, ডিএইচএমএস)</p>
               <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
+              <p>ত্রিফুল আরোগ্য নিকেতন</p>
               <p>কোটালীপাড়া সদর, গোপালগঞ্জ।</p>
               <p>জরুরী প্রয়োজনেঃ বিকেল ৫টা-৭টা (০১৯২২-৭৮৮৪৬৬)</p>
           </div>
