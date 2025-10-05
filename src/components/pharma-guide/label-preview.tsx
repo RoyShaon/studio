@@ -77,7 +77,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="instruction-box text-gray-800 text-lg p-2 min-h-[90px] text-justify"
+        className="text-gray-800 text-base p-2 text-justify"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -142,3 +142,4 @@ export default function LabelPreview({
     </div>
   );
 }
+
