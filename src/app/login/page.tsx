@@ -3,16 +3,19 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useFirebase, initiateEmailSignIn } from "@/firebase";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useFirebase } from "@/firebase";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function LoginPage() {
   const { auth, user, isUserLoading } = useFirebase();
   const router = useRouter();
+  const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -37,25 +40,38 @@ export default function LoginPage() {
     setError(null);
     setIsSigningIn(true);
     try {
-        // We are not awaiting this to avoid blocking, auth state is handled by the provider
-        initiateEmailSignIn(auth, email, password);
+        await signInWithEmailAndPassword(auth, email, password);
         // The useEffect will handle the redirect on successful sign-in.
+        toast({
+            title: "Login Successful",
+            description: "You are now logged in.",
+        });
     } catch (err: any) {
-        // This catch block might not be hit if initiateEmailSignIn is fully non-blocking
-        // and errors are handled by listeners, but it's good practice.
-        setError(err.message || "Failed to sign in.");
+        let errorMessage = "An unknown error occurred.";
+        switch (err.code) {
+            case 'auth/invalid-credential':
+            case 'auth/wrong-password':
+            case 'auth/user-not-found':
+                errorMessage = "Invalid email or password. Please try again.";
+                break;
+            case 'auth/invalid-email':
+                errorMessage = "Please enter a valid email address.";
+                break;
+            case 'auth/too-many-requests':
+                errorMessage = "Too many login attempts. Please try again later.";
+                break;
+            default:
+                errorMessage = "Failed to sign in. Please check your credentials.";
+                break;
+        }
+        setError(errorMessage);
+        toast({
+            variant: "destructive",
+            title: "Login Failed",
+            description: errorMessage,
+        });
         setIsSigningIn(false);
     }
-    // We can't immediately know if the sign-in failed here with the non-blocking approach.
-    // For a better UX with immediate feedback, a different strategy might be needed,
-    // but for now, we'll rely on the auth state listener.
-    // A simple timeout to reset the button and show a generic error if not redirected.
-    setTimeout(() => {
-        if (!user) { // If user is still not set after a short delay
-            setIsSigningIn(false);
-            setError("Login failed. Please check your credentials.");
-        }
-    }, 3000);
   };
 
   if (isUserLoading || user) {
@@ -84,6 +100,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                autoComplete="email"
               />
             </div>
             <div className="space-y-2">
@@ -94,6 +111,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                autoComplete="current-password"
               />
             </div>
              {error && <p className="text-sm text-red-600">{error}</p>}

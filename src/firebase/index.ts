@@ -7,6 +7,16 @@ import { getFirestore } from 'firebase/firestore'
 
 // IMPORTANT: DO NOT MODIFY THIS FUNCTION
 export function initializeFirebase() {
+  if (!firebaseConfig || !firebaseConfig.apiKey) {
+    console.error("Firebase config is missing or invalid. Please check your src/firebase/config.ts file.");
+    // Return a dummy object to prevent app crash, but services will not work.
+    return {
+      firebaseApp: null,
+      auth: null,
+      firestore: null,
+    };
+  }
+  
   if (getApps().length) {
     return getSdks(getApp());
   }

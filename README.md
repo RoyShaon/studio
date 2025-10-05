@@ -10,25 +10,31 @@ To get started, take a look at src/app/page.tsx.
 
 To run this application and use Firebase services, you need to configure your Firebase project correctly. Please follow the steps below.
 
-### 1. Set up your Firebase API Key
+### 1. Set up your Firebase Configuration
 
-Your application needs a Firebase Web API Key to connect to your Firebase project.
+Your application needs a Firebase Web Config to connect to your Firebase project.
 
-1.  **Find your API Key:**
+1.  **Find your Firebase Config Object:**
     *   Go to the [Firebase Console](https://console.firebase.google.com/).
     *   Select your project (`studio-8025684314-1fc15`).
     *   Click the **Project Overview** gear icon ⚙️ and select **Project settings**.
     *   Under the **General** tab, in the "Your apps" card, select the "Web" app (it might be named `nextn` or similar).
     *   In the app settings, find the **Firebase SDK snippet** section and select **Config**.
-    *   Copy the `apiKey` value.
+    *   Copy the entire `firebaseConfig` object. It will look like this:
+        ```javascript
+        const firebaseConfig = {
+          apiKey: "AIzaSy...",
+          authDomain: "your-project.firebaseapp.com",
+          projectId: "your-project",
+          storageBucket: "your-project.appspot.com",
+          messagingSenderId: "...",
+          appId: "1:..."
+        };
+        ```
 
-2.  **Create and configure the environment file:**
-    *   In your project's root directory, create a new file named `.env.local`.
-    *   Add the following line to the file, replacing `YOUR_API_KEY` with the key you copied from the Firebase console.
-
-    ```.env.local
-    NEXT_PUBLIC_FIREBASE_API_KEY=YOUR_API_KEY
-    ```
+2.  **Add the config to your project:**
+    *   Open the file `src/firebase/config.ts` in your editor.
+    *   Paste the entire `firebaseConfig` object you copied, replacing the placeholder content in that file.
 
 ### 2. Enable Authentication Providers
 
