@@ -146,6 +146,7 @@ export default function LabelPreview({
           <p className="text-xl font-bold">ডাঃ নীহার রঞ্জন রায়</p>
           <p className="text-sm">শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক</p>
           <p className="text-sm">বি.এস.সি, ডি.এইচ.এম.এস</p>
+          <p className="text-xs">(আদর্শ হোমিওপ্যাথিক চিকিৎসক)</p>
           <p className="text-sm">কোটালীপাড়া, গোপালগঞ্জ</p>
           <p className="text-sm">মোবাইল: ০১৭১৬৯৫৪৬৯৯, ০১৯২২৭৮৮৪৬৬, ০১৮৭১৮১১১৮১</p>
       </div>
