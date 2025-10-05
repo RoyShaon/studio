@@ -96,6 +96,9 @@ export default function LabelPreview({
     const bnLabelCount = convertToBanglaNumerals(labelCount);
 
     let text = `${bnIndex} নং ঔষধ (${bnLabelCount} টির মধ্যে)`;
+    if (activeLabelIndex > 1) {
+        text += ` - (${convertToBanglaNumerals(activeLabelIndex - 1)} নং এর পরে খাবেন)`;
+    }
     
     return (
       <div className="text-center mb-2">
@@ -147,7 +150,7 @@ export default function LabelPreview({
           <p className="text-base font-bold">ত্রিফুল আরোগ্য নিকেতন</p>
           <p className="text-xs">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
           <p className="text-base">
-            <span className="font-bold">ডাঃ নীহার রঞ্জন রায়</span> <span className="font-medium text-xs">(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+            <span className="font-medium">ডাঃ নীহার রঞ্জন রায়</span> <span className="font-medium text-xs">(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
           <p className="text-xs font-medium">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
           <p className="text-xs">কোটালীপাড়া, গোপালগঞ্জ</p>
