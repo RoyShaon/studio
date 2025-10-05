@@ -38,7 +38,7 @@ export default function LabelPreview({
         return `<li>${bnLine}</li>`;
     }).join('');
 
-  const finalCounseling = `${counselingPoints}<li>• ${convertToBanglaNumerals(followUpDays)} দিন পরে আসবেন।</li>`;
+  const finalCounseling = `${counselingPoints}<li>• <strong>${convertToBanglaNumerals(followUpDays)} দিন</strong> পরে আসবেন।</li>`;
     
   const renderInstruction = () => {
     const bnDrops = convertToBanglaNumerals(drops);
