@@ -131,7 +131,6 @@ export default function LabelPreview({
       </div>
 
       <div className="text-center pt-4 doctor-info">
-          <h1 className="text-lg font-bold mb-1 underline">ত্রিফুল আরোগ্য নিকেতন</h1>
           <div className="text-xs font-medium">
               <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় (বিএসসি, ডিএইচএমএস)</p>
               <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
