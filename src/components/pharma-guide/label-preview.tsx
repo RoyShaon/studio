@@ -133,10 +133,8 @@ export default function LabelPreview({
             dangerouslySetInnerHTML={{ __html: counselingPoints }}
           ></ul>
         </div>
-
-        <div className="flex-grow"></div>
         
-        <div className="text-center doctor-info">
+        <div className="text-center doctor-info mt-auto pt-4">
             <div className="text-xs font-medium space-y-px">
                 <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় <span className="font-medium text-sm">(বিএসসি, ডিএইচএমএস)</span></p>
                 <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
