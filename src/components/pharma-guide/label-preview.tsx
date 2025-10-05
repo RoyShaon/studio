@@ -116,6 +116,8 @@ export default function LabelPreview({
                 </div>
             </div>
 
+            {getSequentialText()}
+
             <div className="space-y-3">
                 <div className="text-center"> 
                     <h2 className="text-base sm:text-lg font-extrabold border-b-2 border-gray-800 py-0.5 inline-block text-center">ঔষধ খাবার নিয়মাবলী</h2>
@@ -144,6 +146,7 @@ export default function LabelPreview({
           <p className="text-xl font-bold">ডাঃ নীহার রঞ্জন রায়</p>
           <p className="text-sm">শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক</p>
           <p className="text-sm">বি.এস.সি, ডি.এইচ.এম.এস</p>
+          <p className="text-sm">কোটালীপাড়া, গোপালগঞ্জ</p>
           <p className="text-sm">মোবাইল: ০১৭১৬৯৫৪৬৯৯, ০১৯২২৭৮৮৪৬৬, ০১৮৭১৮১১১৮১</p>
       </div>
     </div>
