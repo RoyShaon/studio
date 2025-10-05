@@ -83,7 +83,8 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="text-gray-800 text-justify text-[12px] leading-snug"
+        className="text-gray-800 text-justify leading-snug"
+        style={{ fontSize: '12px' }}
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -130,7 +131,7 @@ export default function LabelPreview({
 
             <div className="space-y-3">
                 <div className="text-center"> 
-                    <h2 className="text-base sm:text-lg font-extrabold border-b-2 border-gray-800 py-0.5 inline-block text-center">ঔষধ খাবার নিয়মাবলী</h2>
+                    <h2 className="inline-block border-b-2 border-gray-800 py-0.5 text-center font-extrabold" style={{ fontSize: '17px' }}>ঔষধ খাবার নিয়মাবলী</h2>
                 </div>
                 <div className="instruction-box">
                   {renderInstruction()}
@@ -152,7 +153,7 @@ export default function LabelPreview({
           <p className="font-bold mb-0" style={{ fontSize: '0.8rem' }}>ত্রিফুল আরোগ্য নিকেতন</p>
           <p className="mb-0" style={{ fontSize: '0.6rem' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
           <p className="mb-0" style={{ fontSize: '0.7rem' }}>
-            <span className="font-medium">ডাঃ নীহার রঞ্জন রায়</span> <span className="font-medium">(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+            <span className="font-medium">ডাঃ নীহার রঞ্জন রায়</span> <span className="font-medium" style={{ fontSize: '0.5rem' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
           <p className="mb-0" style={{ fontSize: '0.6rem' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
           <p className="mb-0" style={{ fontSize: '0.6rem' }}>কোটালীপাড়া, গোপালগঞ্জ</p>
