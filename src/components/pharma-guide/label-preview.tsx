@@ -46,7 +46,7 @@ export default function LabelPreview({
     const bnShakeCount = shakeMode === 'with' ? convertToBanglaNumerals(shakeCount) : '';
     const bnMixtureAmount = convertToBanglaNumerals(mixtureAmount);
     const bnDurationDays = convertToBanglaNumerals(durationDays);
-    const intervalUnitText = intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন';
+    const intervalUnitText = intervalUnit === 'hours' ? 'ঘণ্টা' : 'দিন';
     
     let instruction;
     if (shakeMode === "with") {

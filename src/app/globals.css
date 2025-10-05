@@ -182,6 +182,7 @@
   }
   .print-page .doctor-info p {
     margin-bottom: 0.5px;
+    line-height: 1.1;
   }
 
   @page {
