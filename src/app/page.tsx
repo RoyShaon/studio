@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Printer, Loader2 } from "lucide-react";
 import { collection, query, where, getDocs, limit, doc } from "firebase/firestore";
@@ -69,11 +69,15 @@ export default function Home() {
     }
   }, [isUserLoading, user, router]);
   
+    const patientsRef = useMemo(() => {
+        if (!firestore) return null;
+        return collection(firestore, 'patients');
+    }, [firestore]);
+
   const findPatientBySerial = useCallback(async (serial: string) => {
-    if (!firestore || !serial || serial.trim() === 'F/') return;
+    if (!patientsRef || !serial || serial.trim() === 'F/') return;
 
     try {
-      const patientsRef = collection(firestore, 'patients');
       const q = query(patientsRef, where('serialNumber', '==', serial.trim()), limit(1));
       const querySnapshot = await getDocs(q);
       
@@ -85,10 +89,9 @@ export default function Home() {
         }
       }
     } catch (error) {
-      // Non-critical read error, logging to console is acceptable here.
-      console.error("Error fetching patient by serial:", error);
+      // Non-critical read error, handled by global error handler if it's a permission issue.
     }
-  }, [firestore]);
+  }, [patientsRef]);
 
 
   useEffect(() => {
@@ -132,59 +135,54 @@ export default function Home() {
 
   const handlePrint = async () => {
     if (!firestore || !user) {
-      console.error("Firestore not initialized or user not logged in.");
       // Optionally, show a toast to the user.
       return;
     }
 
-    // This part handles the logic of finding an existing patient or creating a new one.
-    // The actual database writes are non-blocking.
     try {
-      const patientsRef = collection(firestore, 'patients');
-      const q = query(patientsRef, where('serialNumber', '==', labelState.serial.trim()), limit(1));
-      const querySnapshot = await getDocs(q);
+        const trimmedSerial = labelState.serial.trim();
+        if (!trimmedSerial) return;
 
-      let patientId: string;
+        const patientsCollectionRef = collection(firestore, 'patients');
+        const q = query(patientsCollectionRef, where('serialNumber', '==', trimmedSerial), limit(1));
+        const querySnapshot = await getDocs(q);
 
-      if (!querySnapshot.empty) {
-        patientId = querySnapshot.docs[0].id;
-        const patientRef = doc(firestore, 'patients', patientId);
-        // Non-blocking update
-        setDocumentNonBlocking(patientRef, { 
-            name: labelState.patientName,
-            serialNumber: labelState.serial.trim(),
-        }, { merge: true });
-      } else {
-        const newPatientRef = doc(collection(firestore, 'patients'));
-        patientId = newPatientRef.id;
-        const patientData = {
-            id: patientId,
-            name: labelState.patientName,
-            serialNumber: labelState.serial.trim(),
-            dateOfBirth: labelState.date.toISOString(),
+        let patientId: string;
+
+        if (!querySnapshot.empty) {
+            patientId = querySnapshot.docs[0].id;
+            const patientRef = doc(firestore, 'patients', patientId);
+            setDocumentNonBlocking(patientRef, { 
+                name: labelState.patientName,
+                serialNumber: trimmedSerial,
+            }, { merge: true });
+        } else {
+            const newPatientRef = doc(patientsCollectionRef);
+            patientId = newPatientRef.id;
+            const patientData = {
+                id: patientId,
+                name: labelState.patientName,
+                serialNumber: trimmedSerial,
+            };
+            setDocumentNonBlocking(newPatientRef, patientData);
+        }
+        
+        const medicationLabelData = {
+            patientId: patientId,
+            drops: labelState.drops,
+            shakeCount: labelState.shakeCount,
+            intervalHours: labelState.interval,
+            shakeMode: labelState.shakeMode,
+            counselingInstructions: labelState.counseling,
+            dateCreated: new Date().toISOString(),
         };
-        // Non-blocking write
-        setDocumentNonBlocking(newPatientRef, patientData);
-      }
-      
-      const medicationLabelData = {
-        patientId: patientId,
-        drops: labelState.drops,
-        shakeCount: labelState.shakeCount,
-        intervalHours: labelState.interval,
-        shakeMode: labelState.shakeMode,
-        counselingInstructions: labelState.counseling,
-        dateCreated: new Date().toISOString(),
-      };
-      const medicationLabelsColRef = collection(firestore, "patients", patientId, "medicationLabels");
-      // Non-blocking add
-      addDocumentNonBlocking(medicationLabelsColRef, medicationLabelData);
+        const medicationLabelsColRef = collection(firestore, "patients", patientId, "medicationLabels");
+        addDocumentNonBlocking(medicationLabelsColRef, medicationLabelData);
 
     } catch (error) {
-       // This catch block will mostly handle errors from getDocs, as writes are non-blocking.
-      console.error("Error preparing data for Firestore:", error);
-       // We don't use the errorEmitter here unless we are sure it's a permission error,
-       // which is handled inside the non-blocking functions.
+       // Non-blocking writes have their own error handling.
+       // This catch block will mostly handle errors from getDocs.
+       // The global error handler will catch permission errors.
     }
 
     // Proceed with printing immediately.
@@ -291,5 +289,3 @@ export default function Home() {
     </main>
   );
 }
-
-

@@ -30,7 +30,6 @@ export default function LabelPreview({
     .split("\n")
     .filter((line) => line.trim() !== "")
     .map(line => {
-        // The '*' character is manually replaced with the HTML entity for a more distinct bullet.
         const bnLine = convertToBanglaNumerals(line).replace('•', '❖');
         return `<li>${bnLine}</li>`;
     }).join('');
@@ -77,7 +76,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="text-gray-800 text-justify leading-relaxed"
+        className="text-gray-800 text-justify text-base leading-snug"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -104,7 +103,7 @@ export default function LabelPreview({
     <div
       className="prescription-sheet font-headline bg-white text-black flex flex-col"
     >
-      <div className="flex-grow flex flex-col space-y-4">
+      <div className="flex flex-col space-y-4">
         <div>
             {getSequentialText()}
             
@@ -121,26 +120,28 @@ export default function LabelPreview({
             <div className="text-center"> 
                 <h2 className="text-base sm:text-lg font-extrabold border-b-2 border-gray-800 py-0.5 inline-block text-center">ঔষধ খাবার নিয়মাবলী</h2>
             </div>
-            <div className="instruction-box min-h-[90px]">
+            <div className="instruction-box">
               {renderInstruction()}
             </div>
         </div>
 
-        <div className="text-center">
-          <h3 className="text-base font-bold text-red-700 mb-1 inline-block pb-1 border-b-2 border-red-700">পরামর্শ</h3>
-          <ul
-            className="advice-list text-gray-800 text-xs pl-0 list-none text-left"
-            dangerouslySetInnerHTML={{ __html: counselingPoints }}
-          ></ul>
-        </div>
-        
-        <div className="text-center doctor-info mt-auto pt-4">
-            <div className="text-xs font-medium space-y-px">
-                <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় <span className="font-medium text-sm">(বিএসসি, ডিএইচএমএস)</span></p>
-                <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
-                <p>ত্রিফুল আরোগ্য নিকেতন</p>
-                <p>কোটালীপাড়া সদর, গোপালগঞ্জ।</p>
-                <p>০১৯২২-৭৮৮৪৬৬, ০১৭১৪-৭১৯৪২২, ০১৭১৬-৯৫৪৬৯৯</p>
+        <div className="space-y-4">
+            <div className="text-center">
+              <h3 className="text-base font-bold text-red-700 mb-1 inline-block pb-1 border-b-2 border-red-700">পরামর্শ</h3>
+              <ul
+                className="advice-list text-gray-800 text-xs pl-0 list-none text-left"
+                dangerouslySetInnerHTML={{ __html: counselingPoints }}
+              ></ul>
+            </div>
+            
+            <div className="text-center doctor-info">
+                <div className="text-xs font-medium space-y-px">
+                    <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় <span className="font-medium text-sm">(বিএসসি, ডিএইচএমএস)</span></p>
+                    <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
+                    <p>ত্রিফুল আরোগ্য নিকেতন</p>
+                    <p>কোটালীপাড়া সদর, গোপালগঞ্জ।</p>
+                    <p>০১৯২২-৭৮৮৪৬৬, ০১৭১৪-৭১৯৪২২, ০১৭১৬-৯৫৪৬৯৯</p>
+                </div>
             </div>
         </div>
       </div>
