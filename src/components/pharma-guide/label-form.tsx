@@ -63,7 +63,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-            <Label htmlFor="serial">ক্রমিক নাম্বার</Label>
+            <Label htmlFor="serial">ক্রমিক নং</Label>
             <Input id="serial" name="serial" value={state.serial} onChange={handleInputChange} />
         </div>
         <div>
@@ -143,24 +143,6 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
             <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
         </div>
 
-        <div>
-            <Label htmlFor="mixtureNumber">কত নং মিশ্রণ?</Label>
-            <Select 
-              name="mixtureNumber" 
-              value={state.mixtureNumber} 
-              onValueChange={(value) => setState(prev => ({ ...prev, mixtureNumber: value }))}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="১ম">১ম</SelectItem>
-                <SelectItem value="২য়">২য়</SelectItem>
-                <SelectItem value="৩য়">৩য়</SelectItem>
-              </SelectContent>
-            </Select>
-        </div>
-
          <div>
             <Label htmlFor="mixtureAmount">কিভাবে খাবেন?</Label>
              <Select
@@ -172,9 +154,9 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                     <SelectValue placeholder="Select..."/>
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="এক চামচ">এক চামচ</SelectItem>
-                    <SelectItem value="দুই চামচ">দুই চামচ</SelectItem>
-                    <SelectItem value="তিন চামচ">তিন চামচ</SelectItem>
+                    <SelectItem value="১ চামচ">১ চামচ</SelectItem>
+                    <SelectItem value="২ চামচ">২ চামচ</SelectItem>
+                    <SelectItem value="৩ চামচ">৩ চামচ</SelectItem>
                 </SelectContent>
               </Select>
         </div>
@@ -182,11 +164,6 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
         <div>
             <Label htmlFor="durationDays">কত দিন খাবেন?</Label>
             <Input id="durationDays" name="durationDays" type="number" value={state.durationDays} onChange={handleNumberChange} min="1" />
-        </div>
-
-        <div>
-            <Label htmlFor="followUpDays">কত দিন পর সাক্ষাৎ করবেন?</Label>
-            <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
         </div>
         
         <div>

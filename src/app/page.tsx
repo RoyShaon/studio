@@ -41,10 +41,10 @@ export default function Home() {
     patientName: "",
     date: new Date(),
     shakeMode: "with",
-    drops: 5,
-    shakeCount: 5,
-    interval: 8,
-    mixtureAmount: "এক চামচ",
+    drops: 3,
+    shakeCount: 10,
+    interval: 12,
+    mixtureAmount: "১ চামচ",
     mixtureNumber: "১ম",
     durationDays: 7,
     counseling: "",
@@ -111,16 +111,15 @@ export default function Home() {
 
   useEffect(() => {
     const counselingParts = [
-      "• চিকিৎসাকালীন অন্য কোনো ওষুধ বা পেস্ট ব্যবহার করবেন না।",
-      "• ওষুধের ৩০ মিনিট আগে ও পরে কিছু খাবেন বা পান করবেন না (পানি ছাড়া)।",
-      `• জরুরী প্রয়োজনে কল করুন (সকাল ৭ টা থেকে রাত ৮ টা)।`,
-      `• ${convertToBanglaNumerals(labelState.followUpDays)} দিন পরে আবার সাক্ষাৎ করবেন।`
+      "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
+      "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
+      `• জরুরী প্রয়োজনে ফোন করুন বিকেল ৫টা-৭টা মধ্যে (০১৯২২-৭৮৮৪৬৬)।`,
     ];
     setLabelState(prevState => ({
       ...prevState,
       counseling: counselingParts.join('\n')
     }));
-  }, [labelState.followUpDays]);
+  }, []);
   
   useEffect(() => {
     const count = Number(labelState.labelCount);
@@ -292,3 +291,4 @@ export default function Home() {
     </main>
   );
 }
+
