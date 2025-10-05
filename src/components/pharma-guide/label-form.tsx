@@ -202,7 +202,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
                 <Label htmlFor="durationDays">কত দিন খাবেন?</Label>
                 <Input id="durationDays" name="durationDays" type="number" value={state.durationDays} onChange={handleNumberChange} min="1" />
@@ -223,11 +223,15 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                     min="1"
                 />
             </div>
+             <div>
+                <Label htmlFor="followUpDays">কত দিন পরে আসবেন?</Label>
+                <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
+            </div>
         </div>
       </div>
 
        <div className="space-y-4 pt-4">
-        <h3 className="text-lg font-semibold border-b pb-2">পরামর্শ ও ফলো-আপ</h3>
+        <h3 className="text-lg font-semibold border-b pb-2">পরামর্শ</h3>
         
         <div className="space-y-2">
             <Label>বর্তমান পরামর্শসমূহ:</Label>
@@ -258,12 +262,6 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                 </Select>
                 <Button onClick={addCounseling}><PlusCircle className="h-4 w-4 mr-2" /> যোগ করুন</Button>
             </div>
-        </div>
-
-
-        <div>
-            <Label htmlFor="followUpDays">কত দিন পরে আসবেন?</Label>
-            <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
         </div>
        </div>
 
