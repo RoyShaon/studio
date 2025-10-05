@@ -76,7 +76,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="text-gray-800 text-justify text-[20px] leading-snug"
+        className="text-gray-800 text-justify text-[19.1px] leading-snug"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -101,14 +101,13 @@ export default function LabelPreview({
 
   return (
     <div
-      className="prescription-sheet font-headline bg-white text-black flex flex-col"
+      className="prescription-sheet font-headline bg-white text-black"
     >
-      <div className="flex-grow">
         <div className="space-y-4">
             <div>
                 {getSequentialText()}
                 
-                <div className="flex justify-between text-sm mb-3 font-medium">
+                <div className="flex justify-between items-center text-sm font-medium mb-1">
                     <span className="truncate pr-1">ক্রমিক নং: <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
                     <span className="whitespace-nowrap">তারিখঃ <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
                 </div>
@@ -136,7 +135,6 @@ export default function LabelPreview({
                 </div>
             </div>
         </div>
-      </div>
       
       <div className="text-center doctor-info space-y-px mt-8">
           <div className="text-xs font-medium">
