@@ -1,7 +1,18 @@
 import type {Metadata} from 'next';
+import { Inter, Noto_Serif_Bengali } from 'next/font/google';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { FirebaseClientProvider } from '@/firebase';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
+
+const notoSerifBengali = Noto_Serif_Bengali({
+  subsets: ['bengali'],
+  variable: '--font-noto-serif-bengali',
+});
 
 export const metadata: Metadata = {
   title: 'ত্রিফুল আরোগ্য নিকেতন',
@@ -15,12 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bn">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet" />
-      </head>
-      <body className="font-body antialiased">
+      <body className={`${inter.variable} ${notoSerifBengali.variable} font-body antialiased`}>
         <FirebaseClientProvider>
           {children}
         </FirebaseClientProvider>

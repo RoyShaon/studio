@@ -103,7 +103,7 @@ export default function LabelPreview({
     <div
       className="prescription-sheet font-headline bg-white text-black flex flex-col"
     >
-        <div className="space-y-4">
+        <div className="flex-grow space-y-4">
             <div>
                 {getSequentialText()}
                 
