@@ -21,7 +21,8 @@ export default function LabelPreview({
   durationDays,
   counseling,
   labelCount,
-  activeLabelIndex
+  activeLabelIndex,
+  followUpDays
 }: LabelPreviewProps) {
   
   const formattedDate = convertToBanglaNumerals(format(date, "dd/MM/yyyy"));
@@ -35,6 +36,8 @@ export default function LabelPreview({
         bnLine = bnLine.replace(/^[•❖-]/, '•');
         return `<li>${bnLine}</li>`;
     }).join('');
+
+  const finalCounseling = `${counselingPoints}<li>• ${convertToBanglaNumerals(followUpDays)} দিন পরে আসবেন।</li>`;
     
   const renderInstruction = () => {
     const bnDrops = convertToBanglaNumerals(drops);
@@ -132,7 +135,7 @@ export default function LabelPreview({
                   <h3 className="text-base font-bold text-red-700 mb-1 inline-block border-b-2 border-red-700">পরামর্শ</h3>
                   <ul
                     className="advice-list text-gray-800 text-xs pl-0 list-none text-left"
-                    dangerouslySetInnerHTML={{ __html: counselingPoints }}
+                    dangerouslySetInnerHTML={{ __html: finalCounseling }}
                   ></ul>
                 </div>
             </div>

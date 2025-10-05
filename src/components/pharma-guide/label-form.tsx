@@ -184,6 +184,14 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
         </div>
       </div>
 
+       <div className="space-y-4 pt-4">
+        <h3 className="text-lg font-semibold border-b pb-2">পরামর্শ ও ফলো-আপ</h3>
+        <div>
+            <Label htmlFor="followUpDays">কত দিন পরে আসবেন?</Label>
+            <Input id="followUpDays" name="followUpDays" type="number" value={state.followUpDays} onChange={handleNumberChange} min="1" />
+        </div>
+       </div>
+
        <div className="space-y-4">
         <div className="flex items-center gap-4">
            
