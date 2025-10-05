@@ -60,7 +60,7 @@ export default function LabelPreview({
     return (
       <div 
         className="text-gray-800 text-justify leading-snug"
-        style={{ fontSize: '12px' }}
+        style={{ fontSize: '12.5px' }}
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
