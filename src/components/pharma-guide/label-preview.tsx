@@ -76,7 +76,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="text-gray-800 text-justify text-[19.1px] leading-snug"
+        className="text-gray-800 text-justify text-lg leading-snug"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
