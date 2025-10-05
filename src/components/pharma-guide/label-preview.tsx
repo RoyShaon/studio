@@ -152,9 +152,9 @@ export default function LabelPreview({
           <p className="text-base">
             <span className="font-medium">ডাঃ নীহার রঞ্জন রায়</span> <span className="font-medium text-xs">(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
-          <p className="text-xs font-medium">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+          <p className="text-xs">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
           <p className="text-xs">কোটালীপাড়া, গোপালগঞ্জ</p>
-          <p className="text-xs">মোবাইল: ০১৭১৬৯৫৪৬৯৯, ০১৯২২৭৮৮৪৬৬</p>
+          <p className="text-xs font-bold">মোবাইল: 01716954699, 01922788466, 01714-719422</p>
       </div>
     </div>
   );
