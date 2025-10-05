@@ -77,7 +77,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="text-gray-800 text-lg leading-relaxed text-justify"
+        className="text-gray-800 text-justify leading-relaxed"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -117,11 +117,11 @@ export default function LabelPreview({
             </div>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-3">
             <div className="text-center"> 
                 <h2 className="text-base sm:text-lg font-extrabold border-b-2 border-gray-800 py-0.5 inline-block text-center">ঔষধ খাবার নিয়মাবলী</h2>
             </div>
-            <div className="instruction-box">
+            <div className="instruction-box min-h-[90px]">
               {renderInstruction()}
             </div>
         </div>
@@ -141,9 +141,10 @@ export default function LabelPreview({
               <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
               <p>ত্রিফুল আরোগ্য নিকেতন</p>
               <p>কোটালীপাড়া সদর, গোপালগঞ্জ।</p>
-              <p>০১৯২২-৭৮৮৪৬৬, ০১৭১৪-৭১৯৪২২, ০১৭১৬-৯৫৪৬৯৯</p>
+              <p>জরুরী প্রয়োজনেঃ ০১৯২২-৭৮৮৪৬৬</p>
           </div>
       </div>
     </div>
   );
 }
+

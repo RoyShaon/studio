@@ -113,6 +113,7 @@ export default function Home() {
     const counselingParts = [
       "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
       "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
+      "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে কল করুন (০১৯২২-৭৮৮৪৬৬)।",
     ];
     setLabelState(prevState => ({
       ...prevState,
@@ -290,4 +291,5 @@ export default function Home() {
     </main>
   );
 }
+
 
