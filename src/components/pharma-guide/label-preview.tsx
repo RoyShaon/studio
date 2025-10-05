@@ -103,35 +103,37 @@ export default function LabelPreview({
     <div
       className="prescription-sheet font-headline bg-white text-black flex flex-col"
     >
-      <div className="space-y-4">
-        <div>
-            {getSequentialText()}
-            
-            <div className="flex justify-between text-xs mb-3 font-medium">
-                <span className="truncate pr-1">ক্রমিক নং: <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
-                <span className="whitespace-nowrap">তারিখঃ <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
-            </div>
-            <div className="text-left text-sm font-medium mb-4">
-                রোগীর নামঃ <strong className="text-indigo-700 font-extrabold">{patientName || ''}</strong>
-            </div>
-        </div>
-
-        <div className="space-y-3">
-            <div className="text-center"> 
-                <h2 className="text-base sm:text-lg font-extrabold border-b-2 border-gray-800 py-0.5 inline-block text-center">ঔষধ খাবার নিয়মাবলী</h2>
-            </div>
-            <div className="instruction-box">
-              {renderInstruction()}
-            </div>
-        </div>
-
+      <div className="flex-grow">
         <div className="space-y-4">
-            <div className="text-center">
-              <h3 className="text-base font-bold text-red-700 mb-1 inline-block border-b-2 border-red-700">পরামর্শ</h3>
-              <ul
-                className="advice-list text-gray-800 text-xs pl-0 list-none text-left"
-                dangerouslySetInnerHTML={{ __html: counselingPoints }}
-              ></ul>
+            <div>
+                {getSequentialText()}
+                
+                <div className="flex justify-between text-sm mb-3 font-medium">
+                    <span className="truncate pr-1">ক্রমিক নং: <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
+                    <span className="whitespace-nowrap">তারিখঃ <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
+                </div>
+                <div className="text-left text-base font-medium mb-4">
+                    রোগীর নামঃ <strong className="text-indigo-700 font-extrabold">{patientName || ''}</strong>
+                </div>
+            </div>
+
+            <div className="space-y-3">
+                <div className="text-center"> 
+                    <h2 className="text-base sm:text-lg font-extrabold border-b-2 border-gray-800 py-0.5 inline-block text-center">ঔষধ খাবার নিয়মাবলী</h2>
+                </div>
+                <div className="instruction-box">
+                  {renderInstruction()}
+                </div>
+            </div>
+
+            <div className="space-y-4">
+                <div className="text-center">
+                  <h3 className="text-base font-bold text-red-700 mb-1 inline-block border-b-2 border-red-700">পরামর্শ</h3>
+                  <ul
+                    className="advice-list text-gray-800 text-xs pl-0 list-none text-left"
+                    dangerouslySetInnerHTML={{ __html: counselingPoints }}
+                  ></ul>
+                </div>
             </div>
         </div>
       </div>
