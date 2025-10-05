@@ -121,10 +121,10 @@ export default function LabelPreview({
 
         {renderInstruction()}
 
-        <div className="mt-3 text-left">
-          <h3 className="text-center text-base font-bold text-red-700 mb-0.5 border-b border-gray-400 inline-block w-full pb-1">পরামর্শ</h3>
+        <div className="mt-3 text-center">
+          <h3 className="text-base font-bold text-red-700 mb-0.5 border-b-2 border-gray-800 inline-block pb-1">পরামর্শ</h3>
           <ul
-            className="advice-list text-gray-800 text-xs pl-0 list-none"
+            className="advice-list text-gray-800 text-xs pl-0 list-none text-left"
             dangerouslySetInnerHTML={{ __html: counselingPoints }}
           ></ul>
         </div>
