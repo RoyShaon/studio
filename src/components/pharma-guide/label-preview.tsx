@@ -76,7 +76,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="text-gray-800 text-justify text-[19px] leading-snug"
+        className="text-gray-800 text-justify text-lg leading-snug"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -101,9 +101,9 @@ export default function LabelPreview({
 
   return (
     <div
-      className="prescription-sheet font-headline bg-white text-black flex flex-col"
+      className="prescription-sheet font-headline bg-white text-black flex flex-col justify-between"
     >
-      <div className="flex flex-col space-y-4 flex-grow">
+      <div className="space-y-4">
         <div>
             {getSequentialText()}
             
@@ -136,7 +136,7 @@ export default function LabelPreview({
         </div>
       </div>
       
-      <div className="text-center doctor-info space-y-px">
+      <div className="text-center doctor-info space-y-px mt-4">
           <div className="text-xs font-medium">
               <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় <span className="text-sm font-medium">(বিএসসি, ডিএইচএমএস)</span></p>
               <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
