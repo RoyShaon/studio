@@ -23,6 +23,7 @@ export type LabelState = {
   drops: number;
   shakeCount: number;
   interval: number;
+  intervalUnit: "hours" | "days";
   mixtureAmount: string;
   mixtureNumber: string;
   durationDays: number;
@@ -44,6 +45,7 @@ export default function Home() {
     drops: 3,
     shakeCount: 10,
     interval: 12,
+    intervalUnit: "hours",
     mixtureAmount: "১ চামচ",
     mixtureNumber: "১ম",
     durationDays: 7,

@@ -139,9 +139,24 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
         </div>
 
         <div>
-            <Label htmlFor="interval">কত ঘন্টা পর পর খাবেন?</Label>
-            <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
+          <Label htmlFor="interval">কত {state.intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন'} পর পর খাবেন?</Label>
+          <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
+          <RadioGroup
+            value={state.intervalUnit}
+            onValueChange={(value: "hours" | "days") => setState(prev => ({...prev, intervalUnit: value}))}
+            className="flex gap-4 mt-2"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="hours" id="hours" />
+              <Label htmlFor="hours">ঘণ্টা</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="days" id="days" />
+              <Label htmlFor="days">দিন</Label>
+            </div>
+          </RadioGroup>
         </div>
+
 
          <div>
             <Label htmlFor="mixtureAmount">কিভাবে খাবেন?</Label>

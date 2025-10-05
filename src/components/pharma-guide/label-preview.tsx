@@ -15,6 +15,7 @@ export default function LabelPreview({
   shakeMode,
   drops,
   interval,
+  intervalUnit,
   shakeCount,
   mixtureAmount,
   mixtureNumber,
@@ -45,12 +46,13 @@ export default function LabelPreview({
     const bnShakeCount = shakeMode === 'with' ? convertToBanglaNumerals(shakeCount) : '';
     const bnMixtureAmount = convertToBanglaNumerals(mixtureAmount);
     const bnDurationDays = convertToBanglaNumerals(durationDays);
+    const intervalUnitText = intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন';
     
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ ১ কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে ${bnInterval} ঘন্টা অন্তর ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করবেন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ ১ কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে ${bnInterval} ${intervalUnitText} অন্তর ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করবেন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে ${bnInterval} ঘন্টা অন্তর ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করবেন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে ${bnInterval} ${intervalUnitText} অন্তর ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করবেন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -153,4 +155,3 @@ export default function LabelPreview({
     </div>
   );
 }
-
