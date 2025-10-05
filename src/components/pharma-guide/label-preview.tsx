@@ -127,11 +127,11 @@ export default function LabelPreview({
       
       <div className="doctor-info instruction-box text-center mt-auto">
           <p className="font-bold mb-0" style={{ fontSize: '0.8rem' }}>ত্রিফুল আরোগ্য নিকেতন</p>
-          <p className="mb-0" style={{ fontSize: '0.3rem' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
+          <p className="mb-0" style={{ fontSize: '0.5rem' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
           <p className="mb-0" style={{ fontSize: '0.7rem' }}>
             <span className="font-medium">ডাঃ নীহার রঞ্জন রায়</span> <span className="font-medium" style={{ fontSize: '0.5rem' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
-          <p className="mb-0" style={{ fontSize: '0.3rem' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+          <p className="mb-0" style={{ fontSize: '0.5rem' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
           <p className="mb-0" style={{ fontSize: '0.6rem' }}>কোটালীপাড়া, গোপালগঞ্জ</p>
           <p className="font-bold mb-0">
             <span style={{ fontSize: '0.6rem' }}>মোবাইল: </span>
