@@ -44,7 +44,7 @@ export default function LabelPreview({
     
     let instruction;
     if (shakeMode === "with") {
-      instruction = `প্রতিবার ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপর দূর হতে সজোরে থেমে থেমে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ ১ কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে ${bnInterval} ঘন্টা অন্তর ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করবেন।`;
+      instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ ১ কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে ${bnInterval} ঘন্টা অন্তর ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করবেন।`;
     } else {
       instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে ${bnInterval} ঘন্টা অন্তর ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করবেন।`;
     }
@@ -133,13 +133,12 @@ export default function LabelPreview({
       <div className="text-center pt-4 doctor-info">
           <h1 className="text-lg font-bold mb-1 underline">ত্রিফুল আরোগ্য নিকেতন</h1>
           <div className="text-xs font-medium">
-              <p className="text-base font-bold">নীহার রঞ্জন রায় (বিএসসি, ডিএইচএমএস)</p>
-              <p>শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক</p>
+              <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় (বিএসসি, ডিএইচএমএস)</p>
+              <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
               <p>কোটালীপাড়া সদর, গোপালগঞ্জ।</p>
-              <p>মোবাইল : ০১৯২২-৭৮৮৪৬৬, ০১৭১৪-৭১৯৪২২, ০১৭১৬-৯৫৪৬৯৯</p>
+              <p>জরুরী প্রয়োজনেঃ বিকেল ৫টা-৭টা (০১৯২২-৭৮৮৪৬৬)</p>
           </div>
       </div>
     </div>
   );
 }
-
