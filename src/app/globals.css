@@ -129,7 +129,9 @@
   
   .print-page {
     page-break-after: always;
-    display: block !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
     visibility: visible !important;
     background-color: white !important;
     width: 100% !important;
@@ -148,10 +150,10 @@
     justify-content: flex-start !important;
     max-width: 3.6in !important;
     height: 5.6in !important;
-    padding: 0.25in 0.3in !important;
+    padding: 0.25in !important;
     margin: 0 !important;
     visibility: visible !important;
-    border: none !important;
+    border: 1px solid #000 !important;
     box-shadow: none !important;
     background-color: white !important;
   }
@@ -162,6 +164,16 @@
     font-family: 'Noto Serif Bengali', sans-serif !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+  }
+  
+  .print-page .text-base {
+    font-size: 11pt !important;
+  }
+  .print-page .text-sm {
+    font-size: 10pt !important;
+  }
+  .print-page .text-xs {
+    font-size: 8pt !important;
   }
 
   .print-page .text-red-700 {
@@ -175,7 +187,7 @@
   .print-page .instruction-box {
     padding: 0.5rem !important;
     border-style: dashed !important;
-    line-height: 1.6 !important;
+    line-height: 1.5 !important;
   }
 
   .print-page .advice-list {
@@ -184,21 +196,21 @@
   }
   
   .print-page .advice-list li {
-    line-height: 1.2 !important;
+    line-height: 1.3 !important;
     margin-bottom: 0 !important;
   }
 
   .print-page .doctor-info {
-    line-height: 1.2 !important;
+    line-height: 1.3 !important;
     margin-top: auto !important;
   }
   .print-page .doctor-info p {
-    margin-bottom: 0.5px !important;
-    line-height: 1.2 !important;
+    margin-bottom: 0px !important;
+    line-height: 1.3 !important;
   }
 
   @page {
       size: 3.6in 5.6in;
-      margin: 0;
+      margin: 0.1in;
   }
 }

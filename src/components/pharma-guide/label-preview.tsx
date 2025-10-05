@@ -83,7 +83,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="text-gray-800 text-justify text-[19.1px] leading-snug"
+        className="text-gray-800 text-justify text-[17px] leading-snug"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -150,13 +150,13 @@ export default function LabelPreview({
       
       <div className="doctor-info instruction-box text-center mt-auto">
           <p className="text-base font-bold mb-0">ত্রিফুল আরোগ্য নিকেতন</p>
-          <p style={{ fontSize: '0.625rem' }} className="mb-1">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
-          <p className="text-base mb-0.5">
+          <p style={{ fontSize: '0.625rem' }} className="mb-0">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
+          <p className="text-base mb-0">
             <span className="font-medium">ডাঃ নীহার রঞ্জন রায়</span> <span className="font-medium text-xs">(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
-          <p className="text-xs mb-0.5">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
-          <p className="text-xs mb-0.5">কোটালীপাড়া, গোপালগঞ্জ</p>
-          <p className="text-xs font-bold">মোবাইল: 01716954699, 01922788466, 01714-719422</p>
+          <p className="text-xs mb-0">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+          <p className="text-xs mb-0">কোটালীপাড়া, গোপালগঞ্জ</p>
+          <p className="text-xs font-bold mb-0">মোবাইল: 01716954699, 01922788466, 01714-719422</p>
       </div>
     </div>
   );
