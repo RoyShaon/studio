@@ -5,7 +5,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Printer, Loader2 } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import LabelForm from "@/components/pharma-guide/label-form";
 import LabelPreview from "@/components/pharma-guide/label-preview";
@@ -182,16 +182,20 @@ export default function Home() {
           </Card>
 
           <div className="lg:col-span-3">
-            <div className="text-center mb-4">
-              <h2 className="text-2xl font-semibold text-gray-800">ফর্মের প্রিভিউ</h2>
-              <p className="text-sm text-gray-500">
-                নিচের ফরম্যাটটি প্রিন্ট লেবেলের মতো দেখাবে ({convertToBanglaNumerals('3.6')}” x {convertToBanglaNumerals('5.6')}”)। 
-                {!labelState.showAllPreviews && labelState.labelCount > 1 && ` মোট ${convertToBanglaNumerals(labelState.labelCount)}টি লেবেলের মধ্যে ${convertToBanglaNumerals(activeLabelIndex)} নং লেবেল দেখানো হচ্ছে।`}
-              </p>
-            </div>
-             <div ref={printContainerRef}>
-                {renderPreviews()}
-              </div>
+             <Card className="shadow-lg">
+                <CardHeader className="text-center">
+                  <CardTitle className="text-2xl font-semibold">ফর্মের প্রিভিউ</CardTitle>
+                  <CardDescription>
+                    নিচের ফরম্যাটটি প্রিন্ট লেবেলের মতো দেখাবে ({convertToBanglaNumerals('3.6')}” x {convertToBanglaNumerals('5.6')}”)। 
+                    {!labelState.showAllPreviews && labelState.labelCount > 1 && ` মোট ${convertToBanglaNumerals(labelState.labelCount)}টি লেবেলের মধ্যে ${convertToBanglaNumerals(activeLabelIndex)} নং লেবেল দেখানো হচ্ছে।`}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div ref={printContainerRef}>
+                      {renderPreviews()}
+                  </div>
+                </CardContent>
+             </Card>
 
              <div className="text-center mt-6">
                 <Button onClick={saveDataAndPrint} className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-8 rounded-lg shadow-xl transition duration-150 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50">
