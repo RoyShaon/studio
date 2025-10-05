@@ -104,22 +104,26 @@ export default function LabelPreview({
     <div
       className="prescription-sheet font-headline bg-white text-black flex flex-col"
     >
-      <div className="flex-grow">
-        {getSequentialText()}
-        
-        <div className="flex justify-between text-xs mb-3 font-medium">
-            <span className="truncate pr-1">ক্রমিক নং: <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
-            <span className="whitespace-nowrap">তারিখঃ <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
-        </div>
-        <div className="text-left text-sm font-medium mb-4">
-            রোগীর নামঃ <strong className="text-indigo-700 font-extrabold">{patientName || ''}</strong>
+      <div className="flex-grow space-y-4">
+        <div>
+            {getSequentialText()}
+            
+            <div className="flex justify-between text-xs mb-3 font-medium">
+                <span className="truncate pr-1">ক্রমিক নং: <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
+                <span className="whitespace-nowrap">তারিখঃ <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
+            </div>
+            <div className="text-left text-sm font-medium mb-4">
+                রোগীর নামঃ <strong className="text-indigo-700 font-extrabold">{patientName || ''}</strong>
+            </div>
         </div>
 
-        <div className="text-center mb-2"> 
-            <h2 className="text-base sm:text-lg font-extrabold border-b-2 border-gray-800 py-0.5 inline-block text-center">ঔষধ খাবার নিয়মাবলী</h2>
-        </div>
-        <div className="instruction-box min-h-[90px] text-justify text-lg">
-          {renderInstruction()}
+        <div className="space-y-2">
+            <div className="text-center"> 
+                <h2 className="text-base sm:text-lg font-extrabold border-b-2 border-gray-800 py-0.5 inline-block text-center">ঔষধ খাবার নিয়মাবলী</h2>
+            </div>
+            <div className="instruction-box text-lg text-left">
+              {renderInstruction()}
+            </div>
         </div>
 
         <div className="mt-4 text-center">
@@ -137,7 +141,7 @@ export default function LabelPreview({
               <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
               <p>ত্রিফুল আরোগ্য নিকেতন</p>
               <p>কোটালীপাড়া সদর, গোপালগঞ্জ।</p>
-              <p>জরুরী প্রয়োজনেঃ বিকেল ৫টা-৭টা (০১৯২২-৭৮৮৪৬৬)</p>
+              <p>০১৯২২-৭৮৮৪৬৬, ০১৭১৪-৭১৯৪২২, ০১৭১৬-৯৫৪৬৯৯</p>
           </div>
       </div>
     </div>
