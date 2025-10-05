@@ -3,8 +3,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useFirebase } from "@/firebase";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -13,83 +11,46 @@ import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function LoginPage() {
-  const { auth, user, isUserLoading } = useFirebase();
   const router = useRouter();
   const { toast } = useToast();
   const [email, setEmail] = useState("dev.royshaon@gmail.com");
   const [password, setPassword] = useState("Shaon@5823");
   const [error, setError] = useState<string | null>(null);
   const [isSigningIn, setIsSigningIn] = useState(false);
+  const [isUserLoading, setIsUserLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (!isUserLoading && user) {
-      router.replace("/");
-    }
-  }, [user, isUserLoading, router]);
+    // Since we removed Firebase, we can simulate the user being logged out.
+    // Or, for now, we can just redirect to the main page.
+    setIsUserLoading(false);
+    // In a real app without Firebase, you'd check for a session token here.
+    // For this case, let's assume no user is logged in and they should see the login page.
+  }, []);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!auth) {
-      setError("Firebase is not configured. Please check your setup.");
-      toast({
-          variant: "destructive",
-          title: "Configuration Error",
-          description: "Firebase is not configured. Please check your setup.",
-      });
-      return;
-    }
-    if (!email || !password) {
-        setError("Please enter both email and password.");
-        return;
-    }
-    setError(null);
-    setIsSigningIn(true);
-    try {
-        await signInWithEmailAndPassword(auth, email, password);
-        // The useEffect will handle the redirect on successful sign-in.
-        toast({
-            title: "Login Successful",
-            description: "You are now logged in.",
-        });
-    } catch (err: any) {
-        let errorMessage = "An unknown error occurred.";
-        switch (err.code) {
-            case 'auth/invalid-credential':
-            case 'auth/wrong-password':
-            case 'auth/user-not-found':
-                errorMessage = "Invalid email or password. Please try again.";
-                break;
-            case 'auth/invalid-email':
-                errorMessage = "Please enter a valid email address.";
-                break;
-            case 'auth/too-many-requests':
-                errorMessage = "Too many login attempts. Please try again later.";
-                break;
-             case 'auth/api-key-not-valid':
-                errorMessage = "Firebase API Key is not valid. Please check your configuration in src/firebase/config.ts.";
-                break;
-            default:
-                errorMessage = "Failed to sign in. Please check your credentials and Firebase setup.";
-                break;
-        }
-        setError(errorMessage);
-        toast({
-            variant: "destructive",
-            title: "Login Failed",
-            description: errorMessage,
-        });
-    } finally {
-        setIsSigningIn(false);
-    }
+    setError("Login functionality is disabled as Firebase has been removed.");
+    toast({
+        variant: "destructive",
+        title: "Login Disabled",
+        description: "Firebase services have been removed from this application.",
+    });
   };
 
-  if (isUserLoading || (!isUserLoading && user)) {
+  if (isUserLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Loader2 className="h-16 w-16 animate-spin" />
       </div>
     );
   }
+  
+  // A simple redirect if you don't want a login page anymore.
+  // useEffect(() => {
+  //   router.replace("/");
+  // }, [router]);
+  // return null; // or a loading spinner
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-100 p-4">

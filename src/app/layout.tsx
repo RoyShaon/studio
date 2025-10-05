@@ -2,7 +2,6 @@ import type {Metadata} from 'next';
 import { Inter, Hind_Siliguri } from 'next/font/google';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
-import { FirebaseClientProvider } from '@/firebase';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -28,9 +27,7 @@ export default function RootLayout({
   return (
     <html lang="bn">
       <body className={`${inter.variable} ${hindSiliguri.variable} font-body antialiased`}>
-        <FirebaseClientProvider>
-          {children}
-        </FirebaseClientProvider>
+        {children}
         <Toaster />
       </body>
     </html>

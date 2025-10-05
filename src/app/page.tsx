@@ -1,18 +1,15 @@
 
 "use client";
 
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Printer, Loader2 } from "lucide-react";
-import { collection, query, where, getDocs, limit, doc } from "firebase/firestore";
-import { useFirebase } from "@/firebase";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import LabelForm from "@/components/pharma-guide/label-form";
 import LabelPreview from "@/components/pharma-guide/label-preview";
 import { convertToBanglaNumerals } from "@/lib/utils";
-import { addDocumentNonBlocking, setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 
 export type LabelState = {
@@ -34,7 +31,6 @@ export type LabelState = {
 };
 
 export default function Home() {
-  const { auth, firestore, user, isUserLoading } = useFirebase();
   const router = useRouter();
 
   const [labelState, setLabelState] = useState<LabelState>({
@@ -58,7 +54,10 @@ export default function Home() {
   const [activeLabelIndex, setActiveLabelIndex] = useState(1);
   const [isClient, setIsClient] = useState(false);
   const printContainerRef = useRef<HTMLDivElement>(null);
-  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Mocking user state as Firebase is removed
+  const [isUserLoading, setIsUserLoading] = useState(false);
+  const [user, setUser] = useState<{} | null>({}); // Assume user is logged in
 
 
   useEffect(() => {
@@ -66,60 +65,14 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    // Since Firebase is removed, we no longer need to check for a user session to redirect.
+    // If you want to re-implement authentication, you would check for a session here.
+    // For now, we assume the user is "logged in" and can access the page.
     if (!isUserLoading && !user) {
-      router.replace("/login");
+      // router.replace("/login"); // This can be re-enabled if auth is re-implemented
     }
   }, [isUserLoading, user, router]);
   
-    const patientsRef = useMemo(() => {
-        if (!firestore) return null;
-        return collection(firestore, 'patients');
-    }, [firestore]);
-
-  const findPatientBySerial = useCallback(async (serial: string) => {
-    if (!patientsRef || !serial || serial.trim() === 'F/') return;
-
-    try {
-      const q = query(patientsRef, where('serialNumber', '==', serial.trim()), limit(1));
-      const querySnapshot = await getDocs(q);
-      
-      if (!querySnapshot.empty) {
-        const patientDoc = querySnapshot.docs[0];
-        const patientData = patientDoc.data();
-        
-        setLabelState(prevState => {
-          // Only update the patient name if it's currently empty.
-          // This prevents overwriting what the user is currently typing.
-          if (patientData.name && prevState.patientName.trim() === '') {
-            return { ...prevState, patientName: patientData.name };
-          }
-          // Otherwise, return the state without changing the name
-          return prevState;
-        });
-      }
-    } catch (error) {
-      // Non-critical read error, handled by global error handler if it's a permission issue.
-    }
-  }, [patientsRef]);
-
-
-  useEffect(() => {
-    if (labelState.serial.trim() !== 'F/' && labelState.serial.trim() !== '') {
-        if (debounceTimeoutRef.current) {
-            clearTimeout(debounceTimeoutRef.current);
-        }
-        debounceTimeoutRef.current = setTimeout(() => {
-            findPatientBySerial(labelState.serial);
-        }, 500); // 500ms debounce delay
-    }
-
-    return () => {
-        if (debounceTimeoutRef.current) {
-            clearTimeout(debounceTimeoutRef.current);
-        }
-    };
-  }, [labelState.serial, findPatientBySerial]);
-
 
   useEffect(() => {
     const counselingParts = [
@@ -143,69 +96,9 @@ export default function Home() {
   }, [labelState.labelCount, activeLabelIndex]);
 
  const saveDataAndPrint = () => {
-    if (!firestore || !user) {
-        // If services aren't ready, just attempt to print with current state
-        triggerPrint();
-        return;
-    };
-
-    const trimmedSerial = labelState.serial.trim();
-    if (!trimmedSerial || trimmedSerial === 'F/') {
-        // If no valid serial, just print without saving
-        triggerPrint();
-        return;
-    }
-
-    // This is an async IIFE (Immediately Invoked Function Expression)
-    (async () => {
-        try {
-            const patientsCollectionRef = collection(firestore, 'patients');
-            const q = query(patientsCollectionRef, where('serialNumber', '==', trimmedSerial), limit(1));
-            const querySnapshot = await getDocs(q);
-
-            let patientId: string;
-
-            if (!querySnapshot.empty) {
-                patientId = querySnapshot.docs[0].id;
-                const patientRef = doc(firestore, 'patients', patientId);
-                // Non-blocking update
-                setDocumentNonBlocking(patientRef, {
-                    name: labelState.patientName,
-                    serialNumber: trimmedSerial,
-                }, { merge: true });
-            } else {
-                const newPatientRef = doc(patientsCollectionRef);
-                patientId = newPatientRef.id;
-                const patientData = {
-                    id: patientId,
-                    name: labelState.patientName,
-                    serialNumber: trimmedSerial,
-                };
-                // Non-blocking set
-                setDocumentNonBlocking(newPatientRef, patientData);
-            }
-
-            const medicationLabelData = {
-                patientId: patientId,
-                drops: labelState.drops,
-                shakeCount: labelState.shakeCount,
-                intervalHours: labelState.interval,
-                shakeMode: labelState.shakeMode,
-                counselingInstructions: labelState.counseling.join('\n'),
-                dateCreated: new Date().toISOString(),
-            };
-            const medicationLabelsColRef = collection(firestore, "patients", patientId, "medicationLabels");
-            // Non-blocking add
-            addDocumentNonBlocking(medicationLabelsColRef, medicationLabelData);
-
-        } catch (error) {
-            // Firestore errors are handled by the non-blocking writers,
-            // so we don't need to do anything here. The print will proceed regardless.
-        } finally {
-            // This ensures printing happens after the async save attempt completes
-            triggerPrint();
-        }
-    })();
+    // Data saving logic is removed as Firebase is no longer part of the project.
+    // We will just trigger the print functionality.
+    triggerPrint();
   };
   
   const triggerPrint = () => {
@@ -235,7 +128,7 @@ export default function Home() {
   };
 
 
-  if (!isClient || isUserLoading || !user) {
+  if (!isClient || isUserLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Loader2 className="h-16 w-16 animate-spin" />
