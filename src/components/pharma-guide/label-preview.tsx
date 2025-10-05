@@ -99,7 +99,7 @@ export default function LabelPreview({
                     <span className="whitespace-nowrap">তারিখঃ <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
                 </div>
                 <div className="text-left text-base font-medium mb-4">
-                    রোগীর নামঃ <strong className="text-indigo-700 font-extrabold">{patientName || ''}</strong>
+                    রোগীর নামঃ{'  '}<strong className="text-indigo-700 font-extrabold">{patientName || ''}</strong>
                 </div>
             </div>
 
