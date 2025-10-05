@@ -148,14 +148,14 @@ export default function LabelPreview({
             </div>
         </div>
       
-      <div className="doctor-info instruction-box text-center mt-auto space-y-1">
-          <p className="text-base font-bold">ত্রিফুল আরোগ্য নিকেতন</p>
-          <p style={{ fontSize: '0.625rem' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
-          <p className="text-base">
+      <div className="doctor-info instruction-box text-center mt-auto">
+          <p className="text-base font-bold mb-0">ত্রিফুল আরোগ্য নিকেতন</p>
+          <p style={{ fontSize: '0.625rem' }} className="mb-1">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
+          <p className="text-base mb-0.5">
             <span className="font-medium">ডাঃ নীহার রঞ্জন রায়</span> <span className="font-medium text-xs">(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
-          <p className="text-xs">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
-          <p className="text-xs">কোটালীপাড়া, গোপালগঞ্জ</p>
+          <p className="text-xs mb-0.5">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+          <p className="text-xs mb-0.5">কোটালীপাড়া, গোপালগঞ্জ</p>
           <p className="text-xs font-bold">মোবাইল: 01716954699, 01922788466, 01714-719422</p>
       </div>
     </div>
