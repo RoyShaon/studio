@@ -161,7 +161,6 @@
   .print-page * {
     visibility: visible !important;
     color: #000 !important;
-    font-family: 'Hind Siliguri', sans-serif !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
