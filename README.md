@@ -22,9 +22,9 @@ Your application needs a Firebase Web API Key to connect to your Firebase projec
     *   In the app settings, find the **Firebase SDK snippet** section and select **Config**.
     *   Copy the `apiKey` value.
 
-2.  **Add the API Key to your project:**
-    *   In the project's root directory, open the `.env.local` file.
-    *   Paste your key as the value for `NEXT_PUBLIC_FIREBASE_API_KEY`.
+2.  **Create and configure the environment file:**
+    *   In your project's root directory, create a new file named `.env.local`.
+    *   Add the following line to the file, replacing `YOUR_API_KEY` with the key you copied from the Firebase console.
 
     ```.env.local
     NEXT_PUBLIC_FIREBASE_API_KEY=YOUR_API_KEY
