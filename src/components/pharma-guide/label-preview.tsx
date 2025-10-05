@@ -77,7 +77,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="text-gray-800 text-lg p-2 text-left leading-relaxed"
+        className="text-gray-800 text-lg text-left leading-relaxed"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -102,7 +102,7 @@ export default function LabelPreview({
 
   return (
     <div
-      className="prescription-sheet font-headline bg-white text-black flex flex-col"
+      className="prescription-sheet font-headline bg-white text-black flex flex-col justify-between"
     >
       <div>
         {getSequentialText()}
@@ -111,18 +111,19 @@ export default function LabelPreview({
             <span className="truncate pr-1">ক্রমিক নং: <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
             <span className="whitespace-nowrap">তারিখঃ <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
         </div>
-        <div className="text-left text-sm font-medium mb-3">
+        <div className="text-left text-sm font-medium mb-4">
             রোগীর নামঃ <strong className="text-indigo-700 font-extrabold">{patientName || ''}</strong>
         </div>
 
         <div className="text-center mb-2"> 
             <h2 className="text-base sm:text-lg font-extrabold border-b-2 border-gray-800 py-0.5 inline-block text-center">ঔষধ খাবার নিয়মাবলী</h2>
         </div>
+        <div className="instruction-box">
+          {renderInstruction()}
+        </div>
 
-        {renderInstruction()}
-
-        <div className="mt-3 text-center">
-          <h3 className="text-base font-bold text-red-700 mb-0.5 inline-block pb-1">পরামর্শ</h3>
+        <div className="mt-4 text-center">
+          <h3 className="text-base font-bold text-red-700 mb-1 inline-block pb-1">পরামর্শ</h3>
           <ul
             className="advice-list text-gray-800 text-xs pl-0 list-none text-left"
             dangerouslySetInnerHTML={{ __html: counselingPoints }}
@@ -131,7 +132,7 @@ export default function LabelPreview({
       </div>
 
       <div className="text-center pt-4 doctor-info">
-          <div className="text-xs font-medium">
+          <div className="text-xs font-medium space-y-px">
               <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় (বিএসসি, ডিএইচএমএস)</p>
               <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
               <p>ত্রিফুল আরোগ্য নিকেতন</p>
@@ -142,7 +143,3 @@ export default function LabelPreview({
     </div>
   );
 }
-
-
-
-
