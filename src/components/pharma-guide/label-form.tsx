@@ -164,42 +164,42 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
             </div>
         </div>
 
-
-        <div>
-          <Label htmlFor="interval">কত {state.intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন'} পর পর খাবেন?</Label>
-          <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
-          <RadioGroup
-            value={state.intervalUnit}
-            onValueChange={(value: "hours" | "days") => setState(prev => ({...prev, intervalUnit: value}))}
-            className="flex gap-4 mt-2"
-          >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="hours" id="hours" />
-              <Label htmlFor="hours">ঘণ্টা</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="days" id="days" />
-              <Label htmlFor="days">দিন</Label>
-            </div>
-          </RadioGroup>
-        </div>
-
-         <div>
-            <Label htmlFor="mixtureAmount">কিভাবে খাবেন?</Label>
-             <Select
-                name="mixtureAmount"
-                value={state.mixtureAmount}
-                onValueChange={(value) => setState(prev => ({...prev, mixtureAmount: value}))}
-                >
-                <SelectTrigger>
-                    <SelectValue placeholder="Select..."/>
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="১ চামচ">১ চামচ</SelectItem>
-                    <SelectItem value="২ চামচ">২ চামচ</SelectItem>
-                    <SelectItem value="৩ চামচ">৩ চামচ</SelectItem>
-                </SelectContent>
-              </Select>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="interval">কত {state.intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন'} পর পর খাবেন?</Label>
+            <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
+            <RadioGroup
+              value={state.intervalUnit}
+              onValueChange={(value: "hours" | "days") => setState(prev => ({...prev, intervalUnit: value}))}
+              className="flex gap-4 mt-2"
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="hours" id="hours" />
+                <Label htmlFor="hours">ঘণ্টা</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="days" id="days" />
+                <Label htmlFor="days">দিন</Label>
+              </div>
+            </RadioGroup>
+          </div>
+          <div>
+              <Label htmlFor="mixtureAmount">কিভাবে খাবেন?</Label>
+              <Select
+                  name="mixtureAmount"
+                  value={state.mixtureAmount}
+                  onValueChange={(value) => setState(prev => ({...prev, mixtureAmount: value}))}
+                  >
+                  <SelectTrigger>
+                      <SelectValue placeholder="Select..."/>
+                  </SelectTrigger>
+                  <SelectContent>
+                      <SelectItem value="১ চামচ">১ চামচ</SelectItem>
+                      <SelectItem value="২ চামচ">২ চামচ</SelectItem>
+                      <SelectItem value="৩ চামচ">৩ চামচ</SelectItem>
+                  </SelectContent>
+                </Select>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
