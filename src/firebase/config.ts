@@ -6,3 +6,4 @@ export const firebaseConfig = {
   "authDomain": "studio-8025684314-1fc15.firebaseapp.com",
   "messagingSenderId": "642006814347"
 };
+
