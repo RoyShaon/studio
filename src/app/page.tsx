@@ -242,7 +242,7 @@ export default function Home() {
       <div className="max-w-7xl mx-auto space-y-8">
         <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight font-headline text-indigo-700">
+            <h1 className="text-4xl font-bold tracking-tight font-headline text-indigo-700">
               ত্রিফুল আরোগ্য নিকেতন
             </h1>
             <p className="text-muted-foreground mt-1">
