@@ -90,7 +90,7 @@ export default function LabelPreview({
 
   return (
     <div
-      className="prescription-sheet font-headline bg-white text-black flex flex-col"
+      className="prescription-sheet font-body bg-white text-black flex flex-col"
     >
         <div className="flex-grow space-y-4">
             <div>

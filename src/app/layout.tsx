@@ -1,5 +1,5 @@
 import type {Metadata} from 'next';
-import { Inter, Noto_Serif_Bengali } from 'next/font/google';
+import { Inter, Hind_Siliguri } from 'next/font/google';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { FirebaseClientProvider } from '@/firebase';
@@ -9,9 +9,10 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const notoSerifBengali = Noto_Serif_Bengali({
+const hindSiliguri = Hind_Siliguri({
   subsets: ['bengali'],
-  variable: '--font-noto-serif-bengali',
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-hind-siliguri',
 });
 
 export const metadata: Metadata = {
@@ -26,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bn">
-      <body className={`${inter.variable} ${notoSerifBengali.variable} font-body antialiased`}>
+      <body className={`${inter.variable} ${hindSiliguri.variable} font-body antialiased`}>
         <FirebaseClientProvider>
           {children}
         </FirebaseClientProvider>
