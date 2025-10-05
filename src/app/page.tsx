@@ -2,9 +2,10 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { Printer, Loader2 } from "lucide-react";
 import { collection, query, where, getDocs, limit, doc } from "firebase/firestore";
-import { useFirebase, initiateAnonymousSignIn } from "@/firebase";
+import { useFirebase } from "@/firebase";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -33,6 +34,7 @@ export type LabelState = {
 
 export default function Home() {
   const { auth, firestore, user, isUserLoading } = useFirebase();
+  const router = useRouter();
 
   const [labelState, setLabelState] = useState<LabelState>({
     serial: "F/",
@@ -62,10 +64,10 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!isUserLoading && !user && auth) {
-      initiateAnonymousSignIn(auth);
+    if (!isUserLoading && !user) {
+      router.replace("/login");
     }
-  }, [isUserLoading, user, auth]);
+  }, [isUserLoading, user, router]);
   
   const findPatientBySerial = useCallback(async (serial: string) => {
     if (!firestore || !serial || serial.trim() === 'F/') return;
@@ -213,7 +215,7 @@ export default function Home() {
   };
 
 
-  if (!isClient || isUserLoading) {
+  if (!isClient || isUserLoading || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Loader2 className="h-16 w-16 animate-spin" />
@@ -290,5 +292,3 @@ export default function Home() {
     </main>
   );
 }
-
-    
