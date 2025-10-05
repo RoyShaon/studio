@@ -91,13 +91,15 @@ export default function LabelPreview({
   
   const getSequentialText = () => {
     if (labelCount <= 1) return null;
-    
-    const bnIndex = convertToBanglaNumerals(activeLabelIndex);
-    const bnLabelCount = convertToBanglaNumerals(labelCount);
 
-    let text = `${bnIndex} নং ঔষধ (${bnLabelCount} টির মধ্যে)`;
+    const bnIndex = convertToBanglaNumerals(activeLabelIndex);
+    let text;
+
     if (activeLabelIndex > 1) {
-        text += ` - (${convertToBanglaNumerals(activeLabelIndex - 1)} নং এর পরে খাবেন)`;
+      const prevIndex = convertToBanglaNumerals(activeLabelIndex - 1);
+      text = `${bnIndex} নং ঔষধ (${prevIndex} নং এর পরে খাবেন)`;
+    } else {
+      text = `${bnIndex} নং ঔষধ`;
     }
     
     return (
