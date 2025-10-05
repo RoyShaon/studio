@@ -77,7 +77,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="text-gray-800 text-base p-2 text-justify leading-relaxed"
+        className="text-gray-800 text-lg p-2 text-left leading-relaxed"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -142,6 +142,7 @@ export default function LabelPreview({
     </div>
   );
 }
+
 
 
 
