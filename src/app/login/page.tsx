@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export default function LoginPage() {
   const { auth, user, isUserLoading } = useFirebase();
@@ -21,8 +20,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("Shaon@5823");
   const [error, setError] = useState<string | null>(null);
   const [isSigningIn, setIsSigningIn] = useState(false);
-
-  const isFirebaseConfigured = !!auth;
 
   useEffect(() => {
     if (!isUserLoading && user) {
@@ -72,7 +69,7 @@ export default function LoginPage() {
                 errorMessage = "Firebase API Key is not valid. Please check your configuration in src/firebase/config.ts.";
                 break;
             default:
-                errorMessage = "Failed to sign in. Please check your credentials.";
+                errorMessage = "Failed to sign in. Please check your credentials and Firebase setup.";
                 break;
         }
         setError(errorMessage);
@@ -102,13 +99,6 @@ export default function LoginPage() {
           <CardDescription>আপনার অ্যাকাউন্টে প্রবেশ করতে আপনার ইমেল এবং পাসওয়ার্ড দিন।</CardDescription>
         </CardHeader>
         <CardContent>
-          {!isFirebaseConfigured && (
-            <Alert variant="destructive" className="mb-4">
-              <AlertDescription>
-                Firebase is not configured. Please add your Firebase project configuration to <strong>src/firebase/config.ts</strong>.
-              </AlertDescription>
-            </Alert>
-          )}
           <form onSubmit={handleSignIn} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">ইমেল</Label>
@@ -120,7 +110,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                disabled={!isFirebaseConfigured}
+                disabled={isSigningIn}
               />
             </div>
             <div className="space-y-2">
@@ -132,11 +122,11 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
-                disabled={!isFirebaseConfigured}
+                disabled={isSigningIn}
               />
             </div>
              {error && <p className="text-sm text-red-600">{error}</p>}
-            <Button type="submit" className="w-full" disabled={isSigningIn || !isFirebaseConfigured}>
+            <Button type="submit" className="w-full" disabled={isSigningIn}>
               {isSigningIn ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "লগইন"}
             </Button>
           </form>

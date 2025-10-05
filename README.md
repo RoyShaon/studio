@@ -8,35 +8,9 @@ To get started, take a look at src/app/page.tsx.
 
 ## Firebase Configuration
 
-To run this application and use Firebase services, you need to configure your Firebase project correctly. Please follow the steps below.
+Your application's Firebase configuration has been automatically set up for you. However, you still need to enable the correct authentication methods in your Firebase project for the login system to work.
 
-### 1. Set up your Firebase Configuration
-
-Your application needs a Firebase Web Config to connect to your Firebase project.
-
-1.  **Find your Firebase Config Object:**
-    *   Go to the [Firebase Console](https://console.firebase.google.com/).
-    *   Select your project (`studio-8025684314-1fc15`).
-    *   Click the **Project Overview** gear icon ⚙️ and select **Project settings**.
-    *   Under the **General** tab, in the "Your apps" card, select the "Web" app (it might be named `nextn` or similar).
-    *   In the app settings, find the **Firebase SDK snippet** section and select **Config**.
-    *   Copy the entire `firebaseConfig` object. It will look like this:
-        ```javascript
-        const firebaseConfig = {
-          apiKey: "AIzaSy...",
-          authDomain: "your-project.firebaseapp.com",
-          projectId: "your-project",
-          storageBucket: "your-project.appspot.com",
-          messagingSenderId: "...",
-          appId: "1:..."
-        };
-        ```
-
-2.  **Add the config to your project:**
-    *   Open the file `src/firebase/config.ts` in your editor.
-    *   Paste the entire `firebaseConfig` object you copied, replacing the placeholder content in that file.
-
-### 2. Enable Authentication Providers
+### Enable Authentication Providers
 
 This application is configured to use Email/Password and Anonymous authentication. You must enable them in the Firebase console for the app to function correctly.
 
