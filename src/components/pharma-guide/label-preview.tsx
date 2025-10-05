@@ -50,36 +50,12 @@ export default function LabelPreview({
     
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ ১ কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে ${bnInterval} ${intervalUnitText} অন্তর ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করবেন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="text-red-700 font-extrabold">${bnShakeCount}</span> বার ঝাঁকি দিয়ে <span class="text-red-700 font-extrabold">${bnDrops}</span> ফোঁটা ঔষধ ১ কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold">${bnInterval}</span> ${intervalUnitText} অন্তর <span class="text-red-700 font-extrabold">${bnMixtureAmount}</span> করে <span class="text-red-700 font-extrabold">${bnDurationDays}</span> দিন সেবন করবেন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে ${bnInterval} ${intervalUnitText} অন্তর ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করবেন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <span class="text-red-700 font-extrabold">${bnDrops}</span> ফোঁটা ঔষধ এক কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold">${bnInterval}</span> ${intervalUnitText} অন্তর <span class="text-red-700 font-extrabold">${bnMixtureAmount}</span> করে <span class="text-red-700 font-extrabold">${bnDurationDays}</span> দিন সেবন করবেন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
-    const styleWrapper = (value: string) => `<span class="text-red-700 font-extrabold">${value}</span>`;
-
-    if (shakeMode === "with") {
-        processedInstruction = processedInstruction.replace(
-            new RegExp(bnShakeCount, 'g'),
-            styleWrapper(bnShakeCount)
-        );
-    }
-    processedInstruction = processedInstruction.replace(
-      new RegExp(`${bnDrops}`, 'g'),
-      styleWrapper(bnDrops)
-    );
-    processedInstruction = processedInstruction.replace(
-      new RegExp(`${bnInterval}`, 'g'),
-      styleWrapper(bnInterval)
-    );
-    processedInstruction = processedInstruction.replace(
-        new RegExp(bnMixtureAmount, 'g'),
-        styleWrapper(bnMixtureAmount)
-    );
-     processedInstruction = processedInstruction.replace(
-      new RegExp(`${bnDurationDays}`, 'g'),
-      styleWrapper(bnDurationDays)
-    );
     
     return (
       <div 
