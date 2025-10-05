@@ -118,7 +118,7 @@ export default function LabelPreview({
         <div className="text-center mb-2"> 
             <h2 className="text-base sm:text-lg font-extrabold border-b-2 border-gray-800 py-0.5 inline-block text-center">ঔষধ খাবার নিয়মাবলী</h2>
         </div>
-        <div className="instruction-box">
+        <div className="instruction-box min-h-[90px] text-justify text-base">
           {renderInstruction()}
         </div>
 
@@ -133,7 +133,7 @@ export default function LabelPreview({
 
       <div className="text-center pt-4 doctor-info">
           <div className="text-xs font-medium space-y-px">
-              <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় (বিএসসি, ডিএইচএমএস)</p>
+              <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় <span className="font-medium text-sm">(বিএসসি, ডিএইচএমএস)</span></p>
               <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
               <p>ত্রিফুল আরোগ্য নিকেতন</p>
               <p>কোটালীপাড়া সদর, গোপালগঞ্জ।</p>
