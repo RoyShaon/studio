@@ -143,17 +143,16 @@ export default function LabelPreview({
             </div>
         </div>
       
-      <div className="text-center doctor-info space-y-1 mt-auto pt-4">
+      <div className="doctor-info instruction-box text-center mt-auto space-y-1">
           <p className="text-base font-bold">ত্রিফুল আরোগ্য নিকেতন</p>
           <p className="text-xs">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
-          <p className="text-base font-bold">
-            ডাঃ নীহার রঞ্জন রায় <span className="font-medium text-xs">(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+          <p className="text-base">
+            <span className="font-bold">ডাঃ নীহার রঞ্জন রায়</span> <span className="font-medium text-xs">(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
           <p className="text-xs font-medium">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
           <p className="text-xs">কোটালীপাড়া, গোপালগঞ্জ</p>
-          <p className="text-xs">মোবাইল: ০১৭১৬৯৫৪৬৯৯, ০১৯২২৭৮৮৪৬৬, ০১৮৭১৮১১১৮১</p>
+          <p className="text-xs">মোবাইল: ০১৭১৬৯৫৪৬৯৯, ০১৯২২৭৮৮৪৬৬</p>
       </div>
     </div>
   );
 }
-
