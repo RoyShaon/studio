@@ -32,9 +32,9 @@ Your application needs a Firebase Web API Key to connect to your Firebase projec
 
 ### 2. Enable Authentication Providers
 
-This application is configured to use Anonymous and Email/Password authentication. You must enable them in the Firebase console.
+This application is configured to use Email/Password and Anonymous authentication. You must enable them in the Firebase console for the app to function correctly.
 
-1.  Go to the [Firebase Console](https://console.firebase.google.com/) and select your project.
+1.  Go to the [Firebase Console](https://console.firebase.google.com/) and select your project (`studio-8025684314-1fc15`).
 2.  In the left-hand menu, go to **Build > Authentication**.
 3.  Click the **Sign-in method** tab.
 4.  Enable the following providers:
