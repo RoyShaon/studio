@@ -146,8 +146,9 @@ export default function LabelPreview({
       <div className="text-center doctor-info space-y-1 mt-auto pt-4">
           <p className="text-base font-bold">ত্রিফুল আরোগ্য নিকেতন</p>
           <p className="text-xs">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
-          <p className="text-lg font-bold">ডাঃ নীহার রঞ্জন রায়</p>
-          <p className="text-xs font-medium">(বি.এস.সি, ডি.এইচ.এম.এস)</p>
+          <p className="text-base font-bold">
+            ডাঃ নীহার রঞ্জন রায় <span className="font-medium text-xs">(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+          </p>
           <p className="text-xs font-medium">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
           <p className="text-xs">কোটালীপাড়া, গোপালগঞ্জ</p>
           <p className="text-xs">মোবাইল: ০১৭১৬৯৫৪৬৯৯, ০১৯২২৭৮৮৪৬৬, ০১৮৭১৮১১১৮১</p>
@@ -155,3 +156,4 @@ export default function LabelPreview({
     </div>
   );
 }
+
