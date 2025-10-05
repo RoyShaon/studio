@@ -135,83 +135,80 @@ export default function Home() {
     }
   }, [labelState.labelCount, activeLabelIndex]);
 
-  const handlePrint = async () => {
-    if (!firestore || !user) {
-      return;
-    }
+ const saveDataToFirestore = async () => {
+    if (!firestore || !user) return;
 
     try {
-        const trimmedSerial = labelState.serial.trim();
-        if (!trimmedSerial || trimmedSerial === 'F/') return;
+      const trimmedSerial = labelState.serial.trim();
+      if (!trimmedSerial || trimmedSerial === 'F/') return;
 
-        const patientsCollectionRef = collection(firestore, 'patients');
-        const q = query(patientsCollectionRef, where('serialNumber', '==', trimmedSerial), limit(1));
-        const querySnapshot = await getDocs(q);
+      const patientsCollectionRef = collection(firestore, 'patients');
+      const q = query(patientsCollectionRef, where('serialNumber', '==', trimmedSerial), limit(1));
+      const querySnapshot = await getDocs(q);
 
-        let patientId: string;
+      let patientId: string;
 
-        if (!querySnapshot.empty) {
-            patientId = querySnapshot.docs[0].id;
-            const patientRef = doc(firestore, 'patients', patientId);
-            // Update existing patient with new name if it has changed
-            setDocumentNonBlocking(patientRef, { 
-                name: labelState.patientName,
-                serialNumber: trimmedSerial,
-            }, { merge: true });
-        } else {
-            // Create a new patient document reference
-            const newPatientRef = doc(patientsCollectionRef);
-            patientId = newPatientRef.id;
-            const patientData = {
-                id: patientId,
-                name: labelState.patientName,
-                serialNumber: trimmedSerial,
-            };
-            setDocumentNonBlocking(newPatientRef, patientData);
-        }
-        
-        const medicationLabelData = {
-            patientId: patientId,
-            drops: labelState.drops,
-            shakeCount: labelState.shakeCount,
-            intervalHours: labelState.interval,
-            shakeMode: labelState.shakeMode,
-            counselingInstructions: labelState.counseling,
-            dateCreated: new Date().toISOString(),
+      if (!querySnapshot.empty) {
+        patientId = querySnapshot.docs[0].id;
+        const patientRef = doc(firestore, 'patients', patientId);
+        setDocumentNonBlocking(patientRef, {
+          name: labelState.patientName,
+          serialNumber: trimmedSerial,
+        }, { merge: true });
+      } else {
+        const newPatientRef = doc(patientsCollectionRef);
+        patientId = newPatientRef.id;
+        const patientData = {
+          id: patientId,
+          name: labelState.patientName,
+          serialNumber: trimmedSerial,
         };
-        const medicationLabelsColRef = collection(firestore, "patients", patientId, "medicationLabels");
-        addDocumentNonBlocking(medicationLabelsColRef, medicationLabelData);
+        setDocumentNonBlocking(newPatientRef, patientData);
+      }
+
+      const medicationLabelData = {
+        patientId: patientId,
+        drops: labelState.drops,
+        shakeCount: labelState.shakeCount,
+        intervalHours: labelState.interval,
+        shakeMode: labelState.shakeMode,
+        counselingInstructions: labelState.counseling,
+        dateCreated: new Date().toISOString(),
+      };
+      const medicationLabelsColRef = collection(firestore, "patients", patientId, "medicationLabels");
+      addDocumentNonBlocking(medicationLabelsColRef, medicationLabelData);
 
     } catch (error) {
-       // Non-blocking writes have their own error handling.
-       // This catch block will mostly handle errors from getDocs.
-       // The global error handler will catch permission errors.
+      // Errors are handled by non-blocking writers or global handlers
     }
+  };
 
-    // Proceed with printing immediately.
-    const container = printContainerRef.current;
-    if (!container) return;
+  const handlePrint = () => {
+    saveDataToFirestore().then(() => {
+      const container = printContainerRef.current;
+      if (!container) return;
 
-    const printableContent = document.createElement('div');
-    printableContent.id = 'printable-content';
+      const printableContent = document.createElement('div');
+      printableContent.id = 'printable-content';
 
-    const previews = container.querySelectorAll('.printable-label-wrapper');
+      const previews = container.querySelectorAll('.printable-label-wrapper');
 
-    previews.forEach(previewNode => {
-      const sheet = document.createElement('div');
-      sheet.className = "print-page";
-      
-      const content = previewNode.cloneNode(true) as HTMLElement;
-      sheet.appendChild(content);
-      
-      printableContent.appendChild(sheet);
+      previews.forEach(previewNode => {
+        const sheet = document.createElement('div');
+        sheet.className = "print-page";
+
+        const content = previewNode.cloneNode(true) as HTMLElement;
+        sheet.appendChild(content);
+
+        printableContent.appendChild(sheet);
+      });
+
+      if (printableContent.hasChildNodes()) {
+        document.body.appendChild(printableContent);
+        window.print();
+        document.body.removeChild(printableContent);
+      }
     });
-    
-    if (printableContent.hasChildNodes()) {
-      document.body.appendChild(printableContent);
-      window.print();
-      document.body.removeChild(printableContent);
-    }
   };
 
 
