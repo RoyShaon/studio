@@ -151,17 +151,19 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
       </div>
       
       <div className="space-y-4">
-        {state.shakeMode === 'with' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {state.shakeMode === 'with' && (
+                <div>
+                    <Label htmlFor="shakeCount">কত বার ঝাঁকি দিবেন?</Label>
+                    <Input id="shakeCount" name="shakeCount" type="number" value={state.shakeCount} onChange={handleNumberChange} min="1" />
+                </div>
+            )}
             <div>
-            <Label htmlFor="shakeCount">কত বার ঝাঁকি দিবেন?</Label>
-            <Input id="shakeCount" name="shakeCount" type="number" value={state.shakeCount} onChange={handleNumberChange} min="1" />
+                <Label htmlFor="drops">কত ফোঁটা করে খাবেন?</Label>
+                <Input id="drops" name="drops" type="number" value={state.drops} onChange={handleNumberChange} min="1" />
             </div>
-        )}
-
-        <div>
-            <Label htmlFor="drops">কত ফোঁটা করে খাবেন?</Label>
-            <Input id="drops" name="drops" type="number" value={state.drops} onChange={handleNumberChange} min="1" />
         </div>
+
 
         <div>
           <Label htmlFor="interval">কত {state.intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন'} পর পর খাবেন?</Label>
@@ -182,7 +184,6 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
           </RadioGroup>
         </div>
 
-
          <div>
             <Label htmlFor="mixtureAmount">কিভাবে খাবেন?</Label>
              <Select
@@ -201,26 +202,27 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
               </Select>
         </div>
 
-        <div>
-            <Label htmlFor="durationDays">কত দিন খাবেন?</Label>
-            <Input id="durationDays" name="durationDays" type="number" value={state.durationDays} onChange={handleNumberChange} min="1" />
-        </div>
-        
-        <div>
-            <Label htmlFor="labelCount">কতগুলো লেবেল?</Label>
-            <Input 
-                id="labelCount"
-                name="labelCount"
-                type="number"
-                value={state.labelCount}
-                onChange={handleLabelCountChange}
-                onBlur={(e) => {
-                  if (e.target.value === '' || parseInt(e.target.value, 10) < 1) {
-                    setState(prev => ({...prev, labelCount: 1}));
-                  }
-                }}
-                min="1"
-            />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <Label htmlFor="durationDays">কত দিন খাবেন?</Label>
+                <Input id="durationDays" name="durationDays" type="number" value={state.durationDays} onChange={handleNumberChange} min="1" />
+            </div>
+            <div>
+                <Label htmlFor="labelCount">কতগুলো লেবেল?</Label>
+                <Input 
+                    id="labelCount"
+                    name="labelCount"
+                    type="number"
+                    value={state.labelCount}
+                    onChange={handleLabelCountChange}
+                    onBlur={(e) => {
+                      if (e.target.value === '' || parseInt(e.target.value, 10) < 1) {
+                        setState(prev => ({...prev, labelCount: 1}));
+                      }
+                    }}
+                    min="1"
+                />
+            </div>
         </div>
       </div>
 
