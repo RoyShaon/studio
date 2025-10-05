@@ -43,7 +43,7 @@ export default function LabelPreview({
     
     let instruction;
     if (shakeMode === "with") {
-      instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ ১ কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে ${bnInterval} ঘন্টা অন্তর ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করবেন।`;
+      instruction = `ঔষধ সেবনের আগে প্রতিবার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা করে দিনে ${bnInterval} বার খাবার পর ${bnDurationDays} দিন খাবেন।`;
     } else {
       instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ এক কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে ${bnInterval} ঘন্টা অন্তর ${bnMixtureAmount} করে ${bnDurationDays} দিন সেবন করবেন।`;
     }
@@ -76,7 +76,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="text-gray-800 text-justify text-[17px] leading-snug"
+        className="text-gray-800 text-left text-base"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -127,7 +127,7 @@ export default function LabelPreview({
 
         <div className="space-y-4">
             <div className="text-center">
-              <h3 className="text-base font-bold text-red-700 mb-1 inline-block pb-1 border-b-2 border-red-700">পরামর্শ</h3>
+              <h3 className="text-base font-bold text-red-700 mb-1">পরামর্শ</h3>
               <ul
                 className="advice-list text-gray-800 text-xs pl-0 list-none text-left"
                 dangerouslySetInnerHTML={{ __html: counselingPoints }}
@@ -135,12 +135,12 @@ export default function LabelPreview({
             </div>
             
             <div className="text-center doctor-info">
-                <div className="text-xs font-medium space-y-px">
-                    <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় <span className="font-medium text-sm">(বিএসসি, ডিএইচএমএস)</span></p>
+                <div className="text-xs font-medium">
+                    <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় (বিএসসি, ডিএইচএমএস)</p>
                     <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
                     <p>ত্রিফুল আরোগ্য নিকেতন</p>
                     <p>কোটালীপাড়া সদর, গোপালগঞ্জ।</p>
-                    <p>০১৯২২-৭৮৮৪৬৬, ০১৭১৪-৭১৯৪২২, ০১৭১৬-৯৫৪৬৯৯</p>
+                    <p>০১৯২২-৭৮৮৪৬৬, ০১৭১৪-৭১৯৪২২</p>
                 </div>
             </div>
         </div>

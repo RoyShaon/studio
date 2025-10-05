@@ -116,7 +116,6 @@ export default function Home() {
     const counselingParts = [
       "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
       "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
-      "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে কল করুন (০১৯২২-৭৮৮৪৬৬)।",
     ];
     setLabelState(prevState => ({
       ...prevState,
@@ -135,13 +134,12 @@ export default function Home() {
 
   const handlePrint = async () => {
     if (!firestore || !user) {
-      // Optionally, show a toast to the user.
       return;
     }
 
     try {
         const trimmedSerial = labelState.serial.trim();
-        if (!trimmedSerial) return;
+        if (!trimmedSerial || trimmedSerial === 'F/') return;
 
         const patientsCollectionRef = collection(firestore, 'patients');
         const q = query(patientsCollectionRef, where('serialNumber', '==', trimmedSerial), limit(1));
@@ -152,11 +150,13 @@ export default function Home() {
         if (!querySnapshot.empty) {
             patientId = querySnapshot.docs[0].id;
             const patientRef = doc(firestore, 'patients', patientId);
+            // Update existing patient with new name if it has changed
             setDocumentNonBlocking(patientRef, { 
                 name: labelState.patientName,
                 serialNumber: trimmedSerial,
             }, { merge: true });
         } else {
+            // Create a new patient document reference
             const newPatientRef = doc(patientsCollectionRef);
             patientId = newPatientRef.id;
             const patientData = {
