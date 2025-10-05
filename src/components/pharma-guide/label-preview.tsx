@@ -30,7 +30,9 @@ export default function LabelPreview({
     .split("\n")
     .filter((line) => line.trim() !== "")
     .map(line => {
-        const bnLine = convertToBanglaNumerals(line).replace('•', '❖');
+        let bnLine = convertToBanglaNumerals(line);
+        // Replace bullet points but handle different kinds that might be passed.
+        bnLine = bnLine.replace(/^[•❖-]/, '•');
         return `<li>${bnLine}</li>`;
     }).join('');
     
@@ -105,8 +107,6 @@ export default function LabelPreview({
     >
         <div className="flex-grow space-y-4">
             <div>
-                {getSequentialText()}
-                
                 <div className="flex justify-between items-center text-sm font-medium mb-1">
                     <span className="truncate pr-1">ক্রমিক নং: <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
                     <span className="whitespace-nowrap">তারিখঃ <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
@@ -136,14 +136,14 @@ export default function LabelPreview({
             </div>
         </div>
       
-      <div className="text-center doctor-info space-y-px mt-8">
-          <div className="text-xs font-medium">
-              <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় <span className="text-sm font-medium">(বিএসসি, ডিএইচএমএস)</span></p>
-              <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
-              <p>ত্রিফুল আরোগ্য নিকেতন</p>
-              <p>কোটালীপাড়া সদর, গোপালগঞ্জ।</p>
-              <p>০১৯২২-৭৮৮৪৬৬, ০১৭১৪-৭১৯৪২২, ০১৭১৬-৯৫৪৬৯৯</p>
+      <div className="text-center doctor-info space-y-1 mt-8">
+          <div className="inline-block border border-black px-4 py-1 text-lg font-bold mb-2">
+            ত্রিফুল আরোগ্য নিকেতন
           </div>
+          <p className="text-xl font-bold">ডাঃ নীহার রঞ্জন রায়</p>
+          <p className="text-sm">আদর্শ হোমিওপ্যাথিক চিকিৎসক</p>
+          <p className="text-sm">বি.এস.সি, ডি.এইচ.এম.এস</p>
+          <p className="text-sm">মোবাইল: ০১৭১৬৯৫৪৬৯৯, ০১৯২২৭৮৮৪৬৬, ০১৮৭১৮১১১৮১</p>
       </div>
     </div>
   );
