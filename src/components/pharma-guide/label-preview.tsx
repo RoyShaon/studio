@@ -143,17 +143,14 @@ export default function LabelPreview({
       
       <div className="text-center doctor-info space-y-1 mt-auto pt-4">
           <p className="text-lg font-bold">ত্রিফুল আরোগ্য নিকেতন</p>
-          <p className="text-xs">আদর্শ হোমিওপ্যাথিক চিকিৎসালয়</p>
-          <p className="text-xs">(আদর্শ হোমিওপ্যাথিক চিকিৎসক)</p>
+          <p className="text-xs">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
           
-          <div className="inline-block border border-black px-4 py-1 my-2">
-            <div className="flex justify-center items-baseline gap-2">
-              <p className="text-xl font-bold">ডাঃ নীহার রঞ্জন রায়</p>
-              <p className="text-sm font-medium">(বি.এস.সি, ডি.এইচ.এম.এস)</p>
-            </div>
+          <div className="flex justify-center items-baseline gap-2">
+            <p className="text-xl font-bold">ডাঃ নীহার রঞ্জন রায়</p>
+            <p className="text-sm font-medium">(বি.এস.সি, ডি.এইচ.এম.এস)</p>
           </div>
           
-          <p className="text-sm">শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক</p>
+          <p className="text-sm font-medium">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
           <p className="text-sm">কোটালীপাড়া, গোপালগঞ্জ</p>
           <p className="text-sm">মোবাইল: ০১৭১৬৯৫৪৬৯৯, ০১৯২২৭৮৮৪৬৬, ০১৮৭১৮১১১৮১</p>
       </div>
