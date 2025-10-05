@@ -104,7 +104,7 @@ export default function LabelPreview({
     <div
       className="prescription-sheet font-headline bg-white text-black flex flex-col"
     >
-      <div className="flex-grow space-y-4">
+      <div className="flex-grow flex flex-col space-y-4">
         <div>
             {getSequentialText()}
             
@@ -126,25 +126,26 @@ export default function LabelPreview({
             </div>
         </div>
 
-        <div className="mt-4 text-center">
+        <div className="text-center">
           <h3 className="text-base font-bold text-red-700 mb-1 inline-block pb-1 border-b-2 border-red-700">পরামর্শ</h3>
           <ul
             className="advice-list text-gray-800 text-xs pl-0 list-none text-left"
             dangerouslySetInnerHTML={{ __html: counselingPoints }}
           ></ul>
         </div>
-      </div>
 
-      <div className="text-center pt-4 doctor-info">
-          <div className="text-xs font-medium space-y-px">
-              <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় <span className="font-medium text-sm">(বিএসসি, ডিএইচএমএস)</span></p>
-              <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
-              <p>ত্রিফুল আরোগ্য নিকেতন</p>
-              <p>কোটালীপাড়া সদর, গোপালগঞ্জ।</p>
-              <p>জরুরী প্রয়োজনেঃ ০১৯২২-৭৮৮৪৬৬</p>
-          </div>
+        <div className="flex-grow"></div>
+        
+        <div className="text-center doctor-info">
+            <div className="text-xs font-medium space-y-px">
+                <p className="text-base font-bold">ডাঃ নীহার রঞ্জন রায় <span className="font-medium text-sm">(বিএসসি, ডিএইচএমএস)</span></p>
+                <p>শুধুমাত্র জটিল ও পুরাতন রোগী দেখা হয়</p>
+                <p>ত্রিফুল আরোগ্য নিকেতন</p>
+                <p>কোটালীপাড়া সদর, গোপালগঞ্জ।</p>
+                <p>০১৯২২-৭৮৮৪৬৬, ০১৭১৪-৭১৯৪২২, ০১৭১৬-৯৫৪৬৯৯</p>
+            </div>
+        </div>
       </div>
     </div>
   );
 }
-
