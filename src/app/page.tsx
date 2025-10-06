@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Printer, Loader2, Trash2 } from "lucide-react";
 
@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import LabelForm from "@/components/pharma-guide/label-form";
 import LabelPreview from "@/components/pharma-guide/label-preview";
 import { convertToBanglaNumerals } from "@/lib/utils";
-import { useToast } from "@/hooks/use-toast";
 import {
   Tooltip,
   TooltipContent,
