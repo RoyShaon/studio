@@ -115,7 +115,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     return () => {
       recognitionRef.current?.abort();
     };
-  }, [setState, toast]);
+  }, [setState]);
 
   const handleListen = useCallback(() => {
     const recognition = recognitionRef.current;
