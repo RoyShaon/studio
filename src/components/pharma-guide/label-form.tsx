@@ -43,7 +43,7 @@ const predefinedCounseling: string[] = [
 
 // Check for SpeechRecognition API
 const SpeechRecognition =
-  (typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition));
+  (typeof window !== 'undefined' && ((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition));
 
 export default function LabelForm({ state, setState, activeLabelIndex, setActiveLabelIndex }: LabelFormProps) {
   const [selectedCounseling, setSelectedCounseling] = useState<string>(predefinedCounseling[0]);
@@ -408,9 +408,5 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     </div>
   );
 }
-
-    
-
-    
 
     
