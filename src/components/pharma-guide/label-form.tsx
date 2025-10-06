@@ -1,13 +1,13 @@
 
 import type { Dispatch, SetStateAction } from "react";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import type { LabelState } from "@/app/page";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon, PlusCircle, XCircle, ChevronDown } from "lucide-react";
+import { CalendarIcon, PlusCircle, XCircle, ChevronDown, Mic } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn, convertToBanglaNumerals } from "@/lib/utils";
@@ -40,10 +40,59 @@ const predefinedCounseling: string[] = [
     "• গোরুর মাংস খাওয়া একদম নিষেধ।",
 ];
 
+// Check for SpeechRecognition API
+const SpeechRecognition =
+  (typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition));
+
 export default function LabelForm({ state, setState, activeLabelIndex, setActiveLabelIndex }: LabelFormProps) {
   const [selectedCounseling, setSelectedCounseling] = useState<string>(predefinedCounseling[0]);
   const [isCounselingOpen, setIsCounselingOpen] = useState(false);
   
+  const [isListening, setIsListening] = useState(false);
+  const [speechRecognitionSupported, setSpeechRecognitionSupported] = useState(false);
+  const recognitionRef = useRef<any>(null);
+
+
+  useEffect(() => {
+    if (SpeechRecognition) {
+      setSpeechRecognitionSupported(true);
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.lang = 'bn-BD';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setState(prevState => ({
+          ...prevState,
+          patientName: prevState.patientName ? `${prevState.patientName} ${transcript}` : transcript,
+        }));
+      };
+
+      recognition.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+      
+      recognitionRef.current = recognition;
+    }
+  }, [setState]);
+
+  const handleListen = () => {
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+    } else {
+      recognitionRef.current?.start();
+      setIsListening(true);
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
@@ -126,7 +175,23 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
       <div>
           <Label htmlFor="patientName">রোগীর নাম</Label>
-          <Input id="patientName" name="patientName" value={state.patientName} onChange={handleInputChange} />
+          <div className="relative flex items-center">
+            <Input id="patientName" name="patientName" value={state.patientName} onChange={handleInputChange} className="pr-10" />
+            {speechRecognitionSupported && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className={cn(
+                  "absolute right-1 h-8 w-8 rounded-full",
+                  isListening && "animate-pulse"
+                )}
+                onClick={handleListen}
+              >
+                <Mic className={cn("h-5 w-5", isListening ? "text-red-500" : "text-gray-500")} />
+              </Button>
+            )}
+          </div>
       </div>
 
        <div className="mb-6">
