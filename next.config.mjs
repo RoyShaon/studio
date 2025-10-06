@@ -1,14 +1,17 @@
-
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {},
-};
+import createNextPwa from "next-pwa";
 
-import withPWA from 'next-pwa';
-
-export default withPWA({
-  dest: 'public',
+const withPWA = createNextPwa({
+  dest: "public",
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
-})(nextConfig);
+  disable: process.env.NODE_ENV === "development",
+});
+
+const nextConfig = {
+    experimental: {
+      allowedDevOrigins: ["*.cloudworkstations.dev"],
+    }
+};
+
+export default withPWA(nextConfig);
