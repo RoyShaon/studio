@@ -53,6 +53,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
   const [speechRecognitionSupported, setSpeechRecognitionSupported] = useState(false);
   const recognitionRef = useRef<any>(null);
   const { toast } = useToast();
+  const transcriptRef = useRef<string>("");
 
 
   useEffect(() => {
@@ -68,20 +69,20 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     recognition.interimResults = true;
 
     recognition.onresult = (event: SpeechRecognitionEvent) => {
-      let final_transcript = '';
       let interim_transcript = '';
+      transcriptRef.current = state.patientName;
 
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
-          final_transcript += event.results[i][0].transcript + ' ';
+           transcriptRef.current += event.results[i][0].transcript + ' ';
         } else {
           interim_transcript += event.results[i][0].transcript;
         }
       }
-
+      
       setState(prevState => ({
         ...prevState,
-        patientName: prevState.patientName + final_transcript + interim_transcript,
+        patientName: transcriptRef.current + interim_transcript,
       }));
     };
 
@@ -103,6 +104,9 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
     recognition.onend = () => {
       setIsListening(false);
+       if (transcriptRef.current.trim()) {
+            setState(prevState => ({...prevState, patientName: transcriptRef.current.trim()}));
+      }
     };
     
     recognitionRef.current = recognition;
@@ -110,7 +114,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     return () => {
       recognitionRef.current?.abort();
     };
-  }, [setState, toast]);
+  }, [setState, toast, state.patientName]);
 
   const handleListen = useCallback(() => {
     const recognition = recognitionRef.current;
@@ -119,10 +123,11 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     if (isListening) {
       recognition.stop();
     } else {
+       transcriptRef.current = state.patientName ? state.patientName + ' ' : '';
       recognition.start();
     }
     setIsListening(prevState => !prevState);
-  }, [isListening]);
+  }, [isListening, state.patientName]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -402,5 +407,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     </div>
   );
 }
+
+    
 
     
