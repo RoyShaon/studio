@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Printer, Loader2, Trash2 } from "lucide-react";
+import { Printer, Loader2, Trash2, UserPlus } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -125,6 +125,14 @@ export default function Home() {
     setLabelState(defaultLabelState);
     setActiveLabelIndex(1);
   };
+
+  const handleNewPatientEntry = () => {
+    setLabelState(prevState => ({
+      ...prevState,
+      patientName: "",
+      serial: "F/",
+    }));
+  };
   
   const triggerPrint = () => {
       const container = printContainerRef.current;
@@ -222,7 +230,15 @@ export default function Home() {
                 </CardContent>
              </Card>
 
-             <div className="flex justify-center items-center gap-4 mt-6">
+             <div className="flex justify-center items-center flex-wrap gap-4 mt-6">
+                <Button 
+                  onClick={handleNewPatientEntry}
+                  variant="outline"
+                  className="font-semibold py-2 px-8 rounded-lg shadow-xl transition duration-150 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50"
+                >
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  নতুন রোগী
+                </Button>
                 <Button 
                   onClick={handleClearForm}
                   variant="outline"
