@@ -1,6 +1,6 @@
 
 import type { Dispatch, SetStateAction } from "react";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import type { LabelState } from "@/app/page";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -56,67 +56,73 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
 
   useEffect(() => {
-    if (SpeechRecognition) {
-      setSpeechRecognitionSupported(true);
-      const recognition = new SpeechRecognition();
-      recognition.continuous = true; // Keep listening
-      recognition.lang = 'bn-BD';
-      recognition.interimResults = true; // Get results as they are being processed
-
-      recognition.onresult = (event: any) => {
-        let final_transcript = state.patientName;
-        let interim_transcript = '';
-
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
-          if (event.results[i].isFinal) {
-            final_transcript += event.results[i][0].transcript;
-          } else {
-            interim_transcript += event.results[i][0].transcript;
-          }
-        }
-        
-        setState(prevState => ({
-          ...prevState,
-          patientName: final_transcript + interim_transcript,
-        }));
-      };
-
-      recognition.onerror = (event: any) => {
-        // The 'aborted' error happens when the user stops recognition manually. It's not a true error.
-        if (event.error === 'aborted') return;
-        
-        console.error('Speech recognition error:', event.error);
-        if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
-           toast({
-            variant: "destructive",
-            title: "ভয়েস টাইপিং ত্রুটি",
-            description: "মাইক্রোফোন ব্যবহারের অনুমতি প্রয়োজন।",
-          });
-        }
-        setIsListening(false);
-      };
-
-      recognition.onend = () => {
-        setIsListening(false);
-      };
-      
-      recognitionRef.current = recognition;
+    if (!SpeechRecognition) {
+      setSpeechRecognitionSupported(false);
+      return;
     }
-  }, [setState, state.patientName, toast]);
 
-  const handleListen = () => {
-    if (isListening) {
-      recognitionRef.current?.stop();
-      setIsListening(false);
-    } else {
-       if (recognitionRef.current) {
-        // Clear previous patient name before starting new recognition
-         setState(prevState => ({ ...prevState, patientName: '' }));
-        recognitionRef.current.start();
-        setIsListening(true);
+    setSpeechRecognitionSupported(true);
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.lang = 'bn-BD';
+    recognition.interimResults = true;
+
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
+      let final_transcript = '';
+      let interim_transcript = '';
+
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          final_transcript += event.results[i][0].transcript + ' ';
+        } else {
+          interim_transcript += event.results[i][0].transcript;
+        }
       }
+
+      setState(prevState => ({
+        ...prevState,
+        patientName: prevState.patientName + final_transcript + interim_transcript,
+      }));
+    };
+
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+      if (event.error === 'aborted') {
+        return;
+      }
+      
+      console.error('Speech recognition error:', event.error);
+      if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+         toast({
+          variant: "destructive",
+          title: "ভয়েস টাইপিং ত্রুটি",
+          description: "মাইক্রোফোন ব্যবহারের অনুমতি প্রয়োজন।",
+        });
+      }
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+    
+    recognitionRef.current = recognition;
+
+    return () => {
+      recognitionRef.current?.abort();
+    };
+  }, [setState, toast]);
+
+  const handleListen = useCallback(() => {
+    const recognition = recognitionRef.current;
+    if (!recognition) return;
+
+    if (isListening) {
+      recognition.stop();
+    } else {
+      recognition.start();
     }
-  };
+    setIsListening(prevState => !prevState);
+  }, [isListening]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -125,14 +131,10 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (value === '') {
-      setState(prevState => ({ ...prevState, [name]: '' }));
-    } else {
-      const numValue = parseInt(value, 10);
-      setState(prevState => ({ ...prevState, [name]: isNaN(numValue) ? 0 : numValue }));
-    }
+    const numValue = parseInt(value, 10);
+    setState(prevState => ({ ...prevState, [name]: isNaN(numValue) ? '' : numValue }));
   };
-
+  
   const handleLabelCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const numValue = parseInt(value, 10);
@@ -400,3 +402,5 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     </div>
   );
 }
+
+    
