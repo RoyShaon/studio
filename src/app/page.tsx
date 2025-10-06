@@ -3,13 +3,20 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Printer, Loader2, Trash2, UserPlus } from "lucide-react";
+import { Printer, Loader2, Trash2 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import LabelForm from "@/components/pharma-guide/label-form";
 import LabelPreview from "@/components/pharma-guide/label-preview";
 import { convertToBanglaNumerals } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 
 export type LabelState = {
@@ -125,14 +132,6 @@ export default function Home() {
     setLabelState(defaultLabelState);
     setActiveLabelIndex(1);
   };
-
-  const handleNewPatientEntry = () => {
-    setLabelState(prevState => ({
-      ...prevState,
-      patientName: "",
-      serial: "F/",
-    }));
-  };
   
   const triggerPrint = () => {
       const container = printContainerRef.current;
@@ -201,8 +200,26 @@ export default function Home() {
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
           <Card className="lg:col-span-2 shadow-lg">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="font-body">রোগীর তথ্য ও নির্দেশাবলী</CardTitle>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={handleClearForm}
+                        className="h-8 w-8"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        <span className="sr-only">ফর্ম পরিষ্কার করুন</span>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>ফর্ম পরিষ্কার করুন</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
             </CardHeader>
             <CardContent>
               <LabelForm 
@@ -231,22 +248,6 @@ export default function Home() {
              </Card>
 
              <div className="flex justify-center items-center flex-wrap gap-4 mt-6">
-                <Button 
-                  onClick={handleNewPatientEntry}
-                  variant="outline"
-                  className="font-semibold py-2 px-8 rounded-lg shadow-xl transition duration-150 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50"
-                >
-                  <UserPlus className="mr-2 h-4 w-4" />
-                  নতুন রোগী
-                </Button>
-                <Button 
-                  onClick={handleClearForm}
-                  variant="outline"
-                  className="font-semibold py-2 px-8 rounded-lg shadow-xl transition duration-150 focus:outline-none focus:ring-4 focus:ring-gray-500 focus:ring-opacity-50"
-                >
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  ফর্ম পরিষ্কার করুন
-                </Button>
                 <Button onClick={saveDataAndPrint} className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-8 rounded-lg shadow-xl transition duration-150 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50">
                   <Printer className="mr-2 h-4 w-4" />
                   প্রিন্ট করুন
