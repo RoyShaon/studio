@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Printer, Loader2, Trash2 } from "lucide-react";
+import { Printer, Loader2, Trash2, UserPlus } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
