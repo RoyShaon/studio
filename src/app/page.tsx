@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Printer, Loader2 } from "lucide-react";
+import { Printer, Loader2, Trash2 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -36,26 +36,28 @@ const defaultCounseling = [
   "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।"
 ];
 
+const defaultLabelState: LabelState = {
+  serial: "F/",
+  patientName: "",
+  date: new Date(),
+  shakeMode: "with",
+  drops: 3,
+  shakeCount: 10,
+  interval: 12,
+  intervalUnit: "hours",
+  mixtureAmount: "১ চামচ",
+  mixtureNumber: "১ম",
+  durationDays: 7,
+  counseling: defaultCounseling,
+  labelCount: 1,
+  followUpDays: 7,
+  showAllPreviews: false,
+};
+
 export default function Home() {
   const router = useRouter();
 
-  const [labelState, setLabelState] = useState<LabelState>({
-    serial: "F/",
-    patientName: "",
-    date: new Date(),
-    shakeMode: "with",
-    drops: 3,
-    shakeCount: 10,
-    interval: 12,
-    intervalUnit: "hours",
-    mixtureAmount: "১ চামচ",
-    mixtureNumber: "১ম",
-    durationDays: 7,
-    counseling: defaultCounseling,
-    labelCount: 1,
-    followUpDays: 7,
-    showAllPreviews: false,
-  });
+  const [labelState, setLabelState] = useState<LabelState>(defaultLabelState);
   
   const [activeLabelIndex, setActiveLabelIndex] = useState(1);
   const [isClient, setIsClient] = useState(false);
@@ -114,6 +116,14 @@ export default function Home() {
 
  const saveDataAndPrint = () => {
     triggerPrint();
+  };
+  
+  const handleClearForm = () => {
+    if (isClient) {
+      localStorage.removeItem("pharmaLabelState");
+    }
+    setLabelState(defaultLabelState);
+    setActiveLabelIndex(1);
   };
   
   const triggerPrint = () => {
@@ -212,7 +222,15 @@ export default function Home() {
                 </CardContent>
              </Card>
 
-             <div className="text-center mt-6">
+             <div className="flex justify-center items-center gap-4 mt-6">
+                <Button 
+                  onClick={handleClearForm}
+                  variant="outline"
+                  className="font-semibold py-2 px-8 rounded-lg shadow-xl transition duration-150 focus:outline-none focus:ring-4 focus:ring-gray-500 focus:ring-opacity-50"
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  ফর্ম পরিষ্কার করুন
+                </Button>
                 <Button onClick={saveDataAndPrint} className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-8 rounded-lg shadow-xl transition duration-150 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50">
                   <Printer className="mr-2 h-4 w-4" />
                   প্রিন্ট করুন
@@ -224,3 +242,5 @@ export default function Home() {
     </main>
   );
 }
+
+    

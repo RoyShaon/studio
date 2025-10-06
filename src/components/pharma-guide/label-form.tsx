@@ -54,6 +54,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
   const recognitionRef = useRef<any>(null);
   const { toast } = useToast();
   const transcriptRef = useRef<string>("");
+  const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
 
   useEffect(() => {
@@ -69,6 +70,10 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     recognition.interimResults = true;
 
     recognition.onresult = (event: any) => {
+      if (silenceTimerRef.current) {
+        clearTimeout(silenceTimerRef.current);
+      }
+
       let interim_transcript = '';
       let final_transcript = transcriptRef.current;
 
@@ -85,9 +90,16 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
         ...prevState,
         patientName: final_transcript + interim_transcript,
       }));
+      
+      silenceTimerRef.current = setTimeout(() => {
+        recognition.stop();
+      }, 5000);
     };
 
     recognition.onerror = (event: any) => {
+      if (silenceTimerRef.current) {
+        clearTimeout(silenceTimerRef.current);
+      }
       if (event.error === 'aborted') {
         return;
       }
@@ -104,6 +116,9 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     };
 
     recognition.onend = () => {
+      if (silenceTimerRef.current) {
+        clearTimeout(silenceTimerRef.current);
+      }
       setIsListening(false);
        if (transcriptRef.current.trim()) {
             setState(prevState => ({...prevState, patientName: transcriptRef.current.trim()}));
@@ -114,8 +129,11 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
     return () => {
       recognitionRef.current?.abort();
+      if (silenceTimerRef.current) {
+        clearTimeout(silenceTimerRef.current);
+      }
     };
-  }, [setState]);
+  }, [setState, toast]);
 
   const handleListen = useCallback(() => {
     const recognition = recognitionRef.current;
@@ -133,6 +151,9 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
+    if (name === 'patientName') {
+        transcriptRef.current = value;
+    }
   };
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
