@@ -30,6 +30,12 @@ export type LabelState = {
   showAllPreviews: boolean;
 };
 
+const defaultCounseling = [
+  "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
+  "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
+  "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।"
+];
+
 export default function Home() {
   const router = useRouter();
 
@@ -45,7 +51,7 @@ export default function Home() {
     mixtureAmount: "১ চামচ",
     mixtureNumber: "১ম",
     durationDays: 7,
-    counseling: [],
+    counseling: defaultCounseling,
     labelCount: 1,
     followUpDays: 7,
     showAllPreviews: false,
@@ -55,36 +61,47 @@ export default function Home() {
   const [isClient, setIsClient] = useState(false);
   const printContainerRef = useRef<HTMLDivElement>(null);
   
-  // Mocking user state as Firebase is removed
   const [isUserLoading, setIsUserLoading] = useState(false);
-  const [user, setUser] = useState<{} | null>({}); // Assume user is logged in
+  const [user, setUser] = useState<{} | null>({});
 
-
+  // Load state from local storage on initial render
   useEffect(() => {
     setIsClient(true);
+    try {
+      const savedState = localStorage.getItem("pharmaLabelState");
+      if (savedState) {
+        const parsedState = JSON.parse(savedState);
+        // Ensure date is a Date object
+        parsedState.date = new Date(parsedState.date);
+        // If counseling is empty in saved state, set default
+        if (!parsedState.counseling || parsedState.counseling.length === 0) {
+          parsedState.counseling = defaultCounseling;
+        }
+        setLabelState(parsedState);
+      }
+    } catch (error) {
+      console.error("Failed to load state from local storage:", error);
+    }
   }, []);
 
+  // Save state to local storage whenever it changes
   useEffect(() => {
-    // Since Firebase is removed, we no longer need to check for a user session to redirect.
-    // If you want to re-implement authentication, you would check for a session here.
-    // For now, we assume the user is "logged in" and can access the page.
-    if (!isUserLoading && !user) {
-      // router.replace("/login"); // This can be re-enabled if auth is re-implemented
+    if (isClient) {
+      try {
+        const stateToSave = JSON.stringify(labelState);
+        localStorage.setItem("pharmaLabelState", stateToSave);
+      } catch (error) {
+        console.error("Failed to save state to local storage:", error);
+      }
     }
-  }, [isUserLoading, user, router]);
+  }, [labelState, isClient]);
   
 
   useEffect(() => {
-    const counselingParts = [
-      "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
-      "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
-      "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।"
-    ];
-    setLabelState(prevState => ({
-      ...prevState,
-      counseling: counselingParts
-    }));
-  }, []);
+    if (!isUserLoading && !user) {
+      // router.replace("/login"); 
+    }
+  }, [isUserLoading, user, router]);
   
   useEffect(() => {
     const count = Number(labelState.labelCount);
@@ -96,8 +113,6 @@ export default function Home() {
   }, [labelState.labelCount, activeLabelIndex]);
 
  const saveDataAndPrint = () => {
-    // Data saving logic is removed as Firebase is no longer part of the project.
-    // We will just trigger the print functionality.
     triggerPrint();
   };
   

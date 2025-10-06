@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 
 
 interface LabelFormProps {
@@ -51,27 +52,44 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
   const [isListening, setIsListening] = useState(false);
   const [speechRecognitionSupported, setSpeechRecognitionSupported] = useState(false);
   const recognitionRef = useRef<any>(null);
+  const { toast } = useToast();
 
 
   useEffect(() => {
     if (SpeechRecognition) {
       setSpeechRecognitionSupported(true);
       const recognition = new SpeechRecognition();
-      recognition.continuous = false;
+      recognition.continuous = true; // Keep listening
       recognition.lang = 'bn-BD';
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
+      recognition.interimResults = true; // Get results as they are being processed
 
       recognition.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
+        let final_transcript = state.patientName;
+        let interim_transcript = '';
+
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            final_transcript += event.results[i][0].transcript;
+          } else {
+            interim_transcript += event.results[i][0].transcript;
+          }
+        }
+        
         setState(prevState => ({
           ...prevState,
-          patientName: prevState.patientName ? `${prevState.patientName} ${transcript}` : transcript,
+          patientName: final_transcript + interim_transcript,
         }));
       };
 
       recognition.onerror = (event: any) => {
         console.error('Speech recognition error:', event.error);
+        if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+           toast({
+            variant: "destructive",
+            title: "ভয়েস টাইপিং ত্রুটি",
+            description: "মাইক্রোফোন ব্যবহারের অনুমতি প্রয়োজন।",
+          });
+        }
         setIsListening(false);
       };
 
@@ -81,15 +99,19 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
       
       recognitionRef.current = recognition;
     }
-  }, [setState]);
+  }, [setState, state.patientName, toast]);
 
   const handleListen = () => {
     if (isListening) {
       recognitionRef.current?.stop();
       setIsListening(false);
     } else {
-      recognitionRef.current?.start();
-      setIsListening(true);
+       if (recognitionRef.current) {
+        // Clear previous patient name before starting new recognition
+         setState(prevState => ({ ...prevState, patientName: '' }));
+        recognitionRef.current.start();
+        setIsListening(true);
+      }
     }
   };
 
@@ -113,7 +135,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     const numValue = parseInt(value, 10);
     if (!isNaN(numValue) && numValue > 0) {
       setState(prevState => ({ ...prevState, [name]: numValue }));
-    } else {
+    } else if (value === '') {
       setState(prevState => ({ ...prevState, [name]: '' }));
     }
   };
@@ -184,7 +206,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                 size="icon"
                 className={cn(
                   "absolute right-1 h-8 w-8 rounded-full",
-                  isListening && "animate-pulse"
+                  isListening && "animate-pulse bg-red-100"
                 )}
                 onClick={handleListen}
               >
