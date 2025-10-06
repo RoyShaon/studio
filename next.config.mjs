@@ -2,7 +2,7 @@
 import withPWA from 'next-pwa';
 
 const nextConfig = {
-  // any other next.js config
+  // any other next.js config you might have
 };
 
 export default withPWA({
