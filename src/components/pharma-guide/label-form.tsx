@@ -82,6 +82,9 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
       };
 
       recognition.onerror = (event: any) => {
+        // The 'aborted' error happens when the user stops recognition manually. It's not a true error.
+        if (event.error === 'aborted') return;
+        
         console.error('Speech recognition error:', event.error);
         if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
            toast({
