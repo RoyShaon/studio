@@ -70,19 +70,20 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
     recognition.onresult = (event: SpeechRecognitionEvent) => {
       let interim_transcript = '';
-      transcriptRef.current = state.patientName;
+      let final_transcript = transcriptRef.current;
 
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
-           transcriptRef.current += event.results[i][0].transcript + ' ';
+           final_transcript += event.results[i][0].transcript + ' ';
         } else {
           interim_transcript += event.results[i][0].transcript;
         }
       }
+      transcriptRef.current = final_transcript;
       
       setState(prevState => ({
         ...prevState,
-        patientName: transcriptRef.current + interim_transcript,
+        patientName: final_transcript + interim_transcript,
       }));
     };
 
@@ -114,7 +115,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     return () => {
       recognitionRef.current?.abort();
     };
-  }, [setState, toast, state.patientName]);
+  }, [setState, toast]);
 
   const handleListen = useCallback(() => {
     const recognition = recognitionRef.current;
@@ -123,7 +124,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     if (isListening) {
       recognition.stop();
     } else {
-       transcriptRef.current = state.patientName ? state.patientName + ' ' : '';
+      transcriptRef.current = state.patientName ? state.patientName + ' ' : '';
       recognition.start();
     }
     setIsListening(prevState => !prevState);
@@ -407,6 +408,8 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     </div>
   );
 }
+
+    
 
     
 
