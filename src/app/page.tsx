@@ -17,16 +17,16 @@ export type LabelState = {
   patientName: string;
   date: Date;
   shakeMode: "with" | "without";
-  drops: number;
-  shakeCount: number;
-  interval: number;
+  drops: number | '';
+  shakeCount: number | '';
+  interval: number | '';
   intervalUnit: "hours" | "days";
   mixtureAmount: string;
   mixtureNumber: string;
-  durationDays: number;
+  durationDays: number | '';
   counseling: string[];
   labelCount: number;
-  followUpDays: number;
+  followUpDays: number | '';
   showAllPreviews: boolean;
 };
 
@@ -242,5 +242,3 @@ export default function Home() {
     </main>
   );
 }
-
-    

@@ -27,6 +27,7 @@ export default function LabelPreview({
 }: LabelPreviewProps) {
   
   const formattedDate = convertToBanglaNumerals(format(date, "dd/MM/yyyy"));
+  const bnFollowUpDays = followUpDays !== '' ? convertToBanglaNumerals(followUpDays) : '___';
 
   const counselingPoints = counseling
     .map(line => {
@@ -36,19 +37,22 @@ export default function LabelPreview({
         return `<li>${bnLine}</li>`;
     }).join('');
 
-  const finalCounseling = `${counselingPoints}<li>• <strong>${convertToBanglaNumerals(followUpDays)} দিন</strong> পরে আসবেন।</li>`;
+  const finalCounseling = `${counselingPoints}<li>• <strong>${bnFollowUpDays} দিন</strong> পরে আসবেন।</li>`;
     
   const renderInstruction = () => {
-    const bnDrops = convertToBanglaNumerals(drops);
-    const bnInterval = convertToBanglaNumerals(interval);
-    const bnShakeCount = shakeMode === 'with' ? convertToBanglaNumerals(shakeCount) : '';
+    const bnDrops = drops !== '' ? convertToBanglaNumerals(drops) : '___';
+    const bnInterval = interval !== '' ? convertToBanglaNumerals(interval) : '___';
+    const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? convertToBanglaNumerals(shakeCount) : '___';
     const bnMixtureAmount = convertToBanglaNumerals(mixtureAmount);
-    const bnDurationDays = convertToBanglaNumerals(durationDays);
+    const bnDurationDays = durationDays !== '' ? convertToBanglaNumerals(durationDays) : '___';
     const intervalUnitText = intervalUnit === 'hours' ? 'ঘণ্টা' : 'দিন';
     
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnShakeCount}</span> বার ঝাঁকি দিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> ফোঁটা ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval}</span> ${intervalUnitText} অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span> করে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> দিন সেবন করবেন।`;
+        const shakeText = shakeCount !== '' 
+            ? `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnShakeCount}</span> বার ঝাঁকি দিয়ে`
+            : `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnShakeCount}</span> বার ঝাঁকি দিয়ে`;
+        instruction = `${shakeText} <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> ফোঁটা ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval}</span> ${intervalUnitText} অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span> করে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> দিন সেবন করবেন।`;
     } else {
       instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> ফোঁটা ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval}</span> ${intervalUnitText} অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span> করে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> দিন সেবন করবেন।`;
     }

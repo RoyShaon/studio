@@ -142,11 +142,12 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     if (isListening) {
       recognition.stop();
     } else {
-      transcriptRef.current = state.patientName ? state.patientName + ' ' : '';
+      transcriptRef.current = '';
+      setState(prevState => ({ ...prevState, patientName: '' }));
       recognition.start();
     }
     setIsListening(prevState => !prevState);
-  }, [isListening, state.patientName]);
+  }, [isListening, setState]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -158,6 +159,10 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    if (value === '') {
+      setState(prevState => ({ ...prevState, [name]: '' }));
+      return;
+    }
     const numValue = parseInt(value, 10);
     setState(prevState => ({ ...prevState, [name]: isNaN(numValue) ? '' : numValue }));
   };
@@ -429,5 +434,3 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     </div>
   );
 }
-
-    
