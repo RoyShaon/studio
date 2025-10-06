@@ -68,7 +68,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     recognition.lang = 'bn-BD';
     recognition.interimResults = true;
 
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
+    recognition.onresult = (event: any) => {
       let interim_transcript = '';
       let final_transcript = transcriptRef.current;
 
@@ -87,7 +87,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
       }));
     };
 
-    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+    recognition.onerror = (event: any) => {
       if (event.error === 'aborted') {
         return;
       }
