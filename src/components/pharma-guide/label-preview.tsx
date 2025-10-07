@@ -75,20 +75,17 @@ export default function LabelPreview({
     if (labelCount <= 1) return null;
 
     const bnIndex = convertToBanglaNumerals(activeLabelIndex);
-    let text;
-
-    if (activeLabelIndex > 1) {
-      const prevIndex = convertToBanglaNumerals(activeLabelIndex - 1);
-      text = `${bnIndex} নং ঔষধ (${prevIndex} নং এর পরে খাবেন)`;
-    } else {
-      text = `${bnIndex} নং ঔষধ`;
-    }
     
     return (
       <div className="text-center mb-2">
-        <span className="text-xl font-bold text-red-700 inline-block border border-black rounded-md py-1 px-3">
-          {text}
-        </span>
+        <div className="text-xl font-bold text-red-700 inline-block border border-black rounded-md py-1 px-3">
+          <span>{bnIndex} নং ঔষধ</span>
+          {activeLabelIndex > 1 && (
+             <span className="font-normal text-sm ml-1">
+                ({convertToBanglaNumerals(activeLabelIndex - 1)} নং এর পরে খাবেন)
+            </span>
+          )}
+        </div>
       </div>
     );
   };
@@ -146,3 +143,4 @@ export default function LabelPreview({
     </div>
   );
 }
+
