@@ -55,9 +55,9 @@ export default function LabelPreview({
     let instruction;
     if (shakeMode === "with") {
         const shakeText = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnShakeCount}</span> বার ঝাঁকি দিয়ে`;
-        instruction = `${shakeText} <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> ফোঁটা ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval}</span> ${intervalUnitText} অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span><span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> দিন সেবন করবেন।`;
+        instruction = `${shakeText} <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> ফোঁটা ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval} ${intervalUnitText}</span> অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span>> <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> দিন সেবন করবেন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> ফোঁটা ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval}</span> ${intervalUnitText} অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span><span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> দিন সেবন করবেন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> ফোঁটা ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval} ${intervalUnitText}</span> অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span>> <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> দিন সেবন করবেন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -112,7 +112,7 @@ export default function LabelPreview({
 
             <div className="space-y-3">
                 <div className="text-center"> 
-                    <h2 className="inline-block border-b-2 border-gray-800 py-0.5 text-center font-extrabold" style={{ fontSize: '17px' }}>ঔষধ খাবার নিয়মাবলী</h2>
+                    <h2 className="inline-block border-b-2 border-gray-800 py-1 text-center font-extrabold" style={{ fontSize: '17px' }}>ঔষধ খাবার নিয়মাবলী</h2>
                 </div>
                 <div className="instruction-box">
                   {renderInstruction()}
