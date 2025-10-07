@@ -100,7 +100,7 @@ export default function LabelPreview({
         <div className="flex-grow space-y-4">
             <div>
                 <div className="flex justify-between items-center text-sm font-medium mb-1">
-                    <span className="truncate pr-1"><strong class="text-red-700">ক্রমিক নং:</strong> <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
+                    <span className="truncate pr-1"><strong className="text-red-700">ক্রমিক নং:</strong> <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
                     <span className="whitespace-nowrap">তারিখঃ <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
                 </div>
                 <div className="text-left text-base font-medium mb-4">
