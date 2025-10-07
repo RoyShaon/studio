@@ -101,7 +101,7 @@ export default function LabelPreview({
                     <span className="whitespace-nowrap">তারিখঃ <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
                 </div>
                 <div className="text-left text-base font-medium mb-4">
-                    রোগীর নামঃ{'  '}<strong className="text-indigo-700 font-extrabold">{patientName || ''}</strong>
+                    রোগীর নামঃ&nbsp;&nbsp;<strong className="text-indigo-700 font-extrabold">{patientName || ''}</strong>
                 </div>
             </div>
 
@@ -127,7 +127,7 @@ export default function LabelPreview({
             </div>
         </div>
       
-      <div className="doctor-info instruction-box text-center mt-4">
+      <div className="doctor-info instruction-box text-center mt-auto">
           <p className="font-bold mb-0" style={{ fontSize: '0.8rem' }}>ত্রিফুল আরোগ্য নিকেতন</p>
           <p className="mb-0" style={{ fontSize: '0.5rem' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
           <p className="mb-0" style={{ fontSize: '0.7rem' }}>
@@ -143,4 +143,3 @@ export default function LabelPreview({
     </div>
   );
 }
-
