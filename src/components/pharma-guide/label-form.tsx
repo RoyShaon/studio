@@ -142,12 +142,11 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     if (isListening) {
       recognition.stop();
     } else {
-      transcriptRef.current = '';
-      setState(prevState => ({ ...prevState, patientName: '' }));
+      transcriptRef.current = state.patientName;
       recognition.start();
     }
     setIsListening(prevState => !prevState);
-  }, [isListening, setState]);
+  }, [isListening, state.patientName]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -327,6 +326,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                       <SelectItem value="১ চামচ">১ চামচ</SelectItem>
                       <SelectItem value="২ চামচ">২ চামচ</SelectItem>
                       <SelectItem value="৩ চামচ">৩ চামচ</SelectItem>
+                      <SelectItem value="সবটুকু ঔষধ">সবটুকু ঔষধ</SelectItem>
                   </SelectContent>
                 </Select>
           </div>
