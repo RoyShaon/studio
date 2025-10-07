@@ -323,9 +323,9 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                       <SelectValue placeholder="Select..."/>
                   </SelectTrigger>
                   <SelectContent>
-                      <SelectItem value="১ চামচ">১ চামচ</SelectItem>
-                      <SelectItem value="২ চামচ">২ চামচ</SelectItem>
-                      <SelectItem value="৩ চামচ">৩ চামচ</SelectItem>
+                      <SelectItem value="১ চামচ ঔষধ">১ চামচ ঔষধ</SelectItem>
+                      <SelectItem value="২ চামচ ঔষধ">২ চামচ ঔষধ</SelectItem>
+                      <SelectItem value="৩ চামচ ঔষধ">৩ চামচ ঔষধ</SelectItem>
                       <SelectItem value="সবটুকু ঔষধ">সবটুকু ঔষধ</SelectItem>
                   </SelectContent>
                 </Select>

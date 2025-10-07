@@ -51,7 +51,7 @@ const defaultLabelState: LabelState = {
   shakeCount: 10,
   interval: 12,
   intervalUnit: "hours",
-  mixtureAmount: "১ চামচ",
+  mixtureAmount: "১ চামচ ঔষধ",
   mixtureNumber: "১ম",
   durationDays: 7,
   counseling: defaultCounseling,
