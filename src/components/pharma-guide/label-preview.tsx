@@ -97,7 +97,7 @@ export default function LabelPreview({
     <div
       className="prescription-sheet font-body bg-white text-black flex flex-col"
     >
-        <div className="flex-grow space-y-4">
+        <div className="flex-grow space-y-4 pt-2">
             <div>
                 <div className="flex justify-between items-center text-sm font-medium mb-1">
                     <span className="truncate pr-1"><strong className="text-red-700">ক্রমিক নং:</strong> <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
@@ -130,7 +130,7 @@ export default function LabelPreview({
             </div>
         </div>
       
-      <div className="doctor-info instruction-box text-center mt-auto">
+      <div className="doctor-info instruction-box text-center mt-4">
           <p className="font-bold mb-0" style={{ fontSize: '0.8rem' }}>ত্রিফুল আরোগ্য নিকেতন</p>
           <p className="mb-0" style={{ fontSize: '0.5rem' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
           <p className="mb-0" style={{ fontSize: '0.7rem' }}>
