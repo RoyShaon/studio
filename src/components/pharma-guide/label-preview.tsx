@@ -54,10 +54,10 @@ export default function LabelPreview({
     
     let instruction;
     if (shakeMode === "with") {
-        const shakeText = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnShakeCount}</span> বার ঝাঁকি দিয়ে`;
-        instruction = `${shakeText} <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> ফোঁটা ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval} ${intervalUnitText}</span> অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span> > <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> দিন সেবন করবেন।`;
+        const shakeText = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnShakeCount}</span> <strong class="text-red-700">বার</strong> ঝাঁকি দিয়ে`;
+        instruction = `${shakeText} <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> <strong class="text-red-700">ফোঁটা</strong> ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval} ${intervalUnitText}</span> অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span> > <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> <strong class="text-red-700">দিন</strong> সেবন করবেন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> ফোঁটা ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval} ${intervalUnitText}</span> অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span> > <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> দিন সেবন করবেন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> <strong class="text-red-700">ফোঁটা</strong> ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval} ${intervalUnitText}</span> অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span> > <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> <strong class="text-red-700">দিন</strong> সেবন করবেন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -100,7 +100,7 @@ export default function LabelPreview({
         <div className="flex-grow space-y-4">
             <div>
                 <div className="flex justify-between items-center text-sm font-medium mb-1">
-                    <span className="truncate pr-1">ক্রমিক নং: <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
+                    <span className="truncate pr-1"><strong class="text-red-700">ক্রমিক নং:</strong> <strong className="text-indigo-700 font-extrabold">{serial}</strong></span>
                     <span className="whitespace-nowrap">তারিখঃ <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
                 </div>
                 <div className="text-left text-base font-medium mb-4">
