@@ -23,6 +23,7 @@ export type LabelState = {
   date: Date;
   shakeMode: "with" | "without";
   drops: number | '';
+  cupAmount: "one_cup" | "half_cup";
   shakeCount: number | '';
   interval: number | '';
   intervalUnit: "hours" | "days";
@@ -52,6 +53,7 @@ const defaultLabelState: LabelState = {
   date: new Date(),
   shakeMode: "with",
   drops: 3,
+  cupAmount: "one_cup",
   shakeCount: 10,
   interval: 12,
   intervalUnit: "hours",

@@ -315,6 +315,22 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
+            <Label htmlFor="cupAmount">জলের পরিমাণ</Label>
+            <Select
+                name="cupAmount"
+                value={state.cupAmount}
+                onValueChange={(value: "one_cup" | "half_cup") => setState(prev => ({...prev, cupAmount: value}))}
+            >
+                <SelectTrigger>
+                    <SelectValue placeholder="Select..." />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="one_cup"><b>এক কাপ</b></SelectItem>
+                    <SelectItem value="half_cup"><b>আধা কাপ</b></SelectItem>
+                </SelectContent>
+            </Select>
+          </div>
+          <div>
             <Label htmlFor="interval">কত {state.intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন'} পর পর খাবেন?</Label>
             <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
             <RadioGroup
@@ -332,6 +348,9 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
               </div>
             </RadioGroup>
           </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
               <Label htmlFor="mixtureAmount">কিভাবে খাবেন?</Label>
               <Select
@@ -350,13 +369,13 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                   </SelectContent>
                 </Select>
           </div>
+          <div>
+              <Label htmlFor="durationDays">কত দিন খাবেন?</Label>
+              <Input id="durationDays" name="durationDays" type="number" value={state.durationDays} onChange={handleNumberChange} min="1" />
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-                <Label htmlFor="durationDays">কত দিন খাবেন?</Label>
-                <Input id="durationDays" name="durationDays" type="number" value={state.durationDays} onChange={handleNumberChange} min="1" />
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <Label htmlFor="labelCount">কতগুলো লেবেল?</Label>
                 <Input 
