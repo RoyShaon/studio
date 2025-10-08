@@ -2,6 +2,7 @@
 import { format } from "date-fns";
 import { convertToBanglaNumerals } from "@/lib/utils";
 import type { LabelState } from "@/app/page";
+import { Check } from "lucide-react";
 
 interface LabelPreviewProps extends LabelState {
   activeLabelIndex: number;
@@ -66,7 +67,7 @@ export default function LabelPreview({
     return (
       <div 
         className="text-gray-800 text-justify leading-snug"
-        style={{ fontSize: '13px' }}
+        style={{ fontSize: '13.5px' }}
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
