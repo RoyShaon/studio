@@ -124,6 +124,11 @@
   box-sizing: border-box !important;
 }
 
+.prescription-sheet-final .text-lg {
+  font-size: 1.125rem !important;
+  line-height: 1.75rem !important;
+}
+
 .prescription-sheet-final .text-base {
   font-size: 11pt !important;
 }
@@ -161,7 +166,7 @@
 .prescription-sheet-final .advice-list {
   padding-left: 0 !important;
   list-style: none !important;
-  font-size: 6.4pt !important;
+  font-size: 6.6pt !important;
 }
 
 .prescription-sheet-final .advice-list li {
