@@ -101,7 +101,7 @@ export default function LabelPreview({
     <div
       className="prescription-sheet-final font-body"
     >
-        <div className="flex-grow space-y-4 pt-2">
+        <div className="flex-grow space-y-2 pt-2">
             <div>
                 <div className="flex justify-between items-center text-sm font-medium mb-1">
                     <span className="truncate pr-1"><strong>ক্রমিক নং:</strong> <strong className="text-red-700">{serial}</strong></span>
