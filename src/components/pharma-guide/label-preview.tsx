@@ -37,28 +37,26 @@ export default function LabelPreview({
         return `<li>${bnLine}</li>`;
     }).join('');
 
-  const finalCounseling = `${counselingPoints}<li>• <strong class="font-bold">${bnFollowUpDays} দিন</strong> পরে আসবেন।</li>`;
+  const finalCounseling = `${counselingPoints}<li>• <strong>${bnFollowUpDays} দিন</strong> পরে আসবেন।</li>`;
     
-  const highlightStyle = "font-bold";
-
   const renderInstruction = () => {
-    const bnDrops = drops !== '' ? `<span class="${highlightStyle}">${convertToBanglaNumerals(drops)}</span>` : '___';
-    const bnInterval = interval !== '' ? `<span class="${highlightStyle}">${convertToBanglaNumerals(interval)}</span>` : '___';
-    const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? `<span class="${highlightStyle}">${convertToBanglaNumerals(shakeCount)}</span>` : '___';
+    const bnDrops = drops !== '' ? `<strong>${convertToBanglaNumerals(drops)}</strong>` : '___';
+    const bnInterval = interval !== '' ? `<strong>${convertToBanglaNumerals(interval)}</strong>` : '___';
+    const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? `<strong>${convertToBanglaNumerals(shakeCount)}</strong>` : '___';
     
-    let bnMixtureAmount = `<span class="${highlightStyle}">${convertToBanglaNumerals(mixtureAmount)}</span>`;
+    let bnMixtureAmount = `<strong>${convertToBanglaNumerals(mixtureAmount)}</strong>`;
     if (mixtureAmount === "সবটুকু ঔষধ") {
         bnMixtureAmount += " ";
     }
 
-    const bnDurationDays = durationDays !== '' ? `<span class="${highlightStyle}">${convertToBanglaNumerals(durationDays)}</span>` : '___';
+    const bnDurationDays = durationDays !== '' ? `<strong>${convertToBanglaNumerals(durationDays)}</strong>` : '___';
     const intervalUnitText = intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন';
     
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ <span class="${highlightStyle}">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} অন্তর অন্তর ${bnDurationDays} দিন সেবন করবেন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ <strong>১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} অন্তর অন্তর ${bnDurationDays} দিন সেবন করবেন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ <span class="${highlightStyle}">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} পর পর ${bnDurationDays} দিন সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ <strong>১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} পর পর ${bnDurationDays} দিন সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
