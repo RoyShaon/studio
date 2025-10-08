@@ -27,7 +27,6 @@ export default function RootLayout({
   return (
     <html lang="bn">
       <head>
-        <meta name="theme-color" content="#ffffff" />
       </head>
       <body className={`${inter.variable} ${hindSiliguri.variable} font-body antialiased`}>
         {children}
