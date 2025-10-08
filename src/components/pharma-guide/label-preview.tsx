@@ -19,7 +19,6 @@ export default function LabelPreview({
   intervalUnit,
   shakeCount,
   mixtureAmount,
-  mixtureNumber,
   durationDays,
   counseling,
   labelCount,
@@ -72,8 +71,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="text-gray-800 text-justify leading-snug"
-        style={{ fontSize: '11pt' }}
+        className="text-justify"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -101,7 +99,7 @@ export default function LabelPreview({
 
   return (
     <div
-      className="prescription-sheet font-body bg-white text-black flex flex-col"
+      className="prescription-sheet-final font-body"
     >
         <div className="flex-grow space-y-4 pt-2">
             <div>
@@ -130,24 +128,23 @@ export default function LabelPreview({
                   <h3 className="text-base font-bold text-red-700 mb-1 inline-block border-b-2 border-red-700 underline">পরামর্শ</h3>
                   <ul
                     className="advice-list text-gray-800 pl-0 list-none text-left"
-                    style={{ fontSize: '10.5pt' }}
                     dangerouslySetInnerHTML={{ __html: finalCounseling }}
                   ></ul>
                 </div>
             </div>
         </div>
       
-      <div className="doctor-info instruction-box text-center mt-auto border-none p-0">
-          <p className="font-bold text-indigo-700" style={{ fontSize: '9.5pt', marginBottom: '0px', lineHeight: '1.3' }}>ত্রিফুল আরোগ্য নিকেতন</p>
-          <p style={{ fontSize: '6.5pt', marginBottom: '0px', lineHeight: '1.3' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
-          <p style={{ fontSize: '8.5pt', marginBottom: '0px', lineHeight: '1.3' }}>
-            <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span style={{ fontWeight: '500', fontSize: '5pt' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+      <div className="doctor-info text-center">
+          <p className="font-bold text-indigo-700 doctor-title">ত্রিফুল আরোগ্য নিকেতন</p>
+          <p className="doctor-subtitle">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
+          <p className="doctor-name">
+            <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span className="doctor-degree" style={{ fontWeight: '500' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
-          <p style={{ fontSize: '6pt', marginBottom: '0px', lineHeight: '1.3' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
-          <p style={{ fontSize: '7.5pt', marginBottom: '0px', lineHeight: '1.3' }}>কোটালীপাড়া, গোপালগঞ্জ</p>
-          <p className="font-bold" style={{ marginBottom: '0px', fontSize: '7.5pt', lineHeight: '1.3' }}>
+          <p className="doctor-specialty">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+          <p className="doctor-location">কোটালীপাড়া, গোপালগঞ্জ</p>
+          <p className="font-bold doctor-contact">
             <strong>মোবাইল: </strong>
-            <strong>01716-954699, 01922-788466, 01714-719422</strong>
+            01716-954699, 01922-788466, 01714-719422
           </p>
       </div>
     </div>
