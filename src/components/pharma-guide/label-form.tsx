@@ -179,7 +179,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     if (!isNaN(numValue) && numValue > 0) {
       setState(prevState => ({ ...prevState, [name]: numValue }));
     } else if (value === '') {
-      setState(prevState => ({ ...prevState, [name]: '' as any }));
+      setState(prevState => ({ ...prevState, [name]: 1 }));
     }
   };
   
