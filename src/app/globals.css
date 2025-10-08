@@ -172,7 +172,7 @@
     font-size: 10pt !important;
   }
   .print-page .text-xs {
-    font-size: 9pt !important;
+    font-size: 8.7pt !important;
   }
 
   .print-page .text-red-700 {
@@ -192,6 +192,7 @@
   .print-page .advice-list {
     padding-left: 0 !important;
     list-style: none !important;
+    font-size: 8.7pt !important;
   }
   
   .print-page .advice-list li {
