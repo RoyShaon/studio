@@ -42,23 +42,23 @@ export default function LabelPreview({
   const highlightStyle = "font-extrabold text-red-700";
 
   const renderInstruction = () => {
-    const bnDrops = drops !== '' ? convertToBanglaNumerals(drops) : '___';
-    const bnInterval = interval !== '' ? convertToBanglaNumerals(interval) : '___';
-    const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? convertToBanglaNumerals(shakeCount) : '___';
+    const bnDrops = drops !== '' ? `<span class="${highlightStyle}">${convertToBanglaNumerals(drops)}</span>` : '___';
+    const bnInterval = interval !== '' ? `<span class="${highlightStyle}">${convertToBanglaNumerals(interval)}</span>` : '___';
+    const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? `<span class="${highlightStyle}">${convertToBanglaNumerals(shakeCount)}</span>` : '___';
     
-    let bnMixtureAmount = convertToBanglaNumerals(mixtureAmount);
+    let bnMixtureAmount = `<span class="${highlightStyle}">${convertToBanglaNumerals(mixtureAmount)}</span>`;
     if (mixtureAmount === "সবটুকু ঔষধ") {
         bnMixtureAmount += " ";
     }
 
-    const bnDurationDays = durationDays !== '' ? convertToBanglaNumerals(durationDays) : '___';
+    const bnDurationDays = durationDays !== '' ? `<span class="${highlightStyle}">${convertToBanglaNumerals(durationDays)}</span>` : '___';
     const intervalUnitText = intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন';
     
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="${highlightStyle}">${bnShakeCount} বার</span> ঝাঁকি দিয়ে <span class="${highlightStyle}">${bnDrops} ফোঁটা</span> ঔষধ <span class="${highlightStyle}">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে <span class="${highlightStyle}">${bnMixtureAmount}</span>> <span class="${highlightStyle}">${bnInterval} ${intervalUnitText}</span> অন্তর অন্তর <span class="${highlightStyle}">${bnDurationDays} দিন</span> সেবন করবেন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ <span class="${highlightStyle}">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount}> ${bnInterval} ${intervalUnitText} অন্তর অন্তর ${bnDurationDays} দিন সেবন করবেন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <span class="${highlightStyle}">${bnDrops} ফোঁটা</span> ঔষধ <span class="${highlightStyle}">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে <span class="${highlightStyle}">${bnMixtureAmount}</span>> <span class="${highlightStyle}">${bnInterval} ${intervalUnitText}</span> পর পর <span class="${highlightStyle}">${bnDurationDays} দিন</span> সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ <span class="${highlightStyle}">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount}> ${bnInterval} ${intervalUnitText} পর পর ${bnDurationDays} দিন সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -130,14 +130,14 @@ export default function LabelPreview({
         </div>
       
       <div className="doctor-info instruction-box text-center mt-auto border-none p-0">
-          <p style={{ fontWeight: 'bold', fontSize: '12pt', marginBottom: '0px', lineHeight: '1.3' }}>ত্রিফুল আরোগ্য নিকেতন</p>
-          <p style={{ fontSize: '10pt', marginBottom: '0px', lineHeight: '1.3' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
-          <p style={{ fontSize: '11pt', marginBottom: '0px', lineHeight: '1.3' }}>
-            <span style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</span> <span style={{ fontWeight: '500', fontSize: '9pt' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+          <p style={{ fontWeight: 'bold', fontSize: '9.5pt', marginBottom: '0px', lineHeight: '1.3' }}>ত্রিফুল আরোগ্য নিকেতন</p>
+          <p style={{ fontSize: '8pt', marginBottom: '0px', lineHeight: '1.3' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
+          <p style={{ fontSize: '8.5pt', marginBottom: '0px', lineHeight: '1.3' }}>
+            <span style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</span> <span style={{ fontWeight: '500', fontSize: '7.5pt' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
-          <p style={{ fontSize: '9pt', marginBottom: '0px', lineHeight: '1.3' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
-          <p style={{ fontSize: '9pt', marginBottom: '0px', lineHeight: '1.3' }}>কোটালীপাড়া, গোপালগঞ্জ</p>
-          <p style={{ fontWeight: 'bold', marginBottom: '0px', fontSize: '9pt', lineHeight: '1.3' }}>
+          <p style={{ fontSize: '7.5pt', marginBottom: '0px', lineHeight: '1.3' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+          <p style={{ fontSize: '7.5pt', marginBottom: '0px', lineHeight: '1.3' }}>কোটালীপাড়া, গোপালগঞ্জ</p>
+          <p style={{ fontWeight: 'bold', marginBottom: '0px', fontSize: '7.5pt', lineHeight: '1.3' }}>
             <span>মোবাইল: </span>
             <span>01716-954699, 01922-788466, 01714-719422</span>
           </p>
