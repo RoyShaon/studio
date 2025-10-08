@@ -42,8 +42,10 @@ export default function LabelPreview({
   const renderInstruction = () => {
     const bnDrops = drops !== '' ? `${convertToBanglaNumerals(drops)}` : '___';
     const bnInterval = interval !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(interval)}</strong>` : '___';
-    const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(shakeCount)}</strong>` : '___';
+    const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? convertToBanglaNumerals(shakeCount) : '___';
     
+    const bnShakeText = shakeMode === 'with' ? `<strong class="text-red-700">${bnShakeCount} বার</strong>` : '';
+
     let bnMixtureAmount = `<strong class="text-red-700">${convertToBanglaNumerals(mixtureAmount)}</strong>`;
 
     const bnDurationDays = durationDays !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(durationDays)}</strong>` : '___';
@@ -51,7 +53,7 @@ export default function LabelPreview({
     
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} বার ঝাঁকি দিয়ে <strong class="text-red-700">${bnDrops} ফোঁটা</strong> ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} অন্তর অন্তর ${bnDurationDays} দিন সেবন করবেন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeText} ঝাঁকি দিয়ে <strong class="text-red-700">${bnDrops} ফোঁটা</strong> ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} অন্তর অন্তর ${bnDurationDays} দিন সেবন করবেন।`;
     } else {
       instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <strong class="text-red-700">${bnDrops} ফোঁটা</strong> ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} পর পর ${bnDurationDays} দিন সেবন করুন।`;
     }
@@ -94,11 +96,11 @@ export default function LabelPreview({
         <div className="flex-grow space-y-4 pt-2">
             <div>
                 <div className="flex justify-between items-center text-sm font-medium mb-1">
-                    <span className="truncate pr-1"><strong>ক্রমিক নং:</strong> <strong className="font-bold text-red-700">{serial}</strong></span>
+                    <span className="truncate pr-1"><strong>ক্রমিক নং:</strong> <strong class="text-red-700">{serial}</strong></span>
                     <span className="whitespace-nowrap">তারিখঃ <strong>{formattedDate}</strong></span>
                 </div>
                 <div className="text-left text-base font-medium mb-4">
-                    রোগীর নামঃ&nbsp;&nbsp;<strong className="font-bold text-red-700">{patientName || ''}</strong>
+                    রোগীর নামঃ&nbsp;&nbsp;<strong class="text-red-700">{patientName || ''}</strong>
                 </div>
             </div>
 
@@ -140,4 +142,3 @@ export default function LabelPreview({
     </div>
   );
 }
-
