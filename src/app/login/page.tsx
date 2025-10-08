@@ -13,28 +13,19 @@ import { useToast } from "@/hooks/use-toast";
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const [email, setEmail] = useState("dev.royshaon@gmail.com");
-  const [password, setPassword] = useState("Shaon@5823");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSigningIn, setIsSigningIn] = useState(false);
-  const [isUserLoading, setIsUserLoading] = useState(true);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Since we removed Firebase, we can simulate the user being logged out.
-    // Or, for now, we can just redirect to the main page.
-    setIsUserLoading(false);
-    // In a real app without Firebase, you'd check for a session token here.
-    // For this case, let's assume no user is logged in and they should see the login page.
-  }, []);
+  const [isUserLoading, setIsUserLoading] = useState(false);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("Login functionality is disabled as Firebase has been removed.");
+    setError("Login functionality is disabled.");
     toast({
         variant: "destructive",
         title: "Login Disabled",
-        description: "Firebase services have been removed from this application.",
+        description: "This feature is not currently enabled.",
     });
   };
 
@@ -45,12 +36,6 @@ export default function LoginPage() {
       </div>
     );
   }
-  
-  // A simple redirect if you don't want a login page anymore.
-  // useEffect(() => {
-  //   router.replace("/");
-  // }, [router]);
-  // return null; // or a loading spinner
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
@@ -79,6 +64,7 @@ export default function LoginPage() {
               <Input
                 id="password"
                 type="password"
+                placeholder="********"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required

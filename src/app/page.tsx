@@ -2,7 +2,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import { Printer, Loader2, Trash2 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -66,16 +65,11 @@ const defaultLabelState: LabelState = {
 };
 
 export default function Home() {
-  const router = useRouter();
-
   const [labelState, setLabelState] = useState<LabelState>(defaultLabelState);
   
   const [activeLabelIndex, setActiveLabelIndex] = useState(1);
   const [isClient, setIsClient] = useState(false);
   const printContainerRef = useRef<HTMLDivElement>(null);
-  
-  const [isUserLoading, setIsUserLoading] = useState(false);
-  const [user, setUser] = useState<{} | null>({});
 
   // Load state from local storage on initial render
   useEffect(() => {
@@ -109,13 +103,6 @@ export default function Home() {
     }
   }, [labelState, isClient]);
   
-
-  useEffect(() => {
-    if (!isUserLoading && !user) {
-      // router.replace("/login"); 
-    }
-  }, [isUserLoading, user, router]);
-  
   useEffect(() => {
     const count = Number(labelState.labelCount);
     const currentCount = isNaN(count) || count < 1 ? 1 : count;
@@ -125,7 +112,7 @@ export default function Home() {
     }
   }, [labelState.labelCount, activeLabelIndex]);
 
- const saveDataAndPrint = () => {
+ const handlePrint = () => {
     triggerPrint();
   };
   
@@ -164,7 +151,7 @@ export default function Home() {
   };
 
 
-  if (!isClient || isUserLoading) {
+  if (!isClient) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Loader2 className="h-16 w-16 animate-spin" />
@@ -252,7 +239,7 @@ export default function Home() {
              </Card>
 
              <div className="flex justify-center items-center flex-wrap gap-4 mt-6">
-                <Button onClick={saveDataAndPrint} className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-8 rounded-lg shadow-xl transition duration-150 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50">
+                <Button onClick={handlePrint} className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-8 rounded-lg shadow-xl transition duration-150 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50">
                   <Printer className="mr-2 h-4 w-4" />
                   প্রিন্ট করুন
                 </Button>
