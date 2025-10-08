@@ -51,7 +51,7 @@ export default function LabelPreview({
     const bnDurationDays = durationDays !== '' ? convertToBanglaNumerals(durationDays) : '___';
     const intervalUnitText = intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন';
     
-    const highlightStyle = "text-red-700 font-extrabold";
+    const highlightStyle = "font-extrabold text-red-700";
     const highlightSize = "font-size: 13px;";
 
     let instruction;
@@ -82,7 +82,7 @@ export default function LabelPreview({
       <div className="text-center mb-2">
         <div className="text-xl font-bold text-red-700 inline-block border border-black rounded-md py-1 px-3">
           <span>{bnIndex} নং ঔষধ</span>
-          {activeLabelIndex > 1 && (
+           {activeLabelIndex > 1 && (
              <span className="font-normal text-sm ml-1">
                 ({convertToBanglaNumerals(activeLabelIndex - 1)} নং এর পরে খাবেন)
             </span>
