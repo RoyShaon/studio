@@ -27,7 +27,7 @@ export default function LabelPreview({
 }: LabelPreviewProps) {
   
   const formattedDate = convertToBanglaNumerals(format(date, "dd/MM/yyyy"));
-  const bnFollowUpDays = followUpDays !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(followUpDays)}</strong>` : '___';
+  const bnFollowUpDays = followUpDays !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(followUpDays)} দিন</strong>` : '___';
 
   const counselingPoints = counseling
     .map(line => {
@@ -37,15 +37,13 @@ export default function LabelPreview({
         return `<li>${bnLine}</li>`;
     }).join('');
 
-  const finalCounseling = `${counselingPoints}<li>• <span class="text-red-700 font-bold">${bnFollowUpDays} দিন</span> পরে আসবেন।</li>`;
+  const finalCounseling = `${counselingPoints}<li>• ${bnFollowUpDays} পরে আসবেন।</li>`;
     
   const renderInstruction = () => {
-    const bnDrops = drops !== '' ? `${convertToBanglaNumerals(drops)}` : '___';
+    const bnDrops = drops !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(drops)} ফোঁটা</strong>` : '___';
     const bnInterval = interval !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(interval)}</strong>` : '___';
-    const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? convertToBanglaNumerals(shakeCount) : '___';
+    const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(shakeCount)} বার</strong>` : '';
     
-    const bnShakeText = shakeMode === 'with' ? `<strong class="text-red-700">${bnShakeCount} বার</strong>` : '';
-
     let bnMixtureAmount = `<strong class="text-red-700">${convertToBanglaNumerals(mixtureAmount)}</strong>`;
 
     const bnDurationDays = durationDays !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(durationDays)}</strong>` : '___';
@@ -53,9 +51,9 @@ export default function LabelPreview({
     
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeText} ঝাঁকি দিয়ে <strong class="text-red-700">${bnDrops} ফোঁটা</strong> ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} অন্তর অন্তর ${bnDurationDays} দিন সেবন করবেন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} অন্তর অন্তর ${bnDurationDays} দিন সেবন করবেন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <strong class="text-red-700">${bnDrops} ফোঁটা</strong> ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} পর পর ${bnDurationDays} দিন সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} পর পর ${bnDurationDays} দিন সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -130,13 +128,13 @@ export default function LabelPreview({
           <p className="font-bold" style={{ fontSize: '9.5pt', marginBottom: '0px', lineHeight: '1.3' }}>ত্রিফুল আরোগ্য নিকেতন</p>
           <p style={{ fontSize: '8pt', marginBottom: '0px', lineHeight: '1.3' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
           <p style={{ fontSize: '8.5pt', marginBottom: '0px', lineHeight: '1.3' }}>
-            <span style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</span> <span style={{ fontWeight: '500', fontSize: '7.5pt' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+            <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span style={{ fontWeight: '500', fontSize: '7.5pt' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
           <p style={{ fontSize: '7.5pt', marginBottom: '0px', lineHeight: '1.3' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
           <p style={{ fontSize: '7.5pt', marginBottom: '0px', lineHeight: '1.3' }}>কোটালীপাড়া, গোপালগঞ্জ</p>
           <p className="font-bold" style={{ marginBottom: '0px', fontSize: '7.5pt', lineHeight: '1.3' }}>
-            <span>মোবাইল: </span>
-            <span>01716-954699, 01922-788466, 01714-719422</span>
+            <strong>মোবাইল: </strong>
+            <strong>01716-954699, 01922-788466, 01714-719422</strong>
           </p>
       </div>
     </div>
