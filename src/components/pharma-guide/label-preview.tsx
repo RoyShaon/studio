@@ -134,11 +134,11 @@ export default function LabelPreview({
       <div className="doctor-info text-center">
           <div className="doctor-info-with-border inline-block">
             <p className="font-bold text-indigo-700 doctor-title">ত্রিফুল আরোগ্য নিকেতন</p>
-            <p className="doctor-subtitle" style={{ fontSize: '5.5pt' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
+            <p className="doctor-subtitle" style={{ fontSize: '5.6pt' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
             <p className="doctor-name">
-              <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span className="doctor-degree" style={{ fontSize: '4.5pt', fontWeight: '500' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+              <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span className="doctor-degree" style={{ fontSize: '4.6pt', fontWeight: '500' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
             </p>
-            <p className="doctor-specialty" style={{ fontSize: '5.5pt' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+            <p className="doctor-specialty" style={{ fontSize: '5.6pt' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
             <p className="doctor-location">কোটালীপাড়া, গোপালগঞ্জ</p>
             <p className="font-bold doctor-contact">
               মোবাইল:&nbsp;
@@ -149,3 +149,4 @@ export default function LabelPreview({
     </div>
   );
 }
+
