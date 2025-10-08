@@ -61,9 +61,9 @@ export default function LabelPreview({
 
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ ${highlightedCupAmount} ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount}  > ${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ ${highlightedCupAmount} ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} > ${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ ${highlightedCupAmount} ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount}  > ${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ ${highlightedCupAmount} ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount} > ${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -149,5 +149,3 @@ export default function LabelPreview({
     </div>
   );
 }
-
-    
