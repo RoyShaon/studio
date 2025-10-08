@@ -27,7 +27,7 @@ export default function LabelPreview({
 }: LabelPreviewProps) {
   
   const formattedDate = convertToBanglaNumerals(format(date, "dd/MM/yyyy"));
-  const bnFollowUpDays = followUpDays !== '' ? `<strong>${convertToBanglaNumerals(followUpDays)}</strong>` : '___';
+  const bnFollowUpDays = followUpDays !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(followUpDays)}</strong>` : '___';
 
   const counselingPoints = counseling
     .map(line => {
@@ -37,10 +37,10 @@ export default function LabelPreview({
         return `<li>${bnLine}</li>`;
     }).join('');
 
-  const finalCounseling = `${counselingPoints}<li>• <span class="font-bold text-red-700">${bnFollowUpDays} দিন</span> পরে আসবেন।</li>`;
+  const finalCounseling = `${counselingPoints}<li>• <span class="text-red-700 font-bold">${bnFollowUpDays} দিন</span> পরে আসবেন।</li>`;
     
   const renderInstruction = () => {
-    const bnDrops = drops !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(drops)}</strong>` : '___';
+    const bnDrops = drops !== '' ? `${convertToBanglaNumerals(drops)}` : '___';
     const bnInterval = interval !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(interval)}</strong>` : '___';
     const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(shakeCount)}</strong>` : '___';
     
@@ -51,9 +51,9 @@ export default function LabelPreview({
     
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} বার ঝাঁকি দিয়ে ${bnDrops} ফোঁটা ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} অন্তর অন্তর ${bnDurationDays} দিন সেবন করবেন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} বার ঝাঁকি দিয়ে <strong class="text-red-700">${bnDrops} ফোঁটা</strong> ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} অন্তর অন্তর ${bnDurationDays} দিন সেবন করবেন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ফোঁটা ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} পর পর ${bnDurationDays} দিন সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <strong class="text-red-700">${bnDrops} ফোঁটা</strong> ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} পর পর ${bnDurationDays} দিন সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -115,7 +115,7 @@ export default function LabelPreview({
 
             <div className="space-y-4">
                 <div className="text-center">
-                  <h3 className="text-base font-bold text-red-700 mb-1 inline-block border-b-2 border-red-700">পরামর্শ</h3>
+                  <h3 className="text-base font-bold text-red-700 mb-1 inline-block border-b-2 border-red-700 underline">পরামর্শ</h3>
                   <ul
                     className="advice-list text-gray-800 text-xs pl-0 list-none text-left"
                     dangerouslySetInnerHTML={{ __html: finalCounseling }}
@@ -140,3 +140,4 @@ export default function LabelPreview({
     </div>
   );
 }
+
