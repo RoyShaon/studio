@@ -64,7 +64,7 @@ export default function LabelPreview({
     if (shakeMode === "with") {
         instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ ${highlightedCupAmount} ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount}  > ${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ ${highlightedCupAmount} ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount}   > ${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ ${highlightedCupAmount} ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount}  > ${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -85,7 +85,7 @@ export default function LabelPreview({
     
     return (
       <div className="text-center mb-2">
-        <div className="text-lg font-bold text-red-700 inline-block border border-black rounded-md py-1 px-3">
+        <div className="text-base font-bold text-red-700 inline-block border border-black rounded-md py-1 px-3">
           <span>{bnIndex} নং ঔষধ</span>
            {activeLabelIndex > 1 && (
              <span className="font-normal text-sm ml-1">
@@ -133,7 +133,7 @@ export default function LabelPreview({
         </div>
       
       <div className="doctor-info text-center">
-          <div className="doctor-info-with-border">
+          <div className="doctor-info-with-border inline-block">
             <p className="font-bold text-indigo-700 doctor-title">ত্রিফুল আরোগ্য নিকেতন</p>
             <p className="doctor-subtitle" style={{ fontSize: '5.5pt' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
             <p className="doctor-name">
