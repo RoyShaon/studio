@@ -177,9 +177,9 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     const { name, value } = e.target;
     const numValue = parseInt(value, 10);
     if (!isNaN(numValue) && numValue > 0) {
-      setState(prevState => ({ ...prevState, [name]: numValue }));
+      setState(prevState => ({ ...prevState, [name]: numValue as (1 | '') }));
     } else if (value === '') {
-      setState(prevState => ({ ...prevState, [name]: '' }));
+      setState(prevState => ({ ...prevState, [name]: '' as (1 | '') }));
     }
   };
   
@@ -364,7 +364,10 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                     name="labelCount"
                     type="number"
                     value={state.labelCount}
-                    onChange={handleLabelCountChange}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setState(prev => ({...prev, labelCount: value === '' ? 1 : parseInt(value, 10)}));
+                    }}
                     onBlur={(e) => {
                       if (e.target.value === '' || parseInt(e.target.value, 10) < 1) {
                         setState(prev => ({...prev, labelCount: 1}));
@@ -475,5 +478,3 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     </div>
   );
 }
-
-    

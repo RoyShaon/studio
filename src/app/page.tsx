@@ -174,6 +174,9 @@ export default function Home() {
       </div>
     );
   };
+  
+  const currentLabelCount = Number(labelState.labelCount) || 1;
+  const currentActiveLabel = Number(activeLabelIndex) || 1;
 
   return (
     <main className="min-h-screen p-4 sm:p-6 lg:p-8 bg-background">
@@ -228,7 +231,7 @@ export default function Home() {
                   <CardTitle className="text-2xl font-semibold">ফর্মের প্রিভিউ</CardTitle>
                   <CardDescription>
                     নিচের ফরম্যাটটি প্রিন্ট লেবেলের মতো দেখাবে ({convertToBanglaNumerals('3.6')}” x {convertToBanglaNumerals('5.6')}”)। 
-                    {!labelState.showAllPreviews && labelState.labelCount > 1 && ` মোট ${convertToBanglaNumerals(labelState.labelCount)}টি লেবেলের মধ্যে ${convertToBanglaNumerals(activeLabelIndex)} নং লেবেল দেখানো হচ্ছে।`}
+                    {!labelState.showAllPreviews && currentLabelCount > 1 && ` মোট ${convertToBanglaNumerals(currentLabelCount)}টি লেবেলের মধ্যে ${convertToBanglaNumerals(currentActiveLabel)} নং লেবেল দেখানো হচ্ছে।`}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
