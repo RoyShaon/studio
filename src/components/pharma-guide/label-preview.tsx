@@ -37,9 +37,9 @@ export default function LabelPreview({
         return `<li>${bnLine}</li>`;
     }).join('');
 
-  const finalCounseling = `${counselingPoints}<li>• <strong class="font-extrabold text-red-700">${bnFollowUpDays} দিন</strong> পরে আসবেন।</li>`;
+  const finalCounseling = `${counselingPoints}<li>• <strong class="font-bold">${bnFollowUpDays} দিন</strong> পরে আসবেন।</li>`;
     
-  const highlightStyle = "font-extrabold";
+  const highlightStyle = "font-bold";
 
   const renderInstruction = () => {
     const bnDrops = drops !== '' ? `<span class="${highlightStyle}">${convertToBanglaNumerals(drops)}</span>` : '___';
@@ -99,11 +99,11 @@ export default function LabelPreview({
         <div className="flex-grow space-y-4 pt-2">
             <div>
                 <div className="flex justify-between items-center text-sm font-medium mb-1">
-                    <span className="truncate pr-1"><strong className="text-indigo-700">ক্রমিক নং:</strong> <strong className="text-red-700 font-extrabold">{serial}</strong></span>
-                    <span className="whitespace-nowrap">তারিখঃ <strong className="text-indigo-700 font-extrabold">{formattedDate}</strong></span>
+                    <span className="truncate pr-1"><strong className="text-indigo-700">ক্রমিক নং:</strong> <strong className="font-bold">{serial}</strong></span>
+                    <span className="whitespace-nowrap">তারিখঃ <strong className="text-indigo-700 font-bold">{formattedDate}</strong></span>
                 </div>
                 <div className="text-left text-base font-medium mb-4">
-                    রোগীর নামঃ&nbsp;&nbsp;<strong className="text-indigo-700 font-extrabold">{patientName || ''}</strong>
+                    রোগীর নামঃ&nbsp;&nbsp;<strong className="text-indigo-700 font-bold">{patientName || ''}</strong>
                 </div>
             </div>
 
@@ -111,7 +111,7 @@ export default function LabelPreview({
 
             <div className="space-y-3">
                 <div className="text-center"> 
-                    <h2 className="inline-block border-b-2 border-gray-800 py-1 text-center font-extrabold" style={{ fontSize: '17px' }}>ঔষধ খাবার নিয়মাবলী</h2>
+                    <h2 className="inline-block border-b-2 border-gray-800 py-1 text-center font-bold" style={{ fontSize: '17px' }}>ঔষধ খাবার নিয়মাবলী</h2>
                 </div>
                 <div className="instruction-box">
                   {renderInstruction()}
