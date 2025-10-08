@@ -45,7 +45,7 @@ export default function LabelPreview({
     let bnInterval = '';
     if (interval !== '') {
         const bnIntervalNumber = convertToBanglaNumerals(interval);
-        const prefix = intervalUnit === 'hours' ? '' : '';
+        const prefix = intervalUnit === 'hours' ? '>' : '';
         const unitText = intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন';
         bnInterval = `<strong class="text-red-700">${prefix}${bnIntervalNumber} ${unitText}</strong>`;
     } else {
@@ -60,9 +60,9 @@ export default function LabelPreview({
     
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount}  >${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করবেন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} >${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount}  >${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount} >${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
