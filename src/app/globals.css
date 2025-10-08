@@ -166,10 +166,10 @@
 .prescription-sheet-final .advice-list {
   padding-left: 0 !important;
   list-style: none !important;
-  font-size: 6.8pt !important;
 }
 
 .prescription-sheet-final .advice-list li {
+  font-size: 6.8pt !important;
   line-height: 1.3 !important;
   margin-bottom: 0 !important;
 }
@@ -270,3 +270,5 @@
       margin: 0.1in;
   }
 }
+
+    

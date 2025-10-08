@@ -155,15 +155,15 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     setIsListening(prevState => !prevState);
   }, [isListening, state.patientName]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
     if (name === 'patientName') {
         transcriptRef.current = value;
     }
-  };
+  }, [setState]);
 
-  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNumberChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (value === '') {
       setState(prevState => ({ ...prevState, [name]: '' }));
@@ -171,9 +171,9 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     }
     const numValue = parseInt(value, 10);
     setState(prevState => ({ ...prevState, [name]: isNaN(numValue) ? '' : numValue }));
-  };
+  }, [setState]);
   
-  const handleLabelCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLabelCountChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const numValue = parseInt(value, 10);
     if (!isNaN(numValue) && numValue > 0) {
@@ -181,23 +181,18 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     } else if (value === '') {
       setState(prevState => ({ ...prevState, [name]: 1 }));
     }
-  };
+  }, [setState]);
   
-  const getSanitizedLabelCount = () => {
-    const count = Number(state.labelCount);
-    return isNaN(count) || count < 1 ? 1 : count;
-  }
-  
-  const addCounseling = () => {
+  const addCounseling = useCallback(() => {
       if (selectedCounseling && !state.counseling.includes(selectedCounseling)) {
           setState(prevState => ({
               ...prevState,
               counseling: [...prevState.counseling, selectedCounseling]
           }));
       }
-  };
+  }, [selectedCounseling, state.counseling, setState]);
   
-  const addCustomCounseling = () => {
+  const addCustomCounseling = useCallback(() => {
     if (customCounseling.trim() !== "") {
         const newCounseling = `• ${customCounseling.trim()}`;
         if (!state.counseling.includes(newCounseling)) {
@@ -208,13 +203,18 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
             setCustomCounseling("");
         }
     }
-  };
+  }, [customCounseling, state.counseling, setState]);
 
-  const removeCounseling = (index: number) => {
+  const removeCounseling = useCallback((index: number) => {
       setState(prevState => ({
           ...prevState,
           counseling: prevState.counseling.filter((_, i) => i !== index)
       }));
+  }, [setState]);
+  
+  const getSanitizedLabelCount = () => {
+    const count = Number(state.labelCount);
+    return isNaN(count) || count < 1 ? 1 : count;
   };
 
   return (
@@ -494,3 +494,5 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     </div>
   );
 }
+
+    
