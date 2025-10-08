@@ -39,6 +39,8 @@ export default function LabelPreview({
 
   const finalCounseling = `${counselingPoints}<li>• <strong class="font-extrabold text-red-700">${bnFollowUpDays} দিন</strong> পরে আসবেন।</li>`;
     
+  const highlightStyle = "font-extrabold text-red-700";
+
   const renderInstruction = () => {
     const bnDrops = drops !== '' ? convertToBanglaNumerals(drops) : '___';
     const bnInterval = interval !== '' ? convertToBanglaNumerals(interval) : '___';
@@ -52,8 +54,6 @@ export default function LabelPreview({
     const bnDurationDays = durationDays !== '' ? convertToBanglaNumerals(durationDays) : '___';
     const intervalUnitText = intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন';
     
-    const highlightStyle = "font-extrabold text-red-700";
-
     let instruction;
     if (shakeMode === "with") {
         instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="${highlightStyle}">${bnShakeCount} বার</span> ঝাঁকি দিয়ে <span class="${highlightStyle}">${bnDrops} ফোঁটা</span> ঔষধ <span class="${highlightStyle}">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে <span class="${highlightStyle}">${bnMixtureAmount}</span> > <span class="${highlightStyle}">${bnInterval} ${intervalUnitText}</span> অন্তর অন্তর <span class="${highlightStyle}">${bnDurationDays} দিন</span> সেবন করবেন।`;
@@ -129,17 +129,17 @@ export default function LabelPreview({
             </div>
         </div>
       
-      <div className="doctor-info instruction-box text-center mt-4">
-          <p className="font-bold mb-0" style={{ fontSize: '0.8rem' }}>ত্রিফুল আরোগ্য নিকেতন</p>
-          <p className="mb-0" style={{ fontSize: '0.5rem' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
-          <p className="mb-0" style={{ fontSize: '0.7rem' }}>
-            <span className="font-medium">ডাঃ নীহার রঞ্জন রায়</span> <span className="font-medium" style={{ fontSize: '0.5rem' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+      <div className="doctor-info instruction-box text-center mt-auto border-none p-0">
+          <p className="font-bold text-lg mb-0">ত্রিফুল আরোগ্য নিকেতন</p>
+          <p className="mb-0 text-sm">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
+          <p className="mb-0 text-base">
+            <span className="font-medium">ডাঃ নীহার রঞ্জন রায়</span> <span className="font-medium text-sm">(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
-          <p className="mb-0" style={{ fontSize: 'OS.5rem' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
-          <p className="mb-0" style={{ fontSize: '0.6rem' }}>কোটালীপাড়া, গোপালগঞ্জ</p>
-          <p className="font-bold mb-0">
-            <span style={{ fontSize: '0.6rem' }}>মোবাইল: </span>
-            <span style={{ fontSize: '0.65rem' }}>01716-954699, 01922-788466, 01714-719422</span>
+          <p className="mb-0 text-sm">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+          <p className="mb-0 text-sm">কোটালীপাড়া, গোপালগঞ্জ</p>
+          <p className="font-bold mb-0 text-sm">
+            <span>মোবাইল: </span>
+            <span>01716-954699, 01922-788466, 01714-719422</span>
           </p>
       </div>
     </div>
