@@ -56,8 +56,7 @@ export default function LabelPreview({
 
     let instruction;
     if (shakeMode === "with") {
-        const shakeText = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="${highlightStyle}">${bnShakeCount} বার</span> ঝাঁকি দিয়ে <span class="${highlightStyle}">${bnDrops} ফোঁটা</span> ঔষধ <span class="${highlightStyle}">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে`;
-        instruction = `${shakeText} <span class="${highlightStyle}">${bnMixtureAmount}</span> > <span class="${highlightStyle}">${bnInterval} ${intervalUnitText}</span> অন্তর অন্তর <span class="${highlightStyle}">${bnDurationDays} দিন</span> সেবন করবেন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="${highlightStyle}">${bnShakeCount} বার</span> ঝাঁকি দিয়ে <span class="${highlightStyle}">${bnDrops} ফোঁটা</span> ঔষধ <span class="${highlightStyle}">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে <span class="${highlightStyle}">${bnMixtureAmount}</span> > <span class="${highlightStyle}">${bnInterval} ${intervalUnitText}</span> অন্তর অন্তর <span class="${highlightStyle}">${bnDurationDays} দিন</span> সেবন করবেন।`;
     } else {
       instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <span class="${highlightStyle}">${bnDrops} ফোঁটা</span> ঔষধ <span class="${highlightStyle}">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে <span class="${highlightStyle}">${bnMixtureAmount}</span> > <span class="${highlightStyle}">${bnInterval} ${intervalUnitText}</span> পর পর <span class="${highlightStyle}">${bnDurationDays} দিন</span> সেবন করুন।`;
     }
