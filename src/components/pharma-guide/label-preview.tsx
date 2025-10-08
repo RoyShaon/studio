@@ -41,19 +41,28 @@ export default function LabelPreview({
     
   const renderInstruction = () => {
     const bnDrops = drops !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(drops)} ফোঁটা</strong>` : '___';
-    const bnInterval = interval !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(interval)}</strong>` : '___';
+    
+    let bnIntervalText = '';
+    if (interval !== '') {
+        const bnIntervalNumber = convertToBanglaNumerals(interval);
+        const prefix = intervalUnit === 'hours' ? '>' : '';
+        const unitText = intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন';
+        bnIntervalText = `<strong class="text-red-700">${prefix}${bnIntervalNumber} ${unitText}</strong>`;
+    } else {
+        bnIntervalText = '___';
+    }
+
     const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(shakeCount)} বার</strong>` : '';
     
     let bnMixtureAmount = `<strong class="text-red-700">${convertToBanglaNumerals(mixtureAmount)}</strong>`;
 
     const bnDurationDays = durationDays !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(durationDays)}</strong>` : '___';
-    const intervalUnitText = intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন';
     
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} অন্তর অন্তর ${bnDurationDays} দিন সেবন করবেন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} ${bnIntervalText} অন্তর অন্তর ${bnDurationDays} দিন সেবন করবেন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount} ${bnInterval} ${intervalUnitText} পর পর ${bnDurationDays} দিন সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount} ${bnIntervalText} পর পর ${bnDurationDays} দিন সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -94,11 +103,11 @@ export default function LabelPreview({
         <div className="flex-grow space-y-4 pt-2">
             <div>
                 <div className="flex justify-between items-center text-sm font-medium mb-1">
-                    <span className="truncate pr-1"><strong>ক্রমিক নং:</strong> <strong class="text-red-700">{serial}</strong></span>
+                    <span className="truncate pr-1"><strong>ক্রমিক নং:</strong> <strong className="text-red-700">{serial}</strong></span>
                     <span className="whitespace-nowrap">তারিখঃ <strong>{formattedDate}</strong></span>
                 </div>
                 <div className="text-left text-base font-medium mb-4">
-                    রোগীর নামঃ&nbsp;&nbsp;<strong class="text-red-700">{patientName || ''}</strong>
+                    রোগীর নামঃ&nbsp;&nbsp;<strong className="text-red-700">{patientName || ''}</strong>
                 </div>
             </div>
 
@@ -134,7 +143,7 @@ export default function LabelPreview({
           <p style={{ fontSize: '7.5pt', marginBottom: '0px', lineHeight: '1.3' }}>কোটালীপাড়া, গোপালগঞ্জ</p>
           <p className="font-bold" style={{ marginBottom: '0px', fontSize: '7.5pt', lineHeight: '1.3' }}>
             <strong>মোবাইল: </strong>
-            <strong>01716-954699, 01922-788466, 01714-719422</strong>
+            <strong className="text-red-700">01716-954699, 01922-788466, 01714-719422</strong>
           </p>
       </div>
     </div>
