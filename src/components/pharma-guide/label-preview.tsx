@@ -126,7 +126,8 @@ export default function LabelPreview({
                 <div className="text-center">
                   <h3 className="text-base font-bold text-red-700 mb-1 inline-block border-b-2 border-red-700 underline">পরামর্শ</h3>
                   <ul
-                    className="advice-list text-gray-800 text-xs pl-0 list-none text-left"
+                    className="advice-list text-gray-800 pl-0 list-none text-left"
+                    style={{ fontSize: '8.5pt' }}
                     dangerouslySetInnerHTML={{ __html: finalCounseling }}
                   ></ul>
                 </div>
