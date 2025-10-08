@@ -160,7 +160,7 @@
 }
 
 .prescription-sheet-final .instruction-box.text-justify {
-  font-size: 9.8pt !important;
+  font-size: 9.6pt !important;
 }
 
 .prescription-sheet-final .advice-list {
@@ -191,29 +191,29 @@
 }
 
 .prescription-sheet-final .doctor-info .doctor-title {
-  font-size: 7pt !important;
+  font-size: 7.2pt !important;
 }
 
 .prescription-sheet-final .doctor-info .doctor-subtitle {
-  font-size: 4.1pt !important;
+  font-size: 4.2pt !important;
 }
 
 .prescription-sheet-final .doctor-info .doctor-name {
-  font-size: 6.5pt !important;
+  font-size: 6.7pt !important;
 }
 .prescription-sheet-final .doctor-info .doctor-degree {
-    font-size: 3.4pt !important;
+    font-size: 3.5pt !important;
 }
 
 .prescription-sheet-final .doctor-info .doctor-specialty {
-    font-size: 4.1pt !important;
+    font-size: 4.2pt !important;
 }
 
 .prescription-sheet-final .doctor-info .doctor-location {
-  font-size: 5.6pt !important;
+  font-size: 5.8pt !important;
 }
 .prescription-sheet-final .doctor-info .doctor-contact {
-    font-size: 5.6pt !important;
+    font-size: 5.8pt !important;
 }
 
 
@@ -272,5 +272,6 @@
 }
 
     
+
 
 

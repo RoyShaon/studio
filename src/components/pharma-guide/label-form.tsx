@@ -175,6 +175,10 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
   
   const handleLabelCountChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    if (value === '') {
+      setState(prevState => ({ ...prevState, [name]: '' }));
+      return;
+    }
     const numValue = parseInt(value, 10);
     if (!isNaN(numValue) && numValue > 0) {
       setState(prevState => ({ ...prevState, [name]: numValue }));
@@ -494,5 +498,3 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     </div>
   );
 }
-
-    
