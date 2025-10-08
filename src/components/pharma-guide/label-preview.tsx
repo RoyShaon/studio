@@ -71,7 +71,7 @@ export default function LabelPreview({
     
     return (
       <div 
-        className="text-justify"
+        className="instruction-box text-justify"
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
@@ -118,9 +118,7 @@ export default function LabelPreview({
                 <div className="text-center"> 
                     <h2 className="inline-block border-b-2 border-gray-800 py-1 text-center font-bold" style={{ fontSize: '17px' }}>ঔষধ খাবার নিয়মাবলী</h2>
                 </div>
-                <div className="instruction-box text-justify">
-                  {renderInstruction()}
-                </div>
+                {renderInstruction()}
             </div>
 
             <div className="space-y-4">
@@ -136,14 +134,14 @@ export default function LabelPreview({
       
       <div className="doctor-info text-center">
           <p className="font-bold text-indigo-700 doctor-title">ত্রিফুল আরোগ্য নিকেতন</p>
-          <p className="doctor-subtitle">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
+          <p className="doctor-subtitle" style={{ fontSize: '5.5pt' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
           <p className="doctor-name">
-            <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span className="doctor-degree" style={{ fontWeight: '500' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+            <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span className="doctor-degree" style={{ fontSize: '4.5pt', fontWeight: '500' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
-          <p className="doctor-specialty">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+          <p className="doctor-specialty" style={{ fontSize: '5.5pt' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
           <p className="doctor-location">কোটালীপাড়া, গোপালগঞ্জ</p>
           <p className="font-bold doctor-contact">
-            <strong>মোবাইল: </strong>
+            মোবাইল:&nbsp;
             01716-954699, 01922-788466, 01714-719422
           </p>
       </div>
