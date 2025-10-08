@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Printer, Loader2, Trash2, UserPlus } from "lucide-react";
+import { Printer, Loader2, Trash2 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -37,9 +37,14 @@ export type LabelState = {
 };
 
 const defaultCounseling = [
-  "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
-  "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
-  "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।"
+  "• টক জাতীয় খাবার খাবেন না।",
+  "• কাঁচা পিয়াজ-রসুন খাবেন না।",
+  "• এলার্জিযুক্ত সকল খাবার খাবেন না।",
+  "• রাত্রি জাগরণ করবেন না।",
+  "• নিয়মিত প্রেসার/ডায়াবেটিসের ঔষধ খাবেন।",
+  "• ঠান্ডা জাতীয় খাবার খাবেন না।",
+  "• ঔষধ খাওয়ার পরে বমি, পাতলা পায়খানা, সর্দি বা বমি হলে তা অবশ্যই জানাবেন।",
+  "• অতিরিক্ত দেয়া ওষুধ ফোন না করে খাবেন না।"
 ];
 
 const defaultLabelState: LabelState = {

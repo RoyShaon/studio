@@ -7,7 +7,6 @@ interface LabelPreviewProps extends LabelState {
   activeLabelIndex: number;
 }
 
-
 export default function LabelPreview({
   serial,
   patientName,
@@ -50,14 +49,17 @@ export default function LabelPreview({
     }
 
     const bnDurationDays = durationDays !== '' ? convertToBanglaNumerals(durationDays) : '___';
-    const intervalUnitText = intervalUnit === 'hours' ? 'ঘণ্টা' : 'দিন';
+    const intervalUnitText = intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন';
     
+    const highlightStyle = "text-red-700 font-extrabold";
+    const highlightSize = "font-size: 13px;";
+
     let instruction;
     if (shakeMode === "with") {
-        const shakeText = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnShakeCount}</span> <strong class="text-red-700">বার</strong> ঝাঁকি দিয়ে`;
-        instruction = `${shakeText} <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> <strong class="text-red-700">ফোঁটা</strong> ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval} ${intervalUnitText}</span> অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span> > <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> <strong class="text-red-700">দিন</strong> সেবন করবেন।`;
+        const shakeText = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="${highlightStyle}" style="${highlightSize}">${bnShakeCount}</span> <strong class="text-red-700">বার</strong> ঝাঁকি দিয়ে`;
+        instruction = `${shakeText} <span class="${highlightStyle}" style="${highlightSize}">${bnDrops}</span> <strong class="text-red-700">ফোঁটা</strong> ঔষধ <strong class="font-bold">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে নিয়ে <span class="${highlightStyle}" style="${highlightSize}">${bnMixtureAmount}</span> > <span class="${highlightStyle}" style="${highlightSize}">${bnInterval} ${intervalUnitText}</span> অন্তর অন্তর <span class="${highlightStyle}" style="${highlightSize}">${bnDurationDays}</span> <strong class="text-red-700">দিন</strong> সেবন করবেন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDrops}</span> <strong class="text-red-700">ফোঁটা</strong> ঔষধ <span class="font-bold">১ কাপ</span> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnInterval} ${intervalUnitText}</span> অন্তর <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnMixtureAmount}</span> > <span class="text-red-700 font-extrabold" style="font-size: 13px;">${bnDurationDays}</span> <strong class="text-red-700">দিন</strong> সেবন করবেন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <span class="${highlightStyle}" style="${highlightSize}">${bnDrops}</span> <strong class="text-red-700">ফোঁটা</strong> ঔষধ <strong class="font-bold">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে নিয়ে <span class="${highlightStyle}" style="${highlightSize}">${bnMixtureAmount}</span> > <span class="${highlightStyle}" style="${highlightSize}">${bnInterval} ${intervalUnitText}</span> পর পর <span class="${highlightStyle}" style="${highlightSize}">${bnDurationDays}</span> <strong class="text-red-700">দিন</strong> সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -127,7 +129,7 @@ export default function LabelPreview({
             </div>
         </div>
       
-      <div className="doctor-info instruction-box text-center mt-auto">
+      <div className="doctor-info instruction-box text-center mt-4">
           <p className="font-bold mb-0" style={{ fontSize: '0.8rem' }}>ত্রিফুল আরোগ্য নিকেতন</p>
           <p className="mb-0" style={{ fontSize: '0.5rem' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
           <p className="mb-0" style={{ fontSize: '0.7rem' }}>
