@@ -104,11 +104,11 @@ export default function LabelPreview({
         <div className="flex-grow space-y-2 pt-2">
             <div>
                 <div className="flex justify-between items-center text-sm font-medium mb-1">
-                    <span className="truncate pr-1"><strong>ক্রমিক নং:</strong> <strong className="text-red-700">{serial}</strong></span>
+                    <span className="truncate pr-1"><strong>ক্রমিক নং:</strong> <strong className="text-indigo-700">{serial}</strong></span>
                     <span className="whitespace-nowrap">তারিখঃ <strong>{formattedDate}</strong></span>
                 </div>
                 <div className="text-left text-base font-medium mb-4">
-                    রোগীর নামঃ&nbsp;&nbsp;<strong className="text-red-700">{patientName || ''}</strong>
+                    রোগীর নামঃ&nbsp;&nbsp;<strong className="text-indigo-700">{patientName || ''}</strong>
                 </div>
             </div>
 
