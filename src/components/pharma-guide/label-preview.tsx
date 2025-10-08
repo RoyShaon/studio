@@ -139,9 +139,10 @@ export default function LabelPreview({
           <p className="mb-0" style={{ fontSize: '0.6rem' }}>কোটালীপাড়া, গোপালগঞ্জ</p>
           <p className="font-bold mb-0">
             <span style={{ fontSize: '0.6rem' }}>মোবাইল: </span>
-            <span style={{ fontSize: '0.65rem' }}>01716954699, 01922788466, 01714-719422</span>
+            <span style={{ fontSize: '0.65rem' }}>01716-954699, 01922-788466, 01714-719422</span>
           </p>
       </div>
     </div>
   );
 }
+
