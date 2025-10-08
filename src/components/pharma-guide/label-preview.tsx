@@ -56,10 +56,10 @@ export default function LabelPreview({
 
     let instruction;
     if (shakeMode === "with") {
-        const shakeText = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="${highlightStyle}">${bnShakeCount}</span> <strong class="text-red-700">বার</strong> ঝাঁকি দিয়ে <span class="${highlightStyle}">${bnDrops}</span> <strong class="text-red-700">ফোঁটা</strong> ঔষধ <strong class="font-bold">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে`;
+        const shakeText = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে <span class="${highlightStyle}">${bnShakeCount}</span> <strong class="text-red-700">বার</strong> ঝাঁকি দিয়ে <span class="${highlightStyle}">${bnDrops}</span> <strong class="text-red-700">ফোঁটা</strong> ঔষধ <strong class="font-bold text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে`;
         instruction = `${shakeText} <span class="${highlightStyle}">${bnMixtureAmount}</span> > <span class="${highlightStyle}">${bnInterval} ${intervalUnitText}</span> অন্তর অন্তর <span class="${highlightStyle}">${bnDurationDays}</span> <strong class="text-red-700">দিন</strong> সেবন করবেন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <span class="${highlightStyle}">${bnDrops}</span> <strong class="text-red-700">ফোঁটা</strong> ঔষধ <strong class="font-bold">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে <span class="${highlightStyle}">${bnMixtureAmount}</span> > <span class="${highlightStyle}">${bnInterval} ${intervalUnitText}</span> পর পর <span class="${highlightStyle}">${bnDurationDays}</span> <strong class="text-red-700">দিন</strong> সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে <span class="${highlightStyle}">${bnDrops}</span> <strong class="text-red-700">ফোঁটা</strong> ঔষধ <strong class="font-bold text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে <span class="${highlightStyle}">${bnMixtureAmount}</span> > <span class="${highlightStyle}">${bnInterval} ${intervalUnitText}</span> পর পর <span class="${highlightStyle}">${bnDurationDays}</span> <strong class="text-red-700">দিন</strong> সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -67,7 +67,6 @@ export default function LabelPreview({
     return (
       <div 
         className="text-gray-800 text-justify leading-snug"
-        style={{ fontSize: '13.5px' }}
         dangerouslySetInnerHTML={{ __html: processedInstruction.replace(/\n/g, '<br>') }} 
       />
     );
