@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon, PlusCircle, XCircle, ChevronDown, Mic } from "lucide-react";
+import { CalendarIcon, PlusCircle, XCircle, ChevronDown, Mic, Check } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn, convertToBanglaNumerals } from "@/lib/utils";
@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { Textarea } from "@/components/ui/textarea";
 
 
 interface LabelFormProps {
@@ -52,6 +53,7 @@ const SpeechRecognition =
 
 export default function LabelForm({ state, setState, activeLabelIndex, setActiveLabelIndex }: LabelFormProps) {
   const [selectedCounseling, setSelectedCounseling] = useState<string>(predefinedCounseling[0]);
+  const [customCounseling, setCustomCounseling] = useState("");
   const [isCounselingOpen, setIsCounselingOpen] = useState(false);
   
   const [isListening, setIsListening] = useState(false);
@@ -193,6 +195,19 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
               counseling: [...prevState.counseling, selectedCounseling]
           }));
       }
+  };
+  
+  const addCustomCounseling = () => {
+    if (customCounseling.trim() !== "") {
+        const newCounseling = `• ${customCounseling.trim()}`;
+        if (!state.counseling.includes(newCounseling)) {
+            setState(prevState => ({
+                ...prevState,
+                counseling: [...prevState.counseling, newCounseling]
+            }));
+            setCustomCounseling("");
+        }
+    }
   };
 
   const removeCounseling = (index: number) => {
@@ -388,9 +403,9 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                     ))}
                 </div>
             </div>
-
+            
             <div className="space-y-2">
-                <Label htmlFor="counseling-select">নতুন পরামর্শ যোগ করুন</Label>
+                <Label htmlFor="counseling-select">নতুন পরামর্শ যোগ করুন (তালিকা থেকে)</Label>
                 <div className="flex gap-2">
                     <Select value={selectedCounseling} onValueChange={setSelectedCounseling}>
                         <SelectTrigger id="counseling-select">
@@ -398,11 +413,32 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                         </SelectTrigger>
                         <SelectContent>
                             {predefinedCounseling.map((item, index) => (
-                                <SelectItem key={index} value={item}>{item}</SelectItem>
+                                <SelectItem key={index} value={item}>
+                                  <div className="flex items-center">
+                                      <span className="mr-2">
+                                          {state.counseling.includes(item) && <Check className="h-4 w-4" />}
+                                      </span>
+                                      <span>{item}</span>
+                                  </div>
+                                </SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
                     <Button onClick={addCounseling}><PlusCircle className="h-4 w-4 mr-2" /> যোগ করুন</Button>
+                </div>
+            </div>
+
+            <div className="space-y-2">
+                <Label htmlFor="custom-counseling">নতুন পরামর্শ যোগ করুন (কাস্টম)</Label>
+                 <div className="flex gap-2">
+                    <Textarea
+                        id="custom-counseling"
+                        placeholder="এখানে আপনার পরামর্শ লিখুন..."
+                        value={customCounseling}
+                        onChange={(e) => setCustomCounseling(e.target.value)}
+                        className="min-h-[60px]"
+                    />
+                    <Button onClick={addCustomCounseling}><PlusCircle className="h-4 w-4 mr-2" /> যোগ করুন</Button>
                 </div>
             </div>
         </CollapsibleContent>
@@ -439,3 +475,5 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     </div>
   );
 }
+
+    
