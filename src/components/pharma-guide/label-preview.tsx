@@ -56,13 +56,13 @@ export default function LabelPreview({
     
     let bnMixtureAmount = `<strong class="text-red-700">${convertToBanglaNumerals(mixtureAmount)}</strong>`;
 
-    const bnDurationDays = durationDays !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(durationDays)}</strong>` : '___';
+    const bnDurationDays = durationDays !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(durationDays)} দিন</strong>` : '___';
     
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount}  +  ${bnIntervalText} অন্তর অন্তর ${bnDurationDays} দিন সেবন করবেন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount}  ${bnIntervalText} অন্তর অন্তর ${bnDurationDays} সেবন করবেন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount}  +  ${bnIntervalText} পর পর ${bnDurationDays} দিন সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ <strong class="text-red-700">১ কাপ</strong> ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount}  ${bnIntervalText} পর পর ${bnDurationDays} সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -134,7 +134,7 @@ export default function LabelPreview({
         </div>
       
       <div className="doctor-info instruction-box text-center mt-auto border-none p-0">
-          <p className="font-bold" style={{ fontSize: '9.5pt', marginBottom: '0px', lineHeight: '1.3' }}>ত্রিফুল আরোগ্য নিকেতন</p>
+          <p className="font-bold text-indigo-700" style={{ fontSize: '9.5pt', marginBottom: '0px', lineHeight: '1.3' }}>ত্রিফুল আরোগ্য নিকেতন</p>
           <p style={{ fontSize: '8pt', marginBottom: '0px', lineHeight: '1.3' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
           <p style={{ fontSize: '8.5pt', marginBottom: '0px', lineHeight: '1.3' }}>
             <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span style={{ fontWeight: '500', fontSize: '7.5pt' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
