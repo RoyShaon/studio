@@ -53,15 +53,15 @@ export default function LabelPreview({
 
     const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(shakeCount)} বার</strong>` : '___';
     
-    let bnMixtureAmount = `<strong class="text-red-700">${convertToBanglaNumerals(mixtureAmount)}</strong>`;
+    let bnMixtureAmount = `<strong class="text-red-700">${convertToBanglaNumerals(mixtureAmount).replace('১', '১&zwnj;')}</strong>`;
 
     const bnDurationDays = durationDays !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(durationDays)} দিন</strong>` : '___';
     
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ ১ কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount}  > ${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ ১ কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount}  >${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ ১ কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount}  > ${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ ১ কাপ ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount}  >${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -116,7 +116,7 @@ export default function LabelPreview({
                 <div className="text-center"> 
                     <h2 className="inline-block border-b-2 border-gray-800 py-1 text-center font-bold" style={{ fontSize: '17px' }}>ঔষধ খাবার নিয়মাবলী</h2>
                 </div>
-                <div className="instruction-box">
+                <div className="instruction-box text-justify">
                   {renderInstruction()}
                 </div>
             </div>
@@ -139,7 +139,7 @@ export default function LabelPreview({
           <p style={{ fontSize: '8.5pt', marginBottom: '0px', lineHeight: '1.3' }}>
             <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span style={{ fontWeight: '500', fontSize: '6pt' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
           </p>
-          <p style={{ fontSize: '6pt', marginBottom: '0px', lineHeight: '1.3' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+          <p style={{ fontSize: '7pt', marginBottom: '0px', lineHeight: '1.3' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
           <p style={{ fontSize: '7.5pt', marginBottom: '0px', lineHeight: '1.3' }}>কোটালীপাড়া, গোপালগঞ্জ</p>
           <p className="font-bold" style={{ marginBottom: '0px', fontSize: '7.5pt', lineHeight: '1.3' }}>
             <strong>মোবাইল: </strong>
