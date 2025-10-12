@@ -542,5 +542,3 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     </div>
   );
 }
-
-    
