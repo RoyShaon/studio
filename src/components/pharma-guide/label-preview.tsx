@@ -27,8 +27,7 @@ export default function LabelPreview({
 }: LabelPreviewProps) {
   
   const formattedDate = convertToBanglaNumerals(format(date, "dd/MM/yyyy"));
-  const bnFollowUpDays = followUpDays !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(followUpDays)} দিন</strong>` : '___';
-
+  
   const counselingPoints = counseling
     .map(line => {
         let bnLine = convertToBanglaNumerals(line);
@@ -37,7 +36,7 @@ export default function LabelPreview({
         return `<li>${bnLine}</li>`;
     }).join('');
 
-  const finalCounseling = `${counselingPoints}<li>• ${bnFollowUpDays} পরে আসবেন।</li>`;
+  const finalCounseling = counselingPoints;
     
   const renderInstruction = () => {
     const bnDrops = drops !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(drops)} ফোঁটা</strong>` : '___';
@@ -96,7 +95,7 @@ export default function LabelPreview({
     
     return (
       <div className="text-center mb-2">
-        <div className="text-base font-bold text-red-700 inline-block border border-black rounded-md py-0.5 px-2">
+        <div className="text-base font-bold text-red-700 inline-block border border-black rounded-md py-0.5 px-1">
           <span>{bnIndex} নং ঔষধ</span>
            {activeLabelIndex > 1 && (
              <span className="font-bold text-sm ml-1">
@@ -161,3 +160,5 @@ export default function LabelPreview({
     </div>
   );
 }
+
+    

@@ -37,14 +37,18 @@ interface LabelFormProps {
 }
 
 const predefinedCounseling: string[] = [
+  "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
+  "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
+  "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।",
+  "• ৭ দিন পরে আসবেন।",
   "• টক জাতীয় খাবার খাবেন না।",
   "• কাঁচা পিয়াজ-রসুন খাবেন না।",
-  "• এলার্জিযুক্ত সকল খাবার খাবেন।",
+  "• এলার্জিযুক্ত সকল খাবার খাবেন না।",
   "• রাত্রি জাগরণ করবেন না।",
   "• নিয়মিত প্রেসার/ডায়াবেটিসের ঔষধ খাবেন।",
   "• ঠান্ডা জাতীয় খাবার খাবেন না।",
   "• বমি, পাতলা পায়খানা, সর্দি হলে অবশ্যই জানাবেন।",
-  "• অতিরিক্ত দেয়া ঔষধ فون না করে খাবেন না।"
+  "• অতিরিক্ত দেয়া ঔষধ ফোন না করে খাবেন না।"
 ];
 
 // Check for SpeechRecognition API
@@ -68,7 +72,12 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     if (!state.counseling || state.counseling.length === 0) {
       setState(prevState => ({
         ...prevState,
-        counseling: predefinedCounseling
+        counseling: [
+          "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
+          "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
+          "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।",
+          "• ৭ দিন পরে আসবেন।"
+        ]
       }));
     }
   }, [setState, state.counseling]);
@@ -533,3 +542,5 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     </div>
   );
 }
+
+    
