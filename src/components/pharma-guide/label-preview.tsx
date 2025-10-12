@@ -33,6 +33,7 @@ export default function LabelPreview({
         let bnLine = convertToBanglaNumerals(line);
         // Ensure it starts with a bullet
         bnLine = bnLine.trim().startsWith('•') ? bnLine.trim() : `• ${bnLine.trim()}`;
+        bnLine = bnLine.replace(/<strong>/g, '<strong class="text-red-700">');
         return `<li>${bnLine}</li>`;
     }).join('');
 
@@ -94,12 +95,12 @@ export default function LabelPreview({
     const bnIndex = convertToBanglaNumerals(activeLabelIndex);
     
     return (
-      <div className="text-center mb-2">
-        <div className="text-base font-bold text-red-700 inline-block border border-black rounded-md py-0.5 px-1">
+      <div className="text-center mb-1">
+        <div className="text-base font-bold text-red-700 inline-block border border-black rounded-md py-0 px-1">
           <span>{bnIndex} নং ঔষধ</span>
            {activeLabelIndex > 1 && (
              <span className="font-bold text-sm ml-1">
-                ({convertToBanglaNumerals(activeLabelIndex - 1)} নং এর পরে খাবেন)
+                (<strong className="font-bold">{convertToBanglaNumerals(activeLabelIndex - 1)} নং এর পরে খাবেন</strong>)
             </span>
           )}
         </div>
@@ -111,29 +112,29 @@ export default function LabelPreview({
     <div
       className="prescription-sheet-final font-body"
     >
-        <div className="flex-grow space-y-2 pt-2">
+        <div className="flex-grow space-y-1 pt-2">
             <div>
                 <div className="flex justify-between items-center text-sm font-medium mb-1">
                     <span className="truncate pr-1"><strong>ক্রমিক নং:</strong> <strong className="text-red-700">{serial}</strong></span>
                     <span className="whitespace-nowrap">তারিখঃ <strong>{formattedDate}</strong></span>
                 </div>
-                <div className="text-left text-base font-medium mb-4">
+                <div className="text-left text-base font-medium mb-2">
                     রোগীর নামঃ&nbsp;&nbsp;<strong className="text-indigo-700">{patientName || ''}</strong>
                 </div>
             </div>
 
             {getSequentialText()}
 
-            <div className="space-y-3">
+            <div className="space-y-1">
                 <div className="text-center"> 
-                    <h2 className="inline-block border-b-2 border-indigo-700 text-indigo-700 py-1 text-center font-bold" style={{ fontSize: '17px' }}>ঔষধ খাবার নিয়মাবলী</h2>
+                    <h2 className="inline-block border-b-2 border-indigo-700 text-indigo-700 py-0 text-center font-bold" style={{ fontSize: '17px' }}>ঔষধ খাবার নিয়মাবলী</h2>
                 </div>
                 {renderInstruction()}
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-2 pt-1">
                 <div className="text-center">
-                  <h3 className="text-base font-bold text-red-700 mb-1 inline-block border-b-2 border-red-700 underline">পরামর্শ</h3>
+                  <h3 className="text-base font-bold text-red-700 mb-1 inline-block border-b-2 border-red-700">পরামর্শ</h3>
                   <ul
                     className="advice-list text-gray-800 pl-0 list-none text-left"
                     dangerouslySetInnerHTML={{ __html: finalCounseling }}
@@ -145,11 +146,11 @@ export default function LabelPreview({
       <div className="doctor-info text-center">
           <div className="doctor-info-with-border inline-block">
             <p className="font-bold text-indigo-700 doctor-title">ত্রিফুল আরোগ্য নিকেতন</p>
-            <p className="doctor-subtitle" style={{ fontSize: '5.9pt' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
+            <p className="doctor-subtitle" style={{ fontSize: '6.2pt' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
             <p className="doctor-name">
-              <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span className="doctor-degree" style={{ fontSize: '4.8pt', fontWeight: '500' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+              <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span className="doctor-degree" style={{ fontSize: '5.5pt', fontWeight: '500' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
             </p>
-            <p className="doctor-specialty" style={{ fontSize: '5.9pt' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+            <p className="doctor-specialty" style={{ fontSize: '6.2pt' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
             <p className="doctor-location">কোটালীপাড়া, গোপালগঞ্জ</p>
             <p className="font-bold doctor-contact">
               মোবাইল:&nbsp;

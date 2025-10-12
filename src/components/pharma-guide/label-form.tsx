@@ -40,7 +40,7 @@ const predefinedCounseling: string[] = [
   "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
   "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
   "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।",
-  "• ৭ দিন পরে আসবেন।",
+  `• <strong>৭ দিন</strong> পরে আসবেন।`,
   "• টক জাতীয় খাবার খাবেন না।",
   "• কাঁচা পিয়াজ-রসুন খাবেন না।",
   "• এলার্জিযুক্ত সকল খাবার খাবেন না।",
@@ -51,12 +51,19 @@ const predefinedCounseling: string[] = [
   "• অতিরিক্ত দেয়া ঔষধ ফোন না করে খাবেন না।"
 ];
 
+const defaultCounselingItems = [
+  "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
+  "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
+  "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।",
+  `• <strong>৭ দিন</strong> পরে আসবেন।`,
+];
+
 // Check for SpeechRecognition API
 const SpeechRecognition =
   (typeof window !== 'undefined' && ((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition));
 
 export default function LabelForm({ state, setState, activeLabelIndex, setActiveLabelIndex }: LabelFormProps) {
-  const [selectedCounseling, setSelectedCounseling] = useState<string>(predefinedCounseling[0]);
+  const [selectedCounseling, setSelectedCounseling] = useState<string>("");
   const [customCounseling, setCustomCounseling] = useState("");
   const [isCounselingOpen, setIsCounselingOpen] = useState(false);
   
@@ -69,18 +76,22 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
   // Initialize counseling in state
   useEffect(() => {
+    const followUpDays = state.followUpDays || 7;
+    const followUpText = `• <strong>${convertToBanglaNumerals(followUpDays)} দিন</strong> পরে আসবেন।`;
+    const initialCounseling = [
+        "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
+        "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
+        "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।",
+        followUpText
+    ];
+
     if (!state.counseling || state.counseling.length === 0) {
       setState(prevState => ({
         ...prevState,
-        counseling: [
-          "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
-          "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
-          "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।",
-          "• ৭ দিন পরে আসবেন।"
-        ]
+        counseling: initialCounseling
       }));
     }
-  }, [setState, state.counseling]);
+  }, [setState, state.followUpDays]);
 
 
   useEffect(() => {
@@ -462,7 +473,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                 <div className="space-y-1">
                     {state.counseling.map((item, index) => (
                         <div key={index} className="flex items-center justify-between bg-gray-100 p-2 rounded-md">
-                            <span className="text-sm">{item}</span>
+                            <span className="text-sm" dangerouslySetInnerHTML={{ __html: item.replace(/<strong>/g, '<strong class="text-red-700">') }}></span>
                             <Button variant="ghost" size="icon" onClick={() => removeCounseling(index)}>
                                 <XCircle className="h-4 w-4 text-red-500" />
                             </Button>
@@ -485,7 +496,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                                       <span className="mr-2">
                                           {state.counseling.includes(item) ? <Check className="h-4 w-4" /> : <span className="w-4" />}
                                       </span>
-                                      <span>{item}</span>
+                                      <span dangerouslySetInnerHTML={{ __html: item.replace(/<strong>/g, '<strong class="text-red-700">') }}></span>
                                   </div>
                                 </SelectItem>
                             ))}

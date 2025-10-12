@@ -45,7 +45,7 @@ const defaultCounseling = [
   "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
   "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
   "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।",
-  "• ৭ দিন পরে আসবেন।"
+  "• <strong>৭ দিন</strong> পরে আসবেন।"
 ];
 
 const defaultLabelState: LabelState = {
@@ -85,14 +85,10 @@ export default function Home() {
         const parsedState = JSON.parse(savedState);
         // Ensure date is a Date object
         parsedState.date = new Date(parsedState.date);
-        // If counseling is empty in saved state, set default
+        
+        // If counseling is empty or not present in saved state, set default
         if (!parsedState.counseling || parsedState.counseling.length === 0) {
           parsedState.counseling = defaultCounseling;
-        } else {
-            // Ensure default items are present if user wants to add them back
-            const combined = [...defaultCounseling.filter(dc => !parsedState.counseling.includes(dc)), ...parsedState.counseling];
-            const uniqueCounseling = Array.from(new Set(parsedState.counseling));
-            parsedState.counseling = uniqueCounseling;
         }
         
         // Set default interval mode if not present
@@ -104,6 +100,11 @@ export default function Home() {
         }
 
         setLabelState(parsedState);
+      } else {
+        // If no saved state, ensure the default state has the correct follow-up days counseling
+        const followUpText = `• <strong>${convertToBanglaNumerals(defaultLabelState.followUpDays)} দিন</strong> পরে আসবেন।`;
+        const updatedCounseling = defaultCounseling.map(c => c.includes("পরে আসবেন") ? followUpText : c);
+        setLabelState(prevState => ({...prevState, counseling: updatedCounseling}));
       }
     } catch (error) {
       console.error("Failed to load state from local storage:", error);
@@ -165,7 +166,9 @@ export default function Home() {
     if (isClient) {
       localStorage.removeItem("pharmaLabelState");
     }
-    setLabelState(defaultLabelState);
+    const followUpText = `• <strong>${convertToBanglaNumerals(defaultLabelState.followUpDays)} দিন</strong> পরে আসবেন।`;
+    const updatedCounseling = defaultCounseling.map(c => c.includes("পরে আসবেন") ? followUpText : c);
+    setLabelState({...defaultLabelState, counseling: updatedCounseling});
     setActiveLabelIndex(1);
   }, [isClient]);
 
@@ -184,6 +187,27 @@ export default function Home() {
       </div>
     );
   }, [labelState, activeLabelIndex]);
+  
+   // Update counseling when followUpDays changes
+  useEffect(() => {
+    const followUpDays = labelState.followUpDays || 7;
+    const followUpText = `• <strong>${convertToBanglaNumerals(followUpDays)} দিন</strong> পরে আসবেন।`;
+    
+    setLabelState(prevState => {
+      const counseling = [...prevState.counseling];
+      const followUpIndex = counseling.findIndex(c => c.includes("পরে আসবেন"));
+      
+      if (followUpIndex !== -1) {
+        counseling[followUpIndex] = followUpText;
+      } else {
+        // If it was somehow removed, add it back.
+        counseling.push(followUpText);
+      }
+
+      return {...prevState, counseling };
+    });
+  }, [labelState.followUpDays]);
+
 
   if (!isClient) {
     return (
