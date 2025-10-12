@@ -76,22 +76,18 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
 
   // Initialize counseling in state
   useEffect(() => {
-    const followUpDays = state.followUpDays || 7;
-    const followUpText = `• <strong>${convertToBanglaNumerals(followUpDays)} দিন</strong> পরে আসবেন।`;
-    const initialCounseling = [
-        "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
-        "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
-        "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।",
-        followUpText
-    ];
-
     if (!state.counseling || state.counseling.length === 0) {
+      const followUpDays = state.followUpDays || 7;
+      const followUpText = `• <strong>${convertToBanglaNumerals(followUpDays)} দিন</strong> পরে আসবেন।`;
+      const initialCounseling = defaultCounselingItems.map(item =>
+        item.includes("পরে আসবেন") ? followUpText : item
+      );
       setState(prevState => ({
         ...prevState,
         counseling: initialCounseling
       }));
     }
-  }, [setState, state.followUpDays]);
+  }, [setState, state.counseling, state.followUpDays]);
 
 
   useEffect(() => {
@@ -112,32 +108,29 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
       }
 
       let interim_transcript = '';
-      let final_transcript = transcriptRef.current;
-
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
-           final_transcript += event.results[i][0].transcript + ' ';
+           transcriptRef.current += event.results[i][0].transcript + ' ';
         } else {
           interim_transcript += event.results[i][0].transcript;
         }
       }
-      transcriptRef.current = final_transcript;
       
       setState(prevState => ({
         ...prevState,
-        patientName: final_transcript + interim_transcript,
+        patientName: transcriptRef.current + interim_transcript,
       }));
       
       silenceTimerRef.current = setTimeout(() => {
         recognition.stop();
-      }, 5000);
+      }, 3000);
     };
 
     recognition.onerror = (event: any) => {
       if (silenceTimerRef.current) {
         clearTimeout(silenceTimerRef.current);
       }
-      if (event.error === 'aborted') {
+      if (event.error === 'aborted' || event.error === 'no-speech') {
         return;
       }
       
@@ -179,7 +172,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     if (isListening) {
       recognition.stop();
     } else {
-      transcriptRef.current = state.patientName;
+      transcriptRef.current = state.patientName ? state.patientName + ' ' : '';
       recognition.start();
     }
     setIsListening(prevState => !prevState);
@@ -193,7 +186,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     }
   }, [setState]);
 
-  const handleNumberChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNumberChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (value === '') {
       setState(prevState => ({ ...prevState, [name]: '' }));
@@ -212,6 +205,8 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
     const numValue = parseInt(value, 10);
     if (!isNaN(numValue) && numValue > 0) {
       setState(prevState => ({ ...prevState, [name]: numValue }));
+    } else if (value === '') {
+       setState(prevState => ({ ...prevState, [name]: '' }));
     }
   }, [setState]);
   
@@ -446,7 +441,8 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                     value={state.labelCount}
                     onChange={handleLabelCountChange}
                     onBlur={(e) => {
-                      if (e.target.value === '' || parseInt(e.target.value, 10) < 1) {
+                      const value = e.target.value;
+                      if (value === '' || parseInt(value, 10) < 1) {
                         setState(prev => ({...prev, labelCount: 1}));
                       }
                     }}

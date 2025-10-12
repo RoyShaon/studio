@@ -32,10 +32,8 @@ export type LabelState = {
   shakeCount: number | '';
   intervalMode: IntervalMode;
   interval: number | '';
-  intervalUnit: "hours" | "days";
   mealTime: MealTime;
   mixtureAmount: string;
-  mixtureNumber: string;
   durationDays: number | '';
   counseling: string[];
   labelCount: number | '';
@@ -60,10 +58,8 @@ const defaultLabelState: LabelState = {
   shakeCount: 10,
   intervalMode: "hourly",
   interval: 12,
-  intervalUnit: "hours",
   mealTime: "morning",
   mixtureAmount: "১ চামচ ঔষধ",
-  mixtureNumber: "১ম",
   durationDays: 7,
   counseling: defaultCounseling,
   labelCount: 1,
@@ -103,11 +99,6 @@ export default function Home() {
         }
 
         setLabelState(parsedState);
-      } else {
-        // If no saved state, ensure the default state has the correct follow-up days counseling
-        const followUpText = `• <strong>${convertToBanglaNumerals(defaultLabelState.followUpDays)} দিন</strong> পরে আসবেন।`;
-        const updatedCounseling = defaultCounseling.map(c => c.includes("পরে আসবেন") ? followUpText : c);
-        setLabelState(prevState => ({...prevState, counseling: updatedCounseling}));
       }
     } catch (error) {
       console.error("Failed to load state from local storage:", error);
@@ -169,9 +160,7 @@ export default function Home() {
     if (isClient) {
       localStorage.removeItem("pharmaLabelState");
     }
-    const followUpText = `• <strong>${convertToBanglaNumerals(defaultLabelState.followUpDays)} দিন</strong> পরে আসবেন।`;
-    const updatedCounseling = defaultCounseling.map(c => c.includes("পরে আসবেন") ? followUpText : c);
-    setLabelState({...defaultLabelState, counseling: updatedCounseling});
+    setLabelState(defaultLabelState);
     setActiveLabelIndex(1);
   }, [isClient]);
 
@@ -197,17 +186,20 @@ export default function Home() {
     const followUpText = `• <strong>${convertToBanglaNumerals(followUpDays)} দিন</strong> পরে আসবেন।`;
     
     setLabelState(prevState => {
-      const counseling = [...prevState.counseling];
+      const counseling = [...(prevState.counseling || [])];
       const followUpIndex = counseling.findIndex(c => c.includes("পরে আসবেন"));
       
       if (followUpIndex !== -1) {
-        counseling[followUpIndex] = followUpText;
+        if (counseling[followUpIndex] !== followUpText) {
+          counseling[followUpIndex] = followUpText;
+          return {...prevState, counseling };
+        }
       } else {
-        // If it was somehow removed, add it back.
         counseling.push(followUpText);
+        return {...prevState, counseling };
       }
 
-      return {...prevState, counseling };
+      return prevState;
     });
   }, [labelState.followUpDays]);
 
