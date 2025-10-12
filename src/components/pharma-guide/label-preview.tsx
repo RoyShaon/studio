@@ -96,10 +96,10 @@ export default function LabelPreview({
     
     return (
       <div className="text-center mb-2">
-        <div className="text-base font-bold text-red-700 inline-block border border-black rounded-md py-1 px-3">
+        <div className="text-base font-bold text-red-700 inline-block border border-black rounded-md py-0.5 px-2">
           <span>{bnIndex} নং ঔষধ</span>
            {activeLabelIndex > 1 && (
-             <span className="font-normal text-sm ml-1">
+             <span className="font-bold text-sm ml-1">
                 ({convertToBanglaNumerals(activeLabelIndex - 1)} নং এর পরে খাবেন)
             </span>
           )}
@@ -127,7 +127,7 @@ export default function LabelPreview({
 
             <div className="space-y-3">
                 <div className="text-center"> 
-                    <h2 className="inline-block border-b-2 border-gray-800 py-1 text-center font-bold" style={{ fontSize: '17px' }}>ঔষধ খাবার নিয়মাবলী</h2>
+                    <h2 className="inline-block border-b-2 border-indigo-700 text-indigo-700 py-1 text-center font-bold" style={{ fontSize: '17px' }}>ঔষধ খাবার নিয়মাবলী</h2>
                 </div>
                 {renderInstruction()}
             </div>
@@ -146,11 +146,11 @@ export default function LabelPreview({
       <div className="doctor-info text-center">
           <div className="doctor-info-with-border inline-block">
             <p className="font-bold text-indigo-700 doctor-title">ত্রিফুল আরোগ্য নিকেতন</p>
-            <p className="doctor-subtitle" style={{ fontSize: '5.8pt' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
+            <p className="doctor-subtitle" style={{ fontSize: '5.9pt' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
             <p className="doctor-name">
-              <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span className="doctor-degree" style={{ fontSize: '4.7pt', fontWeight: '500' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+              <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span className="doctor-degree" style={{ fontSize: '4.8pt', fontWeight: '500' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
             </p>
-            <p className="doctor-specialty" style={{ fontSize: '5.8pt' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+            <p className="doctor-specialty" style={{ fontSize: '5.9pt' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
             <p className="doctor-location">কোটালীপাড়া, গোপালগঞ্জ</p>
             <p className="font-bold doctor-contact">
               মোবাইল:&nbsp;
