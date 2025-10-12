@@ -64,7 +64,9 @@ export default function LabelPreview({
     const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(shakeCount)} বার</strong>` : '___';
     
     let bnMixtureAmount = `<strong class="text-red-700">${convertToBanglaNumerals(mixtureAmount.replace(' ঔষধ', ''))}</strong>`;
-    bnMixtureAmount = `${bnMixtureAmount.replace('১', '১&zwnj;')} ঔষধ`;
+     if (!mixtureAmount.includes('সবটুকু')) {
+        bnMixtureAmount = `${bnMixtureAmount.replace('১', '১&zwnj;')} ঔষধ`;
+    }
 
     const bnDurationDays = durationDays !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(durationDays)} দিন</strong>` : '___';
     
@@ -95,7 +97,7 @@ export default function LabelPreview({
     const bnIndex = convertToBanglaNumerals(activeLabelIndex);
     
     return (
-      <div className="text-center mb-1">
+      <div className="text-center mb-2">
         <div className="text-base font-bold text-red-700 inline-block border border-black rounded-md py-0 px-1">
           <span>{bnIndex} নং ঔষধ</span>
            {activeLabelIndex > 1 && (
@@ -148,11 +150,11 @@ export default function LabelPreview({
             <div className="doctor-info text-center mt-2">
                 <div className="doctor-info-with-border inline-block">
                     <p className="font-bold text-indigo-700 doctor-title">ত্রিফুল আরোগ্য নিকেতন</p>
-                    <p className="doctor-subtitle" style={{ fontSize: '6.2pt' }}>(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
+                    <p className="doctor-subtitle">(আদর্শ হোমিওপ্যাথিক চিকিৎসালয়)</p>
                     <p className="doctor-name">
-                    <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span className="doctor-degree" style={{ fontSize: '5.5pt', fontWeight: '500' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
+                    <strong style={{ fontWeight: '500' }}>ডাঃ নীহার রঞ্জন রায়</strong> <span className="doctor-degree" style={{ fontWeight: '500' }}>(বি.এস.সি, ডি.এইচ.এম.এস)</span>
                     </p>
-                    <p className="doctor-specialty" style={{ fontSize: '6.2pt' }}>(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
+                    <p className="doctor-specialty">(শুধুমাত্র জটিল ও পুরাতন রোগী চিকিৎসক)</p>
                     <p className="doctor-location">কোটালীপাড়া, গোপালগঞ্জ</p>
                     <p className="font-bold doctor-contact">
                     মোবাইল:&nbsp;
