@@ -31,7 +31,7 @@ export type LabelState = {
   mixtureNumber: string;
   durationDays: number | '';
   counseling: string[];
-  labelCount: number;
+  labelCount: number | '';
   followUpDays: number | '';
   showAllPreviews: boolean;
 };

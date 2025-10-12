@@ -21,11 +21,11 @@ export default function LoginPage() {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("Login functionality is disabled.");
+    setError(null);
     toast({
         variant: "destructive",
-        title: "Login Disabled",
-        description: "This feature is not currently enabled.",
+        title: "লগইন অক্ষম",
+        description: "এই ফিচারটি বর্তমানে সক্রিয় নেই।",
     });
   };
 
