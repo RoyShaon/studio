@@ -63,7 +63,8 @@ export default function LabelPreview({
 
     const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(shakeCount)} বার</strong>` : '___';
     
-    let bnMixtureAmount = `<strong class="text-red-700">${convertToBanglaNumerals(mixtureAmount).replace('১', '১&zwnj;')}</strong>`;
+    let bnMixtureAmount = mixtureAmount.replace(' ঔষধ', '');
+    bnMixtureAmount = `<strong class="text-red-700">${convertToBanglaNumerals(bnMixtureAmount).replace('১', '১&zwnj;')}</strong> ঔষধ`;
 
     const bnDurationDays = durationDays !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(durationDays)} দিন</strong>` : '___';
     
@@ -160,5 +161,7 @@ export default function LabelPreview({
     </div>
   );
 }
+
+    
 
     
