@@ -97,7 +97,7 @@ export default function LabelPreview({
     const bnIndex = convertToBanglaNumerals(activeLabelIndex);
     
     return (
-      <div className="text-center mb-2">
+      <div className="text-center mb-4">
         <div className="text-base font-bold text-red-700 inline-block border border-black rounded-md py-0 px-1">
           <span>{bnIndex} নং ঔষধ</span>
            {activeLabelIndex > 1 && (
@@ -119,7 +119,7 @@ export default function LabelPreview({
                 <div>
                     <div className="flex justify-between items-center text-sm font-medium mb-1">
                         <span className="truncate pr-1"><strong>ক্রমিক নং:</strong> <strong className="text-red-700">{serial}</strong></span>
-                        <span className="whitespace-nowrap">তারিখঃ <strong>{formattedDate}</strong></span>
+                        <span className="whitespace-nowrap">তারিখঃ <strong className="text-red-700">{formattedDate}</strong></span>
                     </div>
                     <div className="text-left text-base font-medium mb-2">
                         রোগীর নামঃ&nbsp;&nbsp;<strong className="text-indigo-700">{patientName || ''}</strong>
