@@ -17,6 +17,9 @@ import {
 } from "@/components/ui/tooltip";
 
 
+export type IntervalMode = "hourly" | "daily" | "meal-time";
+export type MealTime = "morning" | "afternoon" | "night" | "morning-night";
+
 export type LabelState = {
   serial: string;
   patientName: string;
@@ -25,8 +28,10 @@ export type LabelState = {
   drops: number | '';
   cupAmount: "one_cup" | "half_cup";
   shakeCount: number | '';
+  intervalMode: IntervalMode;
   interval: number | '';
   intervalUnit: "hours" | "days";
+  mealTime: MealTime;
   mixtureAmount: string;
   mixtureNumber: string;
   durationDays: number | '';
@@ -55,8 +60,10 @@ const defaultLabelState: LabelState = {
   drops: 3,
   cupAmount: "one_cup",
   shakeCount: 10,
+  intervalMode: "hourly",
   interval: 12,
   intervalUnit: "hours",
+  mealTime: "morning",
   mixtureAmount: "১ চামচ ঔষধ",
   mixtureNumber: "১ম",
   durationDays: 7,
@@ -85,7 +92,21 @@ export default function Home() {
         // If counseling is empty in saved state, set default
         if (!parsedState.counseling || parsedState.counseling.length === 0) {
           parsedState.counseling = defaultCounseling;
+        } else {
+            // Ensure default items are present if user wants to add them back
+            const combined = [...defaultCounseling.filter(dc => !parsedState.counseling.includes(dc)), ...parsedState.counseling];
+            const uniqueCounseling = Array.from(new Set(parsedState.counseling));
+            parsedState.counseling = uniqueCounseling;
         }
+        
+        // Set default interval mode if not present
+        if (!parsedState.intervalMode) {
+          parsedState.intervalMode = 'hourly';
+        }
+         if (!parsedState.mealTime) {
+          parsedState.mealTime = 'morning';
+        }
+
         setLabelState(parsedState);
       }
     } catch (error) {

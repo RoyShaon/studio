@@ -15,7 +15,8 @@ export default function LabelPreview({
   drops,
   cupAmount,
   interval,
-  intervalUnit,
+  intervalMode,
+  mealTime,
   shakeCount,
   mixtureAmount,
   durationDays,
@@ -41,13 +42,24 @@ export default function LabelPreview({
   const renderInstruction = () => {
     const bnDrops = drops !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(drops)} ফোঁটা</strong>` : '___';
     
-    let bnInterval = '';
-    if (interval !== '') {
-        const bnIntervalNumber = convertToBanglaNumerals(interval);
-        const unitText = intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন';
-        bnInterval = `<strong class="text-red-700">${bnIntervalNumber} ${unitText}</strong>`;
-    } else {
-        bnInterval = '___';
+    let intervalText = '';
+    if (intervalMode === 'hourly' || intervalMode === 'daily') {
+        if (interval !== '') {
+            const bnIntervalNumber = convertToBanglaNumerals(interval);
+            const unitText = intervalMode === 'hourly' ? 'ঘন্টা' : 'দিন';
+            intervalText = `<strong>${bnIntervalNumber} ${unitText}</strong> অন্তর অন্তর`;
+        } else {
+            intervalText = '___ অন্তর অন্তর';
+        }
+    } else { // meal-time
+        switch(mealTime) {
+            case 'morning': intervalText = "সকালে"; break;
+            case 'afternoon': intervalText = "দুপুরে"; break;
+            case 'night': intervalText = "রাতে"; break;
+            case 'morning-night': intervalText = "সকালে ও রাতে"; break;
+            default: intervalText = "___";
+        }
+        intervalText = `<strong class="text-red-700">${intervalText}</strong>`
     }
 
     const bnShakeCount = shakeMode === 'with' && shakeCount !== '' ? `<strong class="text-red-700">${convertToBanglaNumerals(shakeCount)} বার</strong>` : '___';
@@ -61,9 +73,9 @@ export default function LabelPreview({
 
     let instruction;
     if (shakeMode === "with") {
-        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ ${highlightedCupAmount} ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} > ${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
+        instruction = `ঔষধ সেবনের আগে শিশিটিকে হাতের তালুর উপরে দূর হতে সজোরে থেমে থেমে ${bnShakeCount} ঝাঁকি দিয়ে ${bnDrops} ঔষধ ${highlightedCupAmount} ঠান্ডা জলের সাথে চামচ দিয়ে ভালোভাবে মিশিয়ে ${bnMixtureAmount} ${intervalText} > ${bnDurationDays} সেবন করুন।`;
     } else {
-      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ ${highlightedCupAmount} ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount} > ${bnInterval} অন্তর অন্তর ${bnDurationDays} সেবন করুন।`;
+      instruction = `প্রতিবার ঔষধ সেবনের পূর্বে ${bnDrops} ঔষধ ${highlightedCupAmount} ঠান্ডা জলের সাথে চামচ দিয়ে ভালভাবে মিশিয়ে ${bnMixtureAmount} ${intervalText} > ${bnDurationDays} সেবন করুন।`;
     }
     
     let processedInstruction = convertToBanglaNumerals(instruction);
@@ -115,7 +127,7 @@ export default function LabelPreview({
 
             <div className="space-y-3">
                 <div className="text-center"> 
-                    <h2 className="inline-block border-b-2 border-gray-800 py-1 text-center font-bold text-indigo-700" style={{ fontSize: '17px' }}>ঔষধ খাবার নিয়মাবলী</h2>
+                    <h2 className="inline-block border-b-2 border-gray-800 py-1 text-center font-bold" style={{ fontSize: '17px' }}>ঔষধ খাবার নিয়মাবলী</h2>
                 </div>
                 {renderInstruction()}
             </div>

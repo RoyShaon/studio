@@ -1,7 +1,7 @@
 
 import type { Dispatch, SetStateAction } from "react";
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import type { LabelState } from "@/app/page";
+import type { LabelState, IntervalMode, MealTime } from "@/app/page";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -44,7 +44,7 @@ const predefinedCounseling: string[] = [
   "• নিয়মিত প্রেসার/ডায়াবেটিসের ঔষধ খাবেন।",
   "• ঠান্ডা জাতীয় খাবার খাবেন না।",
   "• বমি, পাতলা পায়খানা, সর্দি হলে অবশ্যই জানাবেন।",
-  "• অতিরিক্ত দেয়া ঔষধ ফোন না করে খাবেন না।"
+  "• অতিরিক্ত দেয়া ঔষধ فون না করে খাবেন না।"
 ];
 
 // Check for SpeechRecognition API
@@ -62,6 +62,16 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
   const { toast } = useToast();
   const transcriptRef = useRef<string>("");
   const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Initialize counseling in state
+  useEffect(() => {
+    if (!state.counseling || state.counseling.length === 0) {
+      setState(prevState => ({
+        ...prevState,
+        counseling: predefinedCounseling
+      }));
+    }
+  }, [setState, state.counseling]);
 
 
   useEffect(() => {
@@ -330,25 +340,54 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                 </SelectContent>
             </Select>
           </div>
-          <div>
-            <Label htmlFor="interval">কত {state.intervalUnit === 'hours' ? 'ঘন্টা' : 'দিন'} পর পর খাবেন?</Label>
-            <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
-            <RadioGroup
-              value={state.intervalUnit}
-              onValueChange={(value: "hours" | "days") => setState(prev => ({...prev, intervalUnit: value}))}
-              className="flex gap-4 mt-2"
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="hours" id="hours" />
-                <Label htmlFor="hours">ঘণ্টা</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="days" id="days" />
-                <Label htmlFor="days">দিন</Label>
-              </div>
-            </RadioGroup>
+           <div>
+              <Label htmlFor="intervalMode">খাওয়ার সময়</Label>
+              <Select
+                  name="intervalMode"
+                  value={state.intervalMode}
+                  onValueChange={(value: IntervalMode) => setState(prev => ({...prev, intervalMode: value}))}
+              >
+                  <SelectTrigger>
+                      <SelectValue placeholder="Select..."/>
+                  </SelectTrigger>
+                  <SelectContent>
+                      <SelectItem value="hourly">ঘন্টা অন্তর</SelectItem>
+                      <SelectItem value="daily">দিন অন্তর</SelectItem>
+                      <SelectItem value="meal-time">নির্দিষ্ট সময়</SelectItem>
+                  </SelectContent>
+              </Select>
           </div>
         </div>
+
+        {state.intervalMode !== 'meal-time' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                  <Label htmlFor="interval">কত {state.intervalMode === 'hourly' ? 'ঘন্টা' : 'দিন'} পর পর খাবেন?</Label>
+                  <Input id="interval" name="interval" type="number" value={state.interval} onChange={handleNumberChange} min="1" />
+              </div>
+          </div>
+        )}
+
+        {state.intervalMode === 'meal-time' && (
+           <div>
+              <Label htmlFor="mealTime">কোন সময়?</Label>
+              <Select
+                  name="mealTime"
+                  value={state.mealTime}
+                  onValueChange={(value: MealTime) => setState(prev => ({...prev, mealTime: value}))}
+              >
+                  <SelectTrigger>
+                      <SelectValue placeholder="Select..."/>
+                  </SelectTrigger>
+                  <SelectContent>
+                      <SelectItem value="morning">সকালে</SelectItem>
+                      <SelectItem value="afternoon">দুপুরে</SelectItem>
+                      <SelectItem value="night">রাতে</SelectItem>
+                      <SelectItem value="morning-night">সকালে ও রাতে</SelectItem>
+                  </SelectContent>
+                </Select>
+          </div>
+        )}
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -432,10 +471,10 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
                         </SelectTrigger>
                         <SelectContent>
                             {predefinedCounseling.map((item, index) => (
-                                <SelectItem key={index} value={item}>
+                                <SelectItem key={index} value={item} disabled={state.counseling.includes(item)}>
                                   <div className="flex items-center">
                                       <span className="mr-2">
-                                          {state.counseling.includes(item) && <Check className="h-4 w-4" />}
+                                          {state.counseling.includes(item) ? <Check className="h-4 w-4" /> : <span className="w-4" />}
                                       </span>
                                       <span>{item}</span>
                                   </div>
