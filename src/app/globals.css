@@ -263,6 +263,10 @@
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
+  
+  .print-page .prescription-sheet-final .advice-list li {
+    font-size: 8.9pt !important;
+  }
 
   @page {
       size: 3.6in 5.6in;
@@ -271,6 +275,7 @@
 }
 
     
+
 
 
 
