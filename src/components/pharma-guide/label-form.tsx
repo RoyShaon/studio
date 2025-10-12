@@ -39,7 +39,7 @@ interface LabelFormProps {
 const predefinedCounseling: string[] = [
   "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
   "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
-  "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।",
+  "• জরুরী প্রয়োজনে <strong>বিকাল ৫টা থেকে ৭টার মধ্যে</strong> ফোন করুন।",
   `• <strong>৭ দিন</strong> পরে আসবেন।`,
   "• টক জাতীয় খাবার খাবেন না।",
   "• কাঁচা পিয়াজ-রসুন খাবেন না।",
@@ -54,7 +54,7 @@ const predefinedCounseling: string[] = [
 const defaultCounselingItems = [
   "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
   "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
-  "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।",
+  "• জরুরী প্রয়োজনে <strong>বিকাল ৫টা থেকে ৭টার মধ্যে</strong> ফোন করুন।",
   `• <strong>৭ দিন</strong> পরে আসবেন।`,
 ];
 
@@ -108,14 +108,16 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
       }
 
       let interim_transcript = '';
+      let final_transcript = '';
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
-           transcriptRef.current += event.results[i][0].transcript + ' ';
+           final_transcript += event.results[i][0].transcript + ' ';
         } else {
           interim_transcript += event.results[i][0].transcript;
         }
       }
       
+      transcriptRef.current += final_transcript;
       setState(prevState => ({
         ...prevState,
         patientName: transcriptRef.current + interim_transcript,
@@ -151,7 +153,7 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
       }
       setIsListening(false);
        if (transcriptRef.current.trim()) {
-            setState(prevState => ({...prevState, patientName: transcriptRef.current.trim()}));
+            setState(prevState => ({...prevState, patientName: prevState.patientName.trim()}));
       }
     };
     
@@ -198,15 +200,13 @@ export default function LabelForm({ state, setState, activeLabelIndex, setActive
   
   const handleLabelCountChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-     if (value === '') {
-      setState(prevState => ({ ...prevState, [name]: '' }));
+     if (value === '' || parseInt(value, 10) < 1) {
+      setState(prevState => ({ ...prevState, [name]: value === '' ? '' : 1 }));
       return;
     }
     const numValue = parseInt(value, 10);
     if (!isNaN(numValue) && numValue > 0) {
       setState(prevState => ({ ...prevState, [name]: numValue }));
-    } else if (value === '') {
-       setState(prevState => ({ ...prevState, [name]: '' }));
     }
   }, [setState]);
   
