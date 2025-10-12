@@ -44,7 +44,7 @@ export type LabelState = {
 const defaultCounseling = [
   "• ঔষধ সেবনকালীন যাবতীয় ঔষধি নিষিদ্ধ।",
   "• ঔষধ সেবনের আধা ঘন্টা আগে-পরে জল ব্যতিত কোন খাবার খাবেন না।",
-  "• জরুরী প্রয়োজনে বিকাল ৫টা থেকে ৭টার মধ্যে ফোন করুন।",
+  "• জরুরী প্রয়োজনে <strong>বিকাল ৫টা থেকে ৭টার মধ্যে</strong> ফোন করুন।",
   "• <strong>৭ দিন</strong> পরে আসবেন।"
 ];
 
@@ -194,7 +194,7 @@ export default function Home() {
           counseling[followUpIndex] = followUpText;
           return {...prevState, counseling };
         }
-      } else {
+      } else if (prevState.followUpDays) {
         counseling.push(followUpText);
         return {...prevState, counseling };
       }
@@ -306,3 +306,4 @@ export default function Home() {
     
 
     
+
