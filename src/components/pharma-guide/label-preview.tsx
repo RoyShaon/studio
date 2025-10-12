@@ -23,7 +23,6 @@ export default function LabelPreview({
   counseling,
   labelCount,
   activeLabelIndex,
-  followUpDays
 }: LabelPreviewProps) {
   
   const formattedDate = convertToBanglaNumerals(format(date, "dd/MM/yyyy"));
@@ -47,7 +46,7 @@ export default function LabelPreview({
         if (interval !== '') {
             const bnIntervalNumber = convertToBanglaNumerals(interval);
             const unitText = intervalMode === 'hourly' ? 'ঘন্টা' : 'দিন';
-            intervalText = `<strong>${bnIntervalNumber} ${unitText}</strong> অন্তর অন্তর`;
+            intervalText = `<strong class="text-red-700">${bnIntervalNumber} ${unitText}</strong> অন্তর অন্তর`;
         } else {
             intervalText = '___ অন্তর অন্তর';
         }
